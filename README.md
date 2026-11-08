@@ -56,7 +56,7 @@ Built for the Naïve × YC **Autonomous Company Hackathon**. The question the ju
 
 These timings were measured on a local run of the same code that is deployed.
 
-1. **Order.** A parent fills in the form at `/`: name, age, look, favorite things, language (16 to choose from), art style. The **Cashier** takes $19 through Stripe Checkout.
+1. **Order.** A parent fills in the form at `/`: name, age, look, favorite things, language (16 to choose from), art style. The **Cashier** takes $19 through Stripe Checkout (on the hosted instance, until a Stripe key is added, it records an honest pledge instead).
 2. **Commission.** Code opens a book, writes a `commission` line to the ledger and enqueues one `write` job.
 3. **Write.** The **Author**, a Naïve agent, returns the story as JSON. The **Editor**, a program, checks it: word limits for the child's age, the child's name on the pages, no banned words or brands, the right reading grade. If the draft fails, the Editor sends it back once with the exact problems.
 4. **Paint and narrate, in parallel.** The queue fans out 11 `paint` jobs (cover plus 10 pages) to the **Illustrator** on Monid and 10 `narrate` jobs to the **Narrator** on Naïve speech.

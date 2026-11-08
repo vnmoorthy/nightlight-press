@@ -541,7 +541,7 @@ async function build() {
       const y = 1.8 + i * 2.2;
       card(s, 7.85, y, 4.85, 1.95, `anim-${2 + i}-0`);
       s.addShape(SH.OVAL, { x: 8.1, y: y + 0.25, w: 0.9, h: 0.9, fill: { color: col }, line: { type: "none" }, objectName: `anim-${2 + i}-1` });
-      s.addText(big, { x: 8.35, y: y + 0.18, w: 3.0, h: 1.0, fontSize: 48, bold: true, color: INK, fontFace: HEAD, margin: 0, valign: "middle", isTextBox: true, objectName: `anim-${2 + i}-2` });
+      s.addText(big, { x: 9.2, y: y + 0.18, w: 3.3, h: 1.0, fontSize: 48, bold: true, color: INK, fontFace: HEAD, margin: 0, valign: "middle", isTextBox: true, objectName: `anim-${2 + i}-2` });
       s.addText([
         { text: l1, options: { bold: true, color: INK, fontSize: 14, breakLine: true } },
         { text: l2, options: { color: MUTED, fontSize: 12 } },
@@ -581,8 +581,8 @@ async function build() {
       s.addImage({ data: await cropTo(proof, ph.w, ph.h, "top"), x: ph.x, y: ph.y, w: ph.w, h: ph.h, altText: "Mobilerun opened the live site in Safari on an iPhone 16", objectName: "anim-5-1" });
     } else pending(s, { ...ph, name: "anim-5-1" }, "iPhone proof (assets/mobilerun/)", true);
     report.push(["slide 9 iphone", proof ? "image" : "pending", proof]);
-    s.addShape(SH.OVAL, { x: 9.35, y: 1.2, w: 1.2, h: 1.2, fill: { color: TOMATO }, line: { color: WHITE, width: 2 }, rotate: -12, objectName: "anim-6-0" });
-    s.addText("real iPhone 16", { x: 9.35, y: 1.2, w: 1.2, h: 1.2, fontSize: 12, bold: true, color: WHITE, align: "center", valign: "middle", margin: 0.05, rotate: -12, isTextBox: true, objectName: "anim-6-1" });
+    s.addShape(SH.OVAL, { x: 9.12, y: 0.95, w: 1.0, h: 1.0, fill: { color: TOMATO }, line: { color: WHITE, width: 2 }, rotate: -12, objectName: "anim-6-0" });
+    s.addText("real iPhone 16", { x: 9.12, y: 0.95, w: 1.0, h: 1.0, fontSize: 11, bold: true, color: WHITE, align: "center", valign: "middle", margin: 0.05, rotate: -12, isTextBox: true, objectName: "anim-6-1" });
     s.addNotes([
       "Each sponsor does one concrete job; none is a logo on a slide.",
       "Naive runs the company: the Author, Front Desk, Marketing and Night Manager agents, the five-minute schedule, the hosted Hono app with managed Postgres, the MCP endpoint, the webhooks, speech, vault and identity.",
