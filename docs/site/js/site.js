@@ -4,18 +4,18 @@
   var API = "https://nightlight-press-z5ept2z3by3j.vercel.app";
 
   var STAFF = [
-    ["✒️", "The Author", "Writes a new story for each child, in their language", "Naïve agent", "#B8A1FF"],
-    ["🔎", "The Editor", "Counts every word, checks reading level and the child's name on each page", "Code", "#3BB273"],
-    ["🎨", "The Illustrator", "Paints the cover and every page in the style you pick", "Monid · image model", "#FF6B4A"],
-    ["🎙️", "The Narrator", "Records a gentle read-aloud for each page", "Naïve speech", "#FFC233"],
-    ["📚", "The Binder", "Typesets and binds a print-ready PDF", "Code · PDFKit", "#4DA8DA"],
-    ["✉️", "The Mailroom", "Emails the book with the PDF attached and texts the link", "AgentMail · Monid SMS", "#FF8FB1"],
-    ["☎️", "The Storyteller Line", "Phones Grandma and reads her the book, introducing itself as an AI", "Monid phone line", "#FF9F43"],
-    ["💬", "The Front Desk", "Reads replies, answers questions and sends changes back to production", "Naïve agent · AgentMail", "#7ED957"],
-    ["📱", "The Proofreader", "Opens each finished book on a real phone to check it", "Mobilerun", "#2EC4B6"],
-    ["📣", "Marketing", "Commissions a new free book for the shelf every night", "Naïve agent", "#E056A0"],
-    ["💳", "The Cashier", "Takes the $19 through Stripe Checkout. Agents never touch money", "Code · Stripe", "#9B8CFF"],
-    ["⏰", "The Night Manager", "Wakes the office every five minutes and keeps the queue moving", "Naïve scheduled agent", "#FFC233"]
+    ["✒️", "The Author", "Writes a new story for each child, in their language", "Naïve agent", "#B9A6FF"],
+    ["🔎", "The Editor", "Counts every word, checks reading level and the child's name on each page", "Code", "#5EE6A8"],
+    ["🎨", "The Illustrator", "Paints the cover and every page in the style you pick", "Monid · image model", "#FF8A6B"],
+    ["🎙️", "The Narrator", "Records a gentle read-aloud for each page", "Naïve speech", "#FFD36E"],
+    ["📚", "The Binder", "Typesets and binds a print-ready PDF", "Code · PDFKit", "#6FC3FF"],
+    ["✉️", "The Mailroom", "Emails the book with the PDF attached and texts the link", "AgentMail · Monid SMS", "#FF8FC4"],
+    ["☎️", "The Storyteller Line", "Phones Grandma and reads her the book, introducing itself as an AI", "Monid phone line", "#FFB13B"],
+    ["💬", "The Front Desk", "Reads replies, answers questions and sends changes back to production", "Naïve agent · AgentMail", "#9BF06B"],
+    ["📱", "The Proofreader", "Opens each finished book on a real phone to check it", "Mobilerun", "#4FE3D3"],
+    ["📣", "Marketing", "Commissions a new free book for the shelf every night", "Naïve agent", "#FF6FAE"],
+    ["💳", "The Cashier", "Takes the $19 through Stripe Checkout. Agents never touch money", "Code · Stripe", "#A99BFF"],
+    ["⏰", "The Night Manager", "Wakes the office every five minutes and keeps the queue moving", "Naïve scheduled agent", "#FFE08A"]
   ];
 
   function el(tag, cls, text) {

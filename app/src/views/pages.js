@@ -1,14 +1,10 @@
 import { layout, esc, STAFF } from "./layout.js";
 import { LANG, STYLES } from "../prompts.js";
-const SW = { watercolor: "linear-gradient(135deg,#f6d6c2,#b9d4e8 55%,#e8dcb5)", storybook: "linear-gradient(135deg,#8a4b2a,#e2a34a 50%,#3f6b4a)", papercut: "linear-gradient(135deg,#ff6b6b,#ffd166 40%,#06d6a0 70%,#118ab2)", pencil: "repeating-linear-gradient(45deg,#fff 0 6px,#f5e6c8 6px 8px),linear-gradient(#fff,#fff)", night: "linear-gradient(135deg,#1B2B6E,#5157B0 55%,#FFC233)" };
+const SW = { watercolor: "linear-gradient(135deg,#FFF7E8,#6FC3FF 55%,#FF6FAE)", storybook: "linear-gradient(135deg,#FFB13B,#FFD36E 45%,#1F3FA6)", papercut: "linear-gradient(135deg,#FF6FAE,#FFD36E 38%,#6FC3FF 68%,#1F3FA6)", pencil: "repeating-linear-gradient(45deg,#FFF7E8 0 6px,#A9B6E0 6px 8px)", night: "linear-gradient(135deg,#050B2E,#1F3FA6 55%,#FFD36E)" };
 const SN = { watercolor: "Watercolour", storybook: "Storybook", papercut: "Paper-cut", pencil: "Crayon", night: "Starry night" };
 const OCC = ["A bedtime adventure", "First day of school", "A new baby in the family", "Being brave at the doctor", "Their birthday", "Moving to a new home", "Missing someone far away", "Learning to share"];
 const cov = (b) => (b.cover_media_id ? `background-image:url('/api/media/${b.cover_media_id}')` : `background:${SW[b.style] || SW.watercolor}`);
 const price = (c) => `$${(c / 100).toFixed(0)}`;
-/* paper-cut scenery */
-const hill = (cls, h, d) => `<svg class="hill" style="--h:${h}px" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true"><path class="${cls}" d="${d}"/></svg>`;
-const HILLS = (front = "hc", s = 1) => hill("ha", Math.round(210 * s), "M0 45C160 10 330 5 520 40S880 85 1080 45 1360 10 1440 30V100H0z") + hill("hb", Math.round(150 * s), "M0 55C200 15 420 20 640 50S1040 90 1240 45 1400 30 1440 38V100H0z") + hill(front, Math.round(78 * s), "M0 60C260 20 560 25 800 55S1240 80 1440 35V100H0z");
-const cloud = (w, pos, d = 60, dx = 60) => `<i class="cloud" style="--w:${w}px;${pos};--d:${d}s;--dx:${dx}px"></i>`;
 const CHEV = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
 
 export function landingPage({ mode, price: p = 1900, shelf = [], from }) {
@@ -100,7 +96,7 @@ export function landingPage({ mode, price: p = 1900, shelf = [], from }) {
 <details><summary>Who actually runs this company?</summary><p class="muted">Agents running on Naïve, with a public <a href="/board">company board</a> and a hash-chained ledger of everything they do. When a person steps in, it's recorded as an intervention.</p></details>
 <details><summary>Can I print it?</summary><p class="muted">The PDF is 11 × 8.5 inch landscape with full-bleed pictures, ready for any home printer or a print shop.</p></details>
 </div>
-<form id="subForm" class="card subscribe"><div style="flex:1;min-width:240px"><b>☀️ A free bedtime book, every night</b><div class="muted small">Marketing writes one each night. We'll email it to you.</div></div><input type="email" name="email" required placeholder="you@example.com" aria-label="Your email"><button class="btn dark">Subscribe</button></form>
+<form id="subForm" class="card subscribe"><div style="flex:1;min-width:240px"><b>🌙 A free bedtime book, every night</b><div class="muted small">Marketing writes one each night. We'll email it to you.</div></div><input type="email" name="email" required placeholder="you@example.com" aria-label="Your email"><button class="btn dark">Subscribe</button></form>
 </div></section>`;
   return layout({ title: "Nightlight Press · a bedtime book starring your child", body, mode, scripts: `<script src="/js/site.js" defer></script><script src="/js/carousel.js" defer></script>` });
 }
@@ -108,7 +104,7 @@ export function landingPage({ mode, price: p = 1900, shelf = [], from }) {
 export function orderPage({ o, mode }) {
   const st = [["author", "Author", "writes the story"], ["editor", "Editor", "checks every word"], ["illustrator", "Illustrator", "paints each page"], ["narrator", "Narrator", "records it"], ["binder", "Binder", "binds the PDF"], ["mailroom", "Mailroom", "emails it to you"]];
   const sm = Object.fromEntries(STAFF.map((s) => [s.key, s]));
-  const body = `<main class="mo"><div class="scene" aria-hidden="true"><div class="sun sm"></div>${cloud(110, "right:16%;top:26px", 70, -60)}${cloud(80, "left:58%;top:90px", 55, 50)}</div><div class="wrap">
+  const body = `<main class="mo"><div class="wrap">
   <div class="eyebrow white">Order ${esc(o.id)}</div>
   <h1 id="headline" style="margin-top:16px;font-size:clamp(34px,5vw,60px)">${esc(o.child_name)}'s book is being made</h1>
   <p class="lede" id="sub" style="margin-top:14px">You can close this page. The book will arrive at ${esc(o.buyer_email || "your inbox")}. Or stay and watch each desk do its part.</p>
@@ -125,7 +121,7 @@ export function orderPage({ o, mode }) {
 
 export function readerPage({ b, mode }) {
   const custom = b.kind !== "catalog";
-  const body = `<main class="reader"><div class="stage"><div class="spread" id="spread"><img id="pic" alt="" src="${b.cover_media_id ? `/api/media/${b.cover_media_id}` : ""}"><div class="txt" id="txt"><span style="font:600 28px/1.2 var(--display)">${esc(b.title || "A new book")}</span>${b.dedication ? `<div class="small muted" style="margin-top:8px;font-style:italic">${esc(b.dedication)}</div>` : ""}</div></div>
+  const body = `<main class="reader"><div class="stage"><div class="spread" id="spread"><img id="pic" alt="" src="${b.cover_media_id ? `/api/media/${b.cover_media_id}` : ""}"><div class="txt" id="txt"><span class="cvt">${esc(b.title || "A new book")}</span>${b.dedication ? `<div class="ded">${esc(b.dedication)}</div>` : ""}</div></div>
     <div class="ctrls"><button id="prev" aria-label="Previous page">${CHEV("M15 5l-7 7 7 7")}</button><button class="read" id="readBtn">▶ Read to me</button><button id="nextp" aria-label="Next page">${CHEV("M9 5l7 7-7 7")}</button></div><div class="dots" id="dots" style="margin-top:16px"></div><audio id="aud" preload="none"></audio></div>
   <aside class="panel"><div><div class="eyebrow">${custom ? `A book for ${esc(b.hero_name)}` : "From the free shelf"}</div><h2 style="font-size:30px;margin-top:14px" id="btitle">${esc(b.title || "A new book")}</h2><p class="small muted" style="margin:8px 0 0" id="bstatus">${b.status === "ready" ? "Written, illustrated, narrated and bound by the Nightlight staff." : "This book is still being made. It will update by itself."}</p></div>
     <div class="box btnrow"><a class="btn small" href="/api/book/${b.id}.pdf" id="pdfBtn" ${b.pdf_media_id ? "" : "hidden"}>Download the PDF</a><button class="btn small ghost" id="shareBtn">Copy link</button></div>
@@ -137,7 +133,7 @@ export function readerPage({ b, mode }) {
 }
 
 export function shelfPage({ books, mode }) {
-  const body = `<header class="pagehero"><div class="scene" aria-hidden="true"><div class="sun sm"></div>${cloud(120, "right:20%;top:30px", 70, -60)}${cloud(80, "left:48%;top:110px", 55, 50)}${HILLS("hc", 0.62)}</div><div class="wrap"><div class="eyebrow white">The shelf</div><h1 style="margin-top:16px;font-size:clamp(38px,5vw,64px);max-width:860px">Free bedtime books, written by our <em class="hl">staff.</em></h1><p class="lede" style="margin-top:16px">Marketing commissions a new one every night. Read them aloud for free, then make one starring your child.</p></div></header>
+  const body = `<header class="pagehero"><div class="wrap"><div class="eyebrow white">The shelf</div><h1 style="margin-top:16px;font-size:clamp(38px,5vw,64px);max-width:860px">Free bedtime books, written by our <em class="hl">staff.</em></h1><p class="lede" style="margin-top:16px">Marketing commissions a new one every night. Read them aloud for free, then make one starring your child.</p></div></header>
 <section style="padding-top:30px"><div class="wrap"><div class="shelf">${books.length ? books.map((b) => `<a class="cover" href="/book/${b.id}" style="${cov(b)}"><span class="t">${esc(b.title)}</span><span class="s">${SN[b.style] || ""}</span></a>`).join("") : `<p class="muted">The first shelf book is being written. Check back tonight.</p>`}</div>
 <div style="text-align:center;margin-top:54px"><a class="btn" href="/#make">Make a book starring your child</a></div></div></section>`;
   return layout({ title: "The shelf · Nightlight Press", body, mode });

@@ -7,7 +7,7 @@ const STAFF = Object.fromEntries((window.STAFF || []).map((s) => [s.key, s]));
 // ---------- renderer ----------
 const host = $("#scene");
 // "Magic Hour" palette: an enchanted office at night (mirrors the tokens in /css/nl.css)
-const C = { paper: 0xfff7e8, paper2: 0xfff1da, ink: 0x0b1a4a, ink2: 0x24305e, tomato: 0xff6fae, tomatoD: 0xff4f6e, sun: 0xffd36e, amber: 0xffb13b, sky: 0x6fc3ff, skyL: 0xcfe9ff, leaf: 0x3dd6a0, leafL: 0xd6f5ea, lilac: 0x9b84ff, lilacL: 0xe6e0ff, night0: 0x050b2e, night1: 0x0b1a4a, night2: 0x13296b, royal: 0x1f3fa6, glow: 0x3d7bff,
+const C = { paper: 0xfff7e8, paper2: 0xeaf0ff, ink: 0x0b1a4a, ink2: 0x24305e, tomato: 0xff6fae, tomatoD: 0xff4f6e, sun: 0xffd36e, amber: 0xffb13b, sky: 0x6fc3ff, skyL: 0xcfe9ff, leaf: 0x3dd6a0, leafL: 0xd6f5ea, lilac: 0x9b84ff, lilacL: 0xe6e0ff, night0: 0x050b2e, night1: 0x0b1a4a, night2: 0x13296b, royal: 0x1f3fa6, glow: 0x3d7bff,
   oak: 0x8a5a36, plank: 0x5e3a22, oakM: 0x7a4a2a, plankM: 0x4a2c18, wallP: 0x6a6aa8, wood: 0x7a4a2a, woodD: 0x55321c, gold: 0xe8b24a };
 const PASTELS = [C.lilac, C.tomato, C.sun, C.leaf, C.sky];
 // a deep jewel tint of a staff colour (mixed toward midnight navy in sRGB)
@@ -116,7 +116,7 @@ function makeDesk(key, dsk) {
   lamp.position.set(1.6, 1.6, 0.2); g.add(lamp);
   const chairM = M(C.royal, { roughness: 0.6 }); const chair = new THREE.Group(); chair.add(box(1.2, 0.18, 1.1, chairM, 0, 0.95, 0)); chair.add(box(1.2, 1.2, 0.16, chairM, 0, 1.6, -0.55)); chair.add(box(0.12, 0.9, 0.12, M(C.ink2), 0, 0.45, 0)); chair.position.set(0, 0, -1.7); g.add(chair);
   props(key, g);
-  const s = STAFF[key] || { name: key, icon: "" }; const L = label(`<span class="nm"><i class="dt" style="background:${esc(s.color || "#B8A1FF")}"></i>${s.icon ? `<span class="ic">${s.icon}</span>` : ""}${esc(s.name)}</span><small>${esc(s.kind || "")}</small>`, 0); L.position.set(0, 0.3, 2.9); g.add(L); deskLabels[key] = L.element;
+  const s = STAFF[key] || { name: key, icon: "" }; const L = label(`<span class="nm"><i class="dt" style="background:${esc(s.color || "#6FC3FF")}"></i>${s.icon ? `<span class="ic">${s.icon}</span>` : ""}${esc(s.name)}</span><small>${esc(s.kind || "")}</small>`, 0); L.position.set(0, 0.3, 2.9); g.add(L); deskLabels[key] = L.element;
   L.element.onclick = () => openDesk(key);
   g.userData.key = key; g.traverse((o) => (o.userData.key = key)); scene.add(g); deskGroups.push(g);
   const world = (x, z) => new THREE.Vector3(x, 0, z).applyMatrix4(g.matrixWorld.clone().makeRotationY(g.rotation.y)).add(new THREE.Vector3(dsk.x, 0, dsk.z));
@@ -155,7 +155,7 @@ for (const [k, d] of Object.entries(DESKS)) makeDesk(k, d);
 const SKIN = [0x8d5524, 0xc68642, 0xe0ac69, 0xf1c27d, 0xffdbac, 0x5c3a21], HAIR = [0x1f1a17, 0x3b2a20, 0x6b4a2b, 0xc9a26b, 0x2b2b3a, 0x8a3b2a];
 const people = {};
 function makePerson(key, i) {
-  const s = STAFF[key] || {}; const color = new THREE.Color(s.color || "#B8A1FF").getHex(); const g = new THREE.Group();
+  const s = STAFF[key] || {}; const color = new THREE.Color(s.color || "#6FC3FF").getHex(); const g = new THREE.Group();
   const legM = M(C.ink2); const lL = box(0.24, 0.85, 0.28, legM, -0.2, 0.43, 0), lR = box(0.24, 0.85, 0.28, legM, 0.2, 0.43, 0); g.add(lL, lR);
   const body = mesh(new THREE.CapsuleGeometry(0.5, 0.85, 4, 14), M(color), 0, 1.5, 0); g.add(body);
   const head = mesh(new THREE.SphereGeometry(0.42, 22, 16), M(SKIN[i % SKIN.length]), 0, 2.55, 0); g.add(head);
@@ -295,7 +295,7 @@ $("#replay").onclick = async () => {
   step();
 };
 // desk card
-function openDesk(key) { const s = STAFF[key]; if (!s) return; const p = people[key]; const c = $("#desk"); c.hidden = false; c.innerHTML = `<button aria-label="Close">×</button><div class="ico" style="--c:${esc(s.color || "#B8A1FF")}">${s.icon}</div><h3>${esc(s.name)}</h3><span class="tag">${esc(s.kind)}</span><p class="role">${esc(s.role)}</p><p class="now${p?.working ? " on" : ""}">${p?.working ? `Now: ${esc(p.doing)}` : "Idle right now"}</p>`; c.querySelector("button").onclick = () => (c.hidden = true); }
+function openDesk(key) { const s = STAFF[key]; if (!s) return; const p = people[key]; const c = $("#desk"); c.hidden = false; c.innerHTML = `<button aria-label="Close">×</button><div class="ico" style="--c:${esc(s.color || "#6FC3FF")}">${s.icon}</div><h3>${esc(s.name)}</h3><span class="tag">${esc(s.kind)}</span><p class="role">${esc(s.role)}</p><p class="now${p?.working ? " on" : ""}">${p?.working ? `Now: ${esc(p.doing)}` : "Idle right now"}</p>`; c.querySelector("button").onclick = () => (c.hidden = true); }
 const ray = new THREE.Raycaster(), ptr = new THREE.Vector2(); let downAt = 0;
 renderer.domElement.addEventListener("pointerdown", () => (downAt = performance.now()));
 renderer.domElement.addEventListener("pointerup", (ev) => { if (performance.now() - downAt > 250) return; ptr.set((ev.clientX / innerWidth) * 2 - 1, -(ev.clientY / innerHeight) * 2 + 1); ray.setFromCamera(ptr, camera); const hit = ray.intersectObjects(deskGroups, true)[0]; if (hit?.object.userData.key) openDesk(hit.object.userData.key); });

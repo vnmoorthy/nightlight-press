@@ -1,12 +1,12 @@
 import { layout, esc } from "./layout.js";
 import { LANG, STYLES } from "../prompts.js";
 const SN = { watercolor: "Watercolour", storybook: "Storybook", papercut: "Paper-cut", pencil: "Crayon", night: "Starry night" };
-const SW = { watercolor: "linear-gradient(135deg,#f6d6c2,#b9d4e8 55%,#e8dcb5)", storybook: "linear-gradient(135deg,#c2703d,#ffc233 50%,#3bb273)", papercut: "linear-gradient(135deg,#ff6b4a,#ffc233 40%,#3bb273 70%,#4da8da)", pencil: "repeating-linear-gradient(45deg,#fff 0 6px,#ffe8c2 6px 8px)", night: "linear-gradient(135deg,#22223b,#4da8da 60%,#ffc233)" };
+const SW = { watercolor: "linear-gradient(135deg,#FFF7E8,#6FC3FF 55%,#FF6FAE)", storybook: "linear-gradient(135deg,#FFB13B,#FFD36E 45%,#1F3FA6)", papercut: "linear-gradient(135deg,#FF6FAE,#FFD36E 38%,#6FC3FF 68%,#1F3FA6)", pencil: "repeating-linear-gradient(45deg,#FFF7E8 0 6px,#A9B6E0 6px 8px)", night: "linear-gradient(135deg,#050B2E,#1F3FA6 55%,#FFD36E)" };
 export function tellPage({ mode }) {
   const body = `
 <style>
 .tell{min-height:calc(100vh - 64px);padding:56px 0 90px;position:relative;overflow:hidden}
-.tell .sunb{position:absolute;left:50%;top:-220px;width:1100px;height:700px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(255,224,160,.22),rgba(61,123,255,.16) 55%,transparent 100%);pointer-events:none}
+.tell .sunb{position:absolute;left:50%;top:-220px;width:1100px;height:700px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(255,211,110,.16),rgba(61,123,255,.18) 55%,transparent 100%);pointer-events:none}
 .tell .wrap{position:relative}
 .tell h1{font-size:clamp(40px,6vw,76px);color:#fff;line-height:1.02}
 .tell h1 em{font-style:normal;color:var(--gold);text-shadow:0 0 30px rgba(255,211,110,.45)}
@@ -58,7 +58,7 @@ export function tellPage({ mode }) {
       <div class="row2"><div class="field"><label for="teller">Told by</label><input id="teller" name="teller" maxlength="60" placeholder="Your name"></div>
         <div class="field"><label for="language">Language</label><select id="language" name="language">${Object.entries(LANG).map(([k, v]) => `<option value="${k}">${v}</option>`).join("")}</select></div></div>
       <div class="field"><label>Pictures</label><div class="tswatch">${Object.keys(STYLES).map((k) => `<label><input type="radio" name="style" value="${k}" ${k === "storybook" ? "checked" : ""}><div class="sw" style="background:${SW[k]}"></div>${SN[k]}</label>`).join("")}</div></div>
-      <label class="robot"><input type="checkbox" name="robot" checked><svg viewBox="0 0 64 64" aria-hidden="true"><line x1="32" y1="6" x2="32" y2="16" stroke="#A9B6E0" stroke-width="3"/><circle cx="32" cy="6" r="5" fill="#FFD36E"/><circle cx="32" cy="26" r="13" fill="#FFF7E8" stroke="#0B1A4A" stroke-width="2.5"/><ellipse cx="27" cy="26" rx="2.6" ry="3.4" fill="#22223b"/><ellipse cx="37" cy="26" rx="2.6" ry="3.4" fill="#22223b"/><rect x="18" y="38" width="28" height="16" rx="7" fill="#6FC3FF" stroke="#0B1A4A" stroke-width="2.5"/><circle cx="23" cy="57" r="4" fill="#A9B6E0"/><circle cx="41" cy="57" r="4" fill="#A9B6E0"/></svg><span><b>Add Pip the PlayRobot as a friend</b><small>A kind robot sidekick joins the story. It's credited in the book and never sells anything.</small></span></label>
+      <label class="robot"><input type="checkbox" name="robot" checked><svg viewBox="0 0 64 64" aria-hidden="true"><line x1="32" y1="6" x2="32" y2="16" stroke="#A9B6E0" stroke-width="3"/><circle cx="32" cy="6" r="5" fill="#FFD36E"/><circle cx="32" cy="26" r="13" fill="#FFF7E8" stroke="#0B1A4A" stroke-width="2.5"/><ellipse cx="27" cy="26" rx="2.6" ry="3.4" fill="#0B1A4A"/><ellipse cx="37" cy="26" rx="2.6" ry="3.4" fill="#0B1A4A"/><rect x="18" y="38" width="28" height="16" rx="7" fill="#6FC3FF" stroke="#0B1A4A" stroke-width="2.5"/><circle cx="23" cy="57" r="4" fill="#A9B6E0"/><circle cx="41" cy="57" r="4" fill="#A9B6E0"/></svg><span><b>Add Pip the PlayRobot as a friend</b><small>A kind robot sidekick joins the story. It's credited in the book and never sells anything.</small></span></label>
       <div class="field"><label for="email">Email the book to <span class="muted small">(optional)</span></label><input id="email" name="email" type="email" placeholder="you@example.com"></div>
       <div class="err" id="tellErr" role="alert"></div>
       <button class="btn coral go" id="go" type="submit">Make it a book</button>

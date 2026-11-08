@@ -2,81 +2,98 @@
 <title id="t">Nightlight Press architecture</title>
 <desc id="d">A parent orders on the shop; the Cashier takes payment; a Postgres job queue hands short jobs to twelve desks (Naïve agents, Monid, AgentMail, Mobilerun and plain code); four clocks plus self-continuation keep it moving; every step is a line in a hash-chained public ledger shown on the board and in the 3D office.</desc>
 <defs>
-<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#22223B"/></marker>
-<marker id="aht" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#FF6B4A"/></marker>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#A9B6E0"/></marker>
+<marker id="aht" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#FFD36E"/></marker>
+<linearGradient id="nlbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B1A4A"/><stop offset=".62" stop-color="#081342"/><stop offset="1" stop-color="#050B2E"/></linearGradient>
+<radialGradient id="nlglowA" cx="18%" cy="14%" r="55%"><stop offset="0" stop-color="#3D7BFF" stop-opacity=".22"/><stop offset="1" stop-color="#3D7BFF" stop-opacity="0"/></radialGradient>
+<radialGradient id="nlglowB" cx="82%" cy="38%" r="50%"><stop offset="0" stop-color="#1F3FA6" stop-opacity=".38"/><stop offset="1" stop-color="#1F3FA6" stop-opacity="0"/></radialGradient>
+<radialGradient id="nlglowC" cx="40%" cy="78%" r="45%"><stop offset="0" stop-color="#3D7BFF" stop-opacity=".12"/><stop offset="1" stop-color="#3D7BFF" stop-opacity="0"/></radialGradient>
+<radialGradient id="nlmoonhalo"><stop offset="0" stop-color="#FFD36E" stop-opacity=".28"/><stop offset=".55" stop-color="#FFD36E" stop-opacity=".08"/><stop offset="1" stop-color="#FFD36E" stop-opacity="0"/></radialGradient>
+<linearGradient id="nlmoon" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF7E8"/><stop offset=".45" stop-color="#FFD36E"/><stop offset="1" stop-color="#FFB13B"/></linearGradient>
+<mask id="nlcrescent"><rect x="1400" y="-40" width="220" height="240" fill="#fff"/><circle cx="1530" cy="62" r="40" fill="#000"/></mask>
+<linearGradient id="nlglass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".09"/><stop offset="1" stop-color="#FFFFFF" stop-opacity=".045"/></linearGradient>
+<linearGradient id="nlpill" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFD36E"/><stop offset="1" stop-color="#FFB13B"/></linearGradient>
+<filter id="nlsoft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="7"/></filter>
+<filter id="nlsoft2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10"/></filter>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&amp;family=Nunito:wght@500;600;700;800&amp;display=swap');
-.title{font:600 40px Fredoka,'Arial Rounded MT Bold','Trebuchet MS',sans-serif;fill:#22223B}
-.sub{font:600 18px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#6B6A80}
-.sec{font:800 13px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#FF6B4A;letter-spacing:.14em}
-.h3{font:600 20px Fredoka,'Arial Rounded MT Bold','Trebuchet MS',sans-serif;fill:#22223B}
-.h3s{font:600 17px Fredoka,'Arial Rounded MT Bold','Trebuchet MS',sans-serif;fill:#22223B}
-.h4{font:600 15px Fredoka,'Arial Rounded MT Bold','Trebuchet MS',sans-serif;fill:#FF6B4A}
-.body{font:600 13.5px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#22223B}
-.bodyb{font:800 13.5px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#FF6B4A}
-.bodys{font:600 12.5px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#22223B}
-.kind{font:700 11px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#6B6A80;letter-spacing:.04em}
-.mono{font:600 12.5px 'SF Mono',Menlo,Consolas,monospace;fill:#22223B}
-.chip{font:800 10.5px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#22223B;letter-spacing:.08em}
-.arc{font:700 13px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#FF6B4A}
-.tiny{font:700 11px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#6B6A80}
-.tinyb{font:700 12.5px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#6B6A80}
-.stat{font:700 15px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#22223B}</style>
+.title{font:700 40px Fredoka,'Arial Rounded MT Bold','Trebuchet MS',sans-serif;fill:#FFF7E8}
+.sub{font:600 18px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#A9B6E0}
+.sec{font:800 13px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#FFD36E;letter-spacing:.14em}
+.h3{font:600 20px Fredoka,'Arial Rounded MT Bold','Trebuchet MS',sans-serif;fill:#FFF7E8}
+.h3s{font:600 17px Fredoka,'Arial Rounded MT Bold','Trebuchet MS',sans-serif;fill:#FFF7E8}
+.h4{font:600 15px Fredoka,'Arial Rounded MT Bold','Trebuchet MS',sans-serif;fill:#6FC3FF}
+.body{font:600 13.5px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#EAF0FF}
+.bodyb{font:800 13.5px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#FFD36E}
+.bodys{font:600 12.5px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#EAF0FF}
+.kind{font:700 11px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#A9B6E0;letter-spacing:.04em}
+.mono{font:600 12.5px 'SF Mono',Menlo,Consolas,monospace;fill:#6FC3FF}
+.chip{font:800 10.5px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#050B2E;letter-spacing:.08em}
+.arc{font:700 13px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#FFD36E}
+.tiny{font:700 11px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#A9B6E0}
+.tinyb{font:700 12.5px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#A9B6E0}
+.stat{font:700 15px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#EAF0FF}</style>
 </defs>
-<rect width="1600" height="1150" fill="#FFF8EC"/>
-<circle cx="1508" cy="78" r="60" fill="#FFC233" stroke="#22223B" stroke-width="2"/>
-<circle cx="1508" cy="78" r="40" fill="#FFD466"/>
-<line x1="1580.0" y1="78.0" x2="1596.0" y2="78.0" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
-<line x1="1566.2" y1="120.3" x2="1579.2" y2="129.7" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
-<line x1="1530.2" y1="146.5" x2="1535.2" y2="161.7" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
-<line x1="1485.8" y1="146.5" x2="1480.8" y2="161.7" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
-<line x1="1449.8" y1="120.3" x2="1436.8" y2="129.7" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
-<line x1="1436.0" y1="78.0" x2="1420.0" y2="78.0" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
-<line x1="1449.8" y1="35.7" x2="1436.8" y2="26.3" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
-<line x1="1485.8" y1="9.5" x2="1480.8" y2="-5.7" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
-<line x1="1530.2" y1="9.5" x2="1535.2" y2="-5.7" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
-<line x1="1566.2" y1="35.7" x2="1579.2" y2="26.3" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
-<g transform="translate(1330 40) scale(0.9)"><path d="M0 30 a22 22 0 0 1 22 -22 a30 30 0 0 1 54 -4 a24 24 0 0 1 40 26 z" fill="#FFFFFF" stroke="#22223B" stroke-width="2"/></g>
-<g transform="translate(1420 112) scale(0.62)"><path d="M0 30 a22 22 0 0 1 22 -22 a30 30 0 0 1 54 -4 a24 24 0 0 1 40 26 z" fill="#FFFFFF" stroke="#22223B" stroke-width="2"/></g>
+<rect width="1600" height="1150" fill="url(#nlbg)"/>
+<rect width="1600" height="1150" fill="url(#nlglowA)"/>
+<rect width="1600" height="1150" fill="url(#nlglowB)"/>
+<rect width="1600" height="1150" fill="url(#nlglowC)"/>
+<g><circle cx="913.5" cy="381.4" r="0.65" fill="#FFFFFF" opacity="0.63"/><circle cx="338.3" cy="715.1" r="0.92" fill="#FFFFFF" opacity="0.68"/><circle cx="247.9" cy="899.6" r="1.69" fill="#FFFFFF" opacity="0.60"/><circle cx="154.5" cy="426.0" r="0.97" fill="#FFFFFF" opacity="0.58"/><circle cx="934.2" cy="826.1" r="1.68" fill="#FFFFFF" opacity="0.38"/><circle cx="1279.1" cy="517.0" r="1.37" fill="#FFD36E" opacity="0.48"/><circle cx="558.3" cy="630.4" r="1.20" fill="#FFFFFF" opacity="0.33"/><circle cx="743.1" cy="491.6" r="1.72" fill="#FFFFFF" opacity="0.30"/><circle cx="384.0" cy="782.5" r="0.71" fill="#FFFFFF" opacity="0.51"/><circle cx="1417.3" cy="552.5" r="0.82" fill="#FFFFFF" opacity="0.47"/><circle cx="867.0" cy="438.6" r="0.61" fill="#FFFFFF" opacity="0.63"/><circle cx="1402.3" cy="447.3" r="1.76" fill="#FFFFFF" opacity="0.50"/><circle cx="838.3" cy="630.7" r="0.94" fill="#FFD36E" opacity="0.64"/><circle cx="31.2" cy="540.9" r="0.60" fill="#FFFFFF" opacity="0.55"/><circle cx="1159.6" cy="476.7" r="0.85" fill="#FFFFFF" opacity="0.31"/><circle cx="289.0" cy="456.2" r="1.61" fill="#FFFFFF" opacity="0.21"/><circle cx="987.2" cy="808.0" r="1.62" fill="#FFD36E" opacity="0.66"/><circle cx="1518.5" cy="390.1" r="0.80" fill="#FFFFFF" opacity="0.64"/><circle cx="151.4" cy="790.4" r="1.74" fill="#FFFFFF" opacity="0.46"/><circle cx="345.1" cy="281.0" r="0.97" fill="#FFFFFF" opacity="0.69"/><circle cx="46.9" cy="482.3" r="1.61" fill="#FFD36E" opacity="0.62"/><circle cx="188.0" cy="274.8" r="1.26" fill="#FFFFFF" opacity="0.42"/><circle cx="761.3" cy="834.9" r="1.25" fill="#FFFFFF" opacity="0.62"/><circle cx="355.9" cy="437.0" r="1.72" fill="#FFD36E" opacity="0.22"/><circle cx="941.2" cy="872.4" r="0.94" fill="#FFFFFF" opacity="0.41"/><circle cx="1281.8" cy="884.3" r="0.75" fill="#FFD36E" opacity="0.55"/><circle cx="1050.3" cy="512.1" r="1.53" fill="#FFD36E" opacity="0.30"/><circle cx="543.3" cy="845.6" r="1.07" fill="#FFFFFF" opacity="0.27"/><circle cx="1011.0" cy="249.1" r="1.13" fill="#FFFFFF" opacity="0.69"/><circle cx="229.8" cy="169.5" r="1.16" fill="#FFFFFF" opacity="0.69"/><circle cx="7.1" cy="342.2" r="1.65" fill="#FFFFFF" opacity="0.39"/><circle cx="831.2" cy="659.3" r="1.20" fill="#FFD36E" opacity="0.67"/><circle cx="711.4" cy="664.2" r="1.37" fill="#FFD36E" opacity="0.52"/><circle cx="1212.9" cy="408.8" r="1.18" fill="#FFD36E" opacity="0.54"/><circle cx="1496.0" cy="724.2" r="1.05" fill="#FFFFFF" opacity="0.45"/><circle cx="717.6" cy="759.0" r="0.76" fill="#FFFFFF" opacity="0.24"/><circle cx="1104.8" cy="860.9" r="1.30" fill="#FFFFFF" opacity="0.41"/><circle cx="1300.1" cy="143.9" r="1.44" fill="#FFFFFF" opacity="0.60"/><circle cx="757.5" cy="729.1" r="0.63" fill="#FFFFFF" opacity="0.47"/><circle cx="409.5" cy="181.4" r="1.22" fill="#FFD36E" opacity="0.68"/><circle cx="1101.3" cy="180.9" r="1.38" fill="#FFFFFF" opacity="0.64"/><circle cx="567.0" cy="313.8" r="1.31" fill="#FFFFFF" opacity="0.40"/><circle cx="72.2" cy="525.5" r="1.52" fill="#FFFFFF" opacity="0.61"/><circle cx="1366.3" cy="177.7" r="0.74" fill="#FFD36E" opacity="0.66"/><circle cx="1433.9" cy="505.4" r="1.12" fill="#FFFFFF" opacity="0.68"/><circle cx="518.0" cy="253.0" r="1.22" fill="#FFFFFF" opacity="0.56"/><circle cx="934.9" cy="371.8" r="1.02" fill="#FFD36E" opacity="0.63"/><circle cx="504.6" cy="592.9" r="1.24" fill="#FFFFFF" opacity="0.62"/><circle cx="102.1" cy="885.1" r="1.29" fill="#FFFFFF" opacity="0.51"/><circle cx="1331.0" cy="694.5" r="1.76" fill="#FFFFFF" opacity="0.42"/><circle cx="503.7" cy="606.0" r="1.79" fill="#FFFFFF" opacity="0.63"/><circle cx="469.4" cy="560.4" r="1.43" fill="#FFFFFF" opacity="0.43"/><circle cx="378.9" cy="365.0" r="1.44" fill="#FFFFFF" opacity="0.33"/><circle cx="746.6" cy="305.7" r="1.69" fill="#FFFFFF" opacity="0.44"/><circle cx="1252.9" cy="682.1" r="0.80" fill="#FFFFFF" opacity="0.21"/><circle cx="1197.7" cy="415.1" r="1.65" fill="#FFD36E" opacity="0.68"/><circle cx="281.0" cy="492.5" r="1.51" fill="#FFFFFF" opacity="0.47"/><circle cx="1401.3" cy="343.7" r="1.08" fill="#FFD36E" opacity="0.43"/><circle cx="1275.5" cy="831.0" r="1.13" fill="#FFD36E" opacity="0.66"/><circle cx="1291.1" cy="732.5" r="1.25" fill="#FFD36E" opacity="0.56"/><circle cx="816.9" cy="745.7" r="0.68" fill="#FFD36E" opacity="0.48"/><circle cx="197.2" cy="902.3" r="0.85" fill="#FFFFFF" opacity="0.51"/><circle cx="1198.1" cy="883.0" r="0.90" fill="#FFFFFF" opacity="0.35"/><circle cx="1192.9" cy="743.4" r="1.78" fill="#FFFFFF" opacity="0.46"/><circle cx="1142.1" cy="581.5" r="0.76" fill="#FFFFFF" opacity="0.27"/><circle cx="718.2" cy="186.6" r="1.60" fill="#FFFFFF" opacity="0.23"/><circle cx="376.9" cy="625.5" r="0.60" fill="#FFD36E" opacity="0.24"/><circle cx="1040.8" cy="746.6" r="1.51" fill="#FFFFFF" opacity="0.35"/><circle cx="1451.0" cy="111.4" r="1.14" fill="#FFFFFF" opacity="0.37"/><circle cx="492.2" cy="145.9" r="1.54" fill="#FFFFFF" opacity="0.27"/><circle cx="1375.0" cy="502.5" r="1.33" fill="#FFFFFF" opacity="0.46"/><circle cx="323.2" cy="492.8" r="1.36" fill="#FFFFFF" opacity="0.64"/><circle cx="1218.6" cy="770.6" r="1.35" fill="#FFFFFF" opacity="0.36"/><circle cx="1496.5" cy="242.3" r="1.45" fill="#FFFFFF" opacity="0.27"/><circle cx="892.0" cy="165.7" r="1.48" fill="#FFFFFF" opacity="0.36"/><circle cx="574.3" cy="168.8" r="1.79" fill="#FFD36E" opacity="0.31"/><circle cx="981.2" cy="630.2" r="1.50" fill="#FFD36E" opacity="0.30"/><circle cx="78.2" cy="725.1" r="1.65" fill="#FFFFFF" opacity="0.48"/><circle cx="847.2" cy="244.4" r="1.28" fill="#FFFFFF" opacity="0.58"/><circle cx="1367.0" cy="926.0" r="1.25" fill="#FFFFFF" opacity="0.54"/><circle cx="211.1" cy="630.6" r="1.23" fill="#FFFFFF" opacity="0.22"/><circle cx="1479.8" cy="313.9" r="1.08" fill="#FFFFFF" opacity="0.59"/><circle cx="13.9" cy="554.8" r="1.28" fill="#FFFFFF" opacity="0.41"/><circle cx="614.0" cy="601.2" r="1.60" fill="#FFFFFF" opacity="0.60"/><circle cx="883.3" cy="387.1" r="1.61" fill="#FFFFFF" opacity="0.27"/><circle cx="909.0" cy="356.6" r="1.06" fill="#FFFFFF" opacity="0.47"/><circle cx="22.0" cy="274.2" r="1.53" fill="#FFFFFF" opacity="0.43"/><circle cx="311.2" cy="797.0" r="1.08" fill="#FFFFFF" opacity="0.29"/><circle cx="1363.8" cy="537.1" r="1.51" fill="#FFFFFF" opacity="0.62"/><circle cx="1575.0" cy="109.0" r="1.77" fill="#FFFFFF" opacity="0.68"/></g>
+<circle cx="1508" cy="78" r="86" fill="url(#nlmoonhalo)"/>
+<circle cx="1508" cy="78" r="44" fill="#FFD36E" mask="url(#nlcrescent)" filter="url(#nlsoft2)" opacity=".55"/>
+<circle cx="1508" cy="78" r="44" fill="url(#nlmoon)" mask="url(#nlcrescent)"/>
+<path transform="translate(1428 40) scale(0.9)" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10z" fill="#FFD36E" opacity="1"/><path transform="translate(1572 150) scale(0.7)" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10z" fill="#FFD36E" opacity="0.85"/><path transform="translate(1452 146) scale(0.5)" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10z" fill="#FFD36E" opacity="0.7"/>
+<g transform="translate(1330 40) scale(0.9)"><path d="M0 30 a22 22 0 0 1 22 -22 a30 30 0 0 1 54 -4 a24 24 0 0 1 40 26 z" fill="#FFFFFF" fill-opacity=".07" stroke="#FFFFFF" stroke-opacity=".16" stroke-width="2"/></g>
+<g transform="translate(1420 112) scale(0.62)"><path d="M0 30 a22 22 0 0 1 22 -22 a30 30 0 0 1 54 -4 a24 24 0 0 1 40 26 z" fill="#FFFFFF" fill-opacity=".07" stroke="#FFFFFF" stroke-opacity=".16" stroke-width="2"/></g>
 <text x="40" y="68" class="title" >Nightlight Press: how the company runs itself</text>
 <text x="40" y="104" class="sub" >Models write, paint and talk. Code decides when, whether and how much. Every step is a short job; every consequence is a ledger line.</text>
 <text x="40" y="176" class="sec" >OUTSIDE</text>
 <text x="308" y="176" class="sec" >THE SHOP</text>
 <text x="594" y="176" class="sec" >THE QUEUE</text>
 <text x="884" y="176" class="sec" >THE STAFF · 12 DESKS</text>
-<path d="M1452 186 V146 H156 V186" fill="none" stroke="#FF6B4A" stroke-width="2.5" stroke-dasharray="8 7" stroke-linecap="round" marker-end="url(#aht)"/>
-<rect x="489.5" y="134" width="629" height="24" rx="12" fill="#FFF8EC" stroke="#FF6B4A" stroke-width="2"/>
+<path d="M1452 186 V146 H156 V186" fill="none" stroke="#FFD36E" stroke-width="2.5" stroke-dasharray="8 7" stroke-linecap="round" marker-end="url(#aht)"/>
+<rect x="489.5" y="134" width="629" height="24" rx="12" fill="#050B2E" stroke="#FFD36E" stroke-opacity=".8" stroke-width="1.5"/>
 <text x="804" y="151" class="arc" text-anchor="middle">the book goes back out: email + PDF, SMS, a read-aloud phone call, the nightly newsletter</text>
-<rect x="45" y="197" width="232" height="100" rx="16" fill="#FFC233" stroke="#22223B" stroke-width="2"/>
-<rect x="40" y="192" width="232" height="100" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="40" y="192" width="232" height="100" rx="20" fill="none" stroke="#FFB13B" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="40" y="192" width="232" height="100" rx="20" fill="#0E1D52"/>
+<rect x="40" y="192" width="232" height="100" rx="20" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="56" y="190.5" width="44" height="3" rx="1.5" fill="#FFB13B"/>
 <text x="56" y="222" class="h3s" >Parent</text>
 <text x="56" y="250" class="body" >orders a book on the web, $19</text>
 <text x="56" y="269" class="body" >watches it being made, live</text>
-<rect x="45" y="314" width="232" height="100" rx="16" fill="#FFF1DA" stroke="#22223B" stroke-width="2"/>
-<rect x="40" y="309" width="232" height="100" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="40" y="309" width="232" height="100" rx="20" fill="none" stroke="#A9B6E0" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="40" y="309" width="232" height="100" rx="20" fill="#0E1D52"/>
+<rect x="40" y="309" width="232" height="100" rx="20" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="56" y="307.5" width="44" height="3" rx="1.5" fill="#A9B6E0"/>
 <text x="56" y="339" class="h3s" >Family reply</text>
-<rect x="178" y="323" width="82" height="20" rx="10" fill="#FFC233" stroke="#22223B" stroke-width="1.5"/>
+<rect x="178" y="323" width="82" height="20" rx="10" fill="#FFB13B"/>
 <text x="219" y="337" class="chip" text-anchor="middle">AGENTMAIL</text>
 <text x="56" y="367" class="body" >“her dog is Biscuit, not Cookie”</text>
 <text x="56" y="386" class="body" >by email or the reader page</text>
-<rect x="45" y="431" width="232" height="100" rx="16" fill="#FFF1DA" stroke="#22223B" stroke-width="2"/>
-<rect x="40" y="426" width="232" height="100" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="40" y="426" width="232" height="100" rx="20" fill="none" stroke="#A9B6E0" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="40" y="426" width="232" height="100" rx="20" fill="#0E1D52"/>
+<rect x="40" y="426" width="232" height="100" rx="20" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="56" y="424.5" width="44" height="3" rx="1.5" fill="#A9B6E0"/>
 <text x="56" y="456" class="h3s" >Grandma’s phone</text>
-<rect x="207" y="440" width="53" height="20" rx="10" fill="#4DA8DA" stroke="#22223B" stroke-width="1.5"/>
+<rect x="207" y="440" width="53" height="20" rx="10" fill="#6FC3FF"/>
 <text x="233.5" y="454" class="chip" text-anchor="middle">MONID</text>
 <text x="56" y="484" class="body" >the Storyteller Line reads</text>
 <text x="56" y="503" class="body" >aloud; AI-disclosed, consent</text>
-<rect x="45" y="548" width="232" height="100" rx="16" fill="#FFF1DA" stroke="#22223B" stroke-width="2"/>
-<rect x="40" y="543" width="232" height="100" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="40" y="543" width="232" height="100" rx="20" fill="none" stroke="#A9B6E0" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="40" y="543" width="232" height="100" rx="20" fill="#0E1D52"/>
+<rect x="40" y="543" width="232" height="100" rx="20" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="56" y="541.5" width="44" height="3" rx="1.5" fill="#A9B6E0"/>
 <text x="56" y="573" class="h3s" >Subscribers</text>
-<rect x="178" y="557" width="82" height="20" rx="10" fill="#FFC233" stroke="#22223B" stroke-width="1.5"/>
+<rect x="178" y="557" width="82" height="20" rx="10" fill="#FFB13B"/>
 <text x="219" y="571" class="chip" text-anchor="middle">AGENTMAIL</text>
 <text x="56" y="601" class="body" >a free shelf book every 12 h</text>
 <text x="56" y="620" class="body" >by email, with a read link</text>
-<rect x="313" y="197" width="250" height="248" rx="16" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
-<rect x="308" y="192" width="250" height="248" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="308" y="192" width="250" height="248" rx="20" fill="none" stroke="#FFD36E" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="308" y="192" width="250" height="248" rx="20" fill="#0E1D52"/>
+<rect x="308" y="192" width="250" height="248" rx="20" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="324" y="190.5" width="44" height="3" rx="1.5" fill="#FFD36E"/>
 <text x="324" y="222" class="h3" >Shop &amp; reader</text>
-<rect x="493" y="206" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<rect x="493" y="206" width="53" height="20" rx="10" fill="#FFD36E"/>
 <text x="519.5" y="220" class="chip" text-anchor="middle">NAÏVE</text>
 <text x="324" y="246" class="body" >Hono app + managed Postgres,</text>
 <text x="324" y="264" class="body" >hosted on Naïve</text>
@@ -92,29 +109,33 @@
 <text x="402" y="388" class="body" >print-ready 11 × 8.5 in</text>
 <text x="324" y="411" class="mono" >/mcp</text>
 <text x="402" y="411" class="body" >tools for agents</text>
-<rect x="313" y="473" width="250" height="176" rx="16" fill="#B8A1FF" stroke="#22223B" stroke-width="2"/>
-<rect x="308" y="468" width="250" height="176" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="308" y="468" width="250" height="176" rx="20" fill="none" stroke="#3D7BFF" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="308" y="468" width="250" height="176" rx="20" fill="#0E1D52"/>
+<rect x="308" y="468" width="250" height="176" rx="20" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="324" y="466.5" width="44" height="3" rx="1.5" fill="#3D7BFF"/>
 <text x="324" y="498" class="h3" >Cashier</text>
-<rect x="501" y="482" width="45" height="20" rx="10" fill="#B8A1FF" stroke="#22223B" stroke-width="1.5"/>
+<rect x="501" y="482" width="45" height="20" rx="10" fill="#3D7BFF"/>
 <text x="523.5" y="496" class="chip" text-anchor="middle">CODE</text>
 <text x="324" y="526" class="body" >Stripe Checkout, $19 one-time</text>
 <text x="324" y="547" class="body" >honest pledge mode until the</text>
 <text x="324" y="568" class="body" >founder adds a key</text>
 <text x="324" y="589" class="mono" >paid → startBook()</text>
 <text x="324" y="610" class="mono" >→ first job: write</text>
-<path d="M278 236 H302" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
-<path d="M278 359 H302" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
-<path d="M433 446 V462" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
-<path d="M564 556 H588" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
-<rect x="599" y="197" width="250" height="452" rx="16" fill="#4DA8DA" stroke="#22223B" stroke-width="2"/>
-<rect x="594" y="192" width="250" height="452" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<path d="M278 236 H302" fill="none" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<path d="M278 359 H302" fill="none" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<path d="M433 446 V462" fill="none" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<path d="M564 556 H588" fill="none" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<rect x="594" y="192" width="250" height="452" rx="20" fill="none" stroke="#6FC3FF" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="594" y="192" width="250" height="452" rx="20" fill="#0E1D52"/>
+<rect x="594" y="192" width="250" height="452" rx="20" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="610" y="190.5" width="44" height="3" rx="1.5" fill="#6FC3FF"/>
 <text x="610" y="222" class="h3" >Job queue</text>
-<rect x="758" y="206" width="74" height="20" rx="10" fill="#B8A1FF" stroke="#22223B" stroke-width="1.5"/>
+<rect x="758" y="206" width="74" height="20" rx="10" fill="#3D7BFF"/>
 <text x="795" y="220" class="chip" text-anchor="middle">POSTGRES</text>
 <text x="610" y="248" class="body" >leases: for update skip locked</text>
 <text x="610" y="268" class="body" >every step &lt; 7 s (serverless)</text>
 <text x="610" y="288" class="body" >retries with backoff</text>
-<line x1="610" y1="300" x2="828" y2="300" stroke="#22223B" stroke-width="1.5" stroke-dasharray="3 5"/>
+<line x1="610" y1="300" x2="828" y2="300" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1.5" stroke-dasharray="3 5"/>
 <text x="610" y="324" class="h4" >a book, as jobs</text>
 <text x="610" y="348" class="mono" >write → editor check</text>
 <text x="610" y="370" class="mono" >paint ×11 · narrate ×10</text>
@@ -122,210 +143,248 @@
 <text x="610" y="414" class="mono" >read_call (if asked)</text>
 <text x="610" y="436" class="mono" >frontdesk → revise</text>
 <text x="610" y="458" class="mono" >commission → market</text>
-<line x1="610" y1="482" x2="828" y2="482" stroke="#22223B" stroke-width="1.5" stroke-dasharray="3 5"/>
+<line x1="610" y1="482" x2="828" y2="482" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1.5" stroke-dasharray="3 5"/>
 <text x="610" y="506" class="h4" >agent calls are phases</text>
 <text x="610" y="530" class="body" >start a Naïve session, park,</text>
 <text x="610" y="550" class="body" >check back, resume. A slow</text>
 <text x="610" y="570" class="body" >model never blocks a worker.</text>
 <text x="610" y="590" class="bodyb" >Models write; code decides.</text>
-<path d="M850 330 H878" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
-<path d="M878 470 H850" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 7" marker-end="url(#ah)"/>
+<path d="M850 330 H878" fill="none" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<path d="M878 470 H850" fill="none" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 7" marker-end="url(#ah)"/>
 <text x="864" y="318" class="tiny" text-anchor="middle">run</text>
 <text x="864" y="492" class="tiny" text-anchor="middle">next</text>
-<rect x="889" y="197" width="216" height="104" rx="14" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
-<rect x="884" y="192" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="884" y="192" width="216" height="104" rx="18" fill="none" stroke="#FFD36E" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="884" y="192" width="216" height="104" rx="18" fill="#0E1D52"/>
+<rect x="884" y="192" width="216" height="104" rx="18" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="900" y="190.5" width="44" height="3" rx="1.5" fill="#FFD36E"/>
 <text x="898" y="218" class="h3s" >Author</text>
 <text x="1086" y="217" class="kind" text-anchor="end">agent</text>
 <text x="898" y="240" class="bodys" >writes each story in the</text>
 <text x="898" y="258" class="bodys" >child’s language (16 langs)</text>
-<rect x="898" y="268" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<rect x="898" y="268" width="53" height="20" rx="10" fill="#FFD36E"/>
 <text x="924.5" y="282" class="chip" text-anchor="middle">NAÏVE</text>
-<rect x="1119" y="197" width="216" height="104" rx="14" fill="#B8A1FF" stroke="#22223B" stroke-width="2"/>
-<rect x="1114" y="192" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="1114" y="192" width="216" height="104" rx="18" fill="none" stroke="#3D7BFF" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="1114" y="192" width="216" height="104" rx="18" fill="#0E1D52"/>
+<rect x="1114" y="192" width="216" height="104" rx="18" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="1130" y="190.5" width="44" height="3" rx="1.5" fill="#3D7BFF"/>
 <text x="1128" y="218" class="h3s" >Editor</text>
 <text x="1316" y="217" class="kind" text-anchor="end">code</text>
 <text x="1128" y="240" class="bodys" >word limits by age, name on</text>
 <text x="1128" y="258" class="bodys" >pages, banned words, grade</text>
-<rect x="1128" y="268" width="45" height="20" rx="10" fill="#B8A1FF" stroke="#22223B" stroke-width="1.5"/>
+<rect x="1128" y="268" width="45" height="20" rx="10" fill="#3D7BFF"/>
 <text x="1150.5" y="282" class="chip" text-anchor="middle">CODE</text>
-<rect x="1349" y="197" width="216" height="104" rx="14" fill="#4DA8DA" stroke="#22223B" stroke-width="2"/>
-<rect x="1344" y="192" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="1344" y="192" width="216" height="104" rx="18" fill="none" stroke="#6FC3FF" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="1344" y="192" width="216" height="104" rx="18" fill="#0E1D52"/>
+<rect x="1344" y="192" width="216" height="104" rx="18" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="1360" y="190.5" width="44" height="3" rx="1.5" fill="#6FC3FF"/>
 <text x="1358" y="218" class="h3s" >Illustrator</text>
 <text x="1546" y="217" class="kind" text-anchor="end">image model</text>
 <text x="1358" y="240" class="bodys" >paints 10 pages + a cover</text>
 <text x="1358" y="258" class="bodys" >gpt-image-2.5-sunburst</text>
-<rect x="1358" y="268" width="53" height="20" rx="10" fill="#4DA8DA" stroke="#22223B" stroke-width="1.5"/>
+<rect x="1358" y="268" width="53" height="20" rx="10" fill="#6FC3FF"/>
 <text x="1384.5" y="282" class="chip" text-anchor="middle">MONID</text>
-<rect x="889" y="313" width="216" height="104" rx="14" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
-<rect x="884" y="308" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="884" y="308" width="216" height="104" rx="18" fill="none" stroke="#FFD36E" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="884" y="308" width="216" height="104" rx="18" fill="#0E1D52"/>
+<rect x="884" y="308" width="216" height="104" rx="18" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="900" y="306.5" width="44" height="3" rx="1.5" fill="#FFD36E"/>
 <text x="898" y="334" class="h3s" >Narrator</text>
 <text x="1086" y="333" class="kind" text-anchor="end">speech</text>
 <text x="898" y="356" class="bodys" >reads every page aloud;</text>
 <text x="898" y="374" class="bodys" >OpenAI TTS as a fallback</text>
-<rect x="898" y="384" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<rect x="898" y="384" width="53" height="20" rx="10" fill="#FFD36E"/>
 <text x="924.5" y="398" class="chip" text-anchor="middle">NAÏVE</text>
-<rect x="1119" y="313" width="216" height="104" rx="14" fill="#B8A1FF" stroke="#22223B" stroke-width="2"/>
-<rect x="1114" y="308" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="1114" y="308" width="216" height="104" rx="18" fill="none" stroke="#3D7BFF" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="1114" y="308" width="216" height="104" rx="18" fill="#0E1D52"/>
+<rect x="1114" y="308" width="216" height="104" rx="18" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="1130" y="306.5" width="44" height="3" rx="1.5" fill="#3D7BFF"/>
 <text x="1128" y="334" class="h3s" >Binder</text>
 <text x="1316" y="333" class="kind" text-anchor="end">code</text>
 <text x="1128" y="356" class="bodys" >PDFKit binds the 11 × 8.5 in</text>
 <text x="1128" y="374" class="bodys" >print-ready landscape PDF</text>
-<rect x="1128" y="384" width="45" height="20" rx="10" fill="#B8A1FF" stroke="#22223B" stroke-width="1.5"/>
+<rect x="1128" y="384" width="45" height="20" rx="10" fill="#3D7BFF"/>
 <text x="1150.5" y="398" class="chip" text-anchor="middle">CODE</text>
-<rect x="1349" y="313" width="216" height="104" rx="14" fill="#FFC233" stroke="#22223B" stroke-width="2"/>
-<rect x="1344" y="308" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="1344" y="308" width="216" height="104" rx="18" fill="none" stroke="#FFB13B" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="1344" y="308" width="216" height="104" rx="18" fill="#0E1D52"/>
+<rect x="1344" y="308" width="216" height="104" rx="18" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="1360" y="306.5" width="44" height="3" rx="1.5" fill="#FFB13B"/>
 <text x="1358" y="334" class="h3s" >Mailroom</text>
 <text x="1546" y="333" class="kind" text-anchor="end">code</text>
 <text x="1358" y="356" class="bodys" >emails the PDF + read link;</text>
 <text x="1358" y="374" class="bodys" >SMS to US numbers</text>
-<rect x="1358" y="384" width="82" height="20" rx="10" fill="#FFC233" stroke="#22223B" stroke-width="1.5"/>
+<rect x="1358" y="384" width="82" height="20" rx="10" fill="#FFB13B"/>
 <text x="1399" y="398" class="chip" text-anchor="middle">AGENTMAIL</text>
-<rect x="1446" y="384" width="53" height="20" rx="10" fill="#4DA8DA" stroke="#22223B" stroke-width="1.5"/>
+<rect x="1446" y="384" width="53" height="20" rx="10" fill="#6FC3FF"/>
 <text x="1472.5" y="398" class="chip" text-anchor="middle">MONID</text>
-<rect x="889" y="429" width="216" height="104" rx="14" fill="#3BB273" stroke="#22223B" stroke-width="2"/>
-<rect x="884" y="424" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="884" y="424" width="216" height="104" rx="18" fill="none" stroke="#FF6FAE" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="884" y="424" width="216" height="104" rx="18" fill="#0E1D52"/>
+<rect x="884" y="424" width="216" height="104" rx="18" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="900" y="422.5" width="44" height="3" rx="1.5" fill="#FF6FAE"/>
 <text x="898" y="450" class="h3s" >Proofreader</text>
 <text x="1086" y="449" class="kind" text-anchor="end">real phone</text>
 <text x="898" y="472" class="bodys" >opens each finished book</text>
 <text x="898" y="490" class="bodys" >on a real iPhone, in Safari</text>
-<rect x="898" y="500" width="82" height="20" rx="10" fill="#3BB273" stroke="#22223B" stroke-width="1.5"/>
+<rect x="898" y="500" width="82" height="20" rx="10" fill="#FF6FAE"/>
 <text x="939" y="514" class="chip" text-anchor="middle">MOBILERUN</text>
-<rect x="1119" y="429" width="216" height="104" rx="14" fill="#4DA8DA" stroke="#22223B" stroke-width="2"/>
-<rect x="1114" y="424" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="1114" y="424" width="216" height="104" rx="18" fill="none" stroke="#6FC3FF" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="1114" y="424" width="216" height="104" rx="18" fill="#0E1D52"/>
+<rect x="1114" y="424" width="216" height="104" rx="18" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="1130" y="422.5" width="44" height="3" rx="1.5" fill="#6FC3FF"/>
 <text x="1128" y="450" class="h3s" >Storyteller Line</text>
 <text x="1316" y="449" class="kind" text-anchor="end">phone</text>
 <text x="1128" y="472" class="bodys" >calls to read the book aloud;</text>
 <text x="1128" y="490" class="bodys" >says it’s an AI, max 3 calls</text>
-<rect x="1128" y="500" width="53" height="20" rx="10" fill="#4DA8DA" stroke="#22223B" stroke-width="1.5"/>
+<rect x="1128" y="500" width="53" height="20" rx="10" fill="#6FC3FF"/>
 <text x="1154.5" y="514" class="chip" text-anchor="middle">MONID</text>
-<rect x="1349" y="429" width="216" height="104" rx="14" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
-<rect x="1344" y="424" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="1344" y="424" width="216" height="104" rx="18" fill="none" stroke="#FFD36E" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="1344" y="424" width="216" height="104" rx="18" fill="#0E1D52"/>
+<rect x="1344" y="424" width="216" height="104" rx="18" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="1360" y="422.5" width="44" height="3" rx="1.5" fill="#FFD36E"/>
 <text x="1358" y="450" class="h3s" >Front Desk</text>
 <text x="1546" y="449" class="kind" text-anchor="end">agent</text>
 <text x="1358" y="472" class="bodys" >answers family replies and</text>
 <text x="1358" y="490" class="bodys" >routes free revisions</text>
-<rect x="1358" y="500" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<rect x="1358" y="500" width="53" height="20" rx="10" fill="#FFD36E"/>
 <text x="1384.5" y="514" class="chip" text-anchor="middle">NAÏVE</text>
-<rect x="1417" y="500" width="82" height="20" rx="10" fill="#FFC233" stroke="#22223B" stroke-width="1.5"/>
+<rect x="1417" y="500" width="82" height="20" rx="10" fill="#FFB13B"/>
 <text x="1458" y="514" class="chip" text-anchor="middle">AGENTMAIL</text>
-<rect x="889" y="545" width="216" height="104" rx="14" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
-<rect x="884" y="540" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="884" y="540" width="216" height="104" rx="18" fill="none" stroke="#FFD36E" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="884" y="540" width="216" height="104" rx="18" fill="#0E1D52"/>
+<rect x="884" y="540" width="216" height="104" rx="18" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="900" y="538.5" width="44" height="3" rx="1.5" fill="#FFD36E"/>
 <text x="898" y="566" class="h3s" >Marketing</text>
 <text x="1086" y="565" class="kind" text-anchor="end">agent</text>
 <text x="898" y="588" class="bodys" >free shelf book every 12 h,</text>
 <text x="898" y="606" class="bodys" >emails subscribers</text>
-<rect x="898" y="616" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<rect x="898" y="616" width="53" height="20" rx="10" fill="#FFD36E"/>
 <text x="924.5" y="630" class="chip" text-anchor="middle">NAÏVE</text>
-<rect x="1119" y="545" width="216" height="104" rx="14" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
-<rect x="1114" y="540" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="1114" y="540" width="216" height="104" rx="18" fill="none" stroke="#FFD36E" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="1114" y="540" width="216" height="104" rx="18" fill="#0E1D52"/>
+<rect x="1114" y="540" width="216" height="104" rx="18" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="1130" y="538.5" width="44" height="3" rx="1.5" fill="#FFD36E"/>
 <text x="1128" y="566" class="h3s" >Night Manager</text>
 <text x="1316" y="565" class="kind" text-anchor="end">cron agent</text>
 <text x="1128" y="588" class="bodys" >wakes every 5 minutes and</text>
 <text x="1128" y="606" class="bodys" >calls the app’s MCP tick</text>
-<rect x="1128" y="616" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<rect x="1128" y="616" width="53" height="20" rx="10" fill="#FFD36E"/>
 <text x="1154.5" y="630" class="chip" text-anchor="middle">NAÏVE</text>
-<rect x="1344" y="540" width="216" height="104" rx="14" fill="#FFF1DA" stroke="#22223B" stroke-width="2" stroke-dasharray="6 6"/>
+<rect x="1344" y="540" width="216" height="104" rx="18" fill="#FFFFFF" fill-opacity=".04" stroke="#A9B6E0" stroke-opacity=".55" stroke-width="1.5" stroke-dasharray="6 6"/>
 <text x="1358" y="566" class="h3s" >+ Cashier</text>
 <text x="1546" y="565" class="kind" text-anchor="end">at the shop</text>
 <text x="1358" y="590" class="bodys" >agent = Naïve agent</text>
 <text x="1358" y="608" class="bodys" >code = a plain program</text>
 <text x="1358" y="626" class="bodys" >chip = who does the work</text>
 <text x="40" y="700" class="sec" >CLOCKS</text>
-<rect x="45" y="717" width="189" height="108" rx="14" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
-<rect x="40" y="712" width="189" height="108" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
-<g transform="translate(203 796)"><circle r="13" fill="#FFF8EC" stroke="#22223B" stroke-width="2"/><path d="M0 0 V-8 M0 0 L6 4" stroke="#22223B" stroke-width="2" stroke-linecap="round"/></g>
+<rect x="40" y="712" width="189" height="108" rx="18" fill="none" stroke="#FFD36E" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="40" y="712" width="189" height="108" rx="18" fill="#0E1D52"/>
+<rect x="40" y="712" width="189" height="108" rx="18" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="56" y="710.5" width="44" height="3" rx="1.5" fill="#FFD36E"/>
+<g transform="translate(203 796)"><circle r="13" fill="#13296B" stroke="#FFD36E" stroke-width="2"/><path d="M0 0 V-8 M0 0 L6 4" stroke="#FFD36E" stroke-width="2" stroke-linecap="round"/></g>
 <text x="54" y="741" class="h3s" >Night Manager</text>
 <text x="54" y="764" class="bodys" >Naïve cron, every 5 min,</text>
 <text x="54" y="782" class="bodys" >calls the MCP tick tool</text>
-<rect x="54" y="792" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<rect x="54" y="792" width="53" height="20" rx="10" fill="#FFD36E"/>
 <text x="80.5" y="806" class="chip" text-anchor="middle">NAÏVE</text>
-<rect x="250" y="717" width="189" height="108" rx="14" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
-<rect x="245" y="712" width="189" height="108" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
-<g transform="translate(408 796)"><circle r="13" fill="#FFF8EC" stroke="#22223B" stroke-width="2"/><path d="M0 0 V-8 M0 0 L6 4" stroke="#22223B" stroke-width="2" stroke-linecap="round"/></g>
+<rect x="245" y="712" width="189" height="108" rx="18" fill="none" stroke="#FFD36E" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="245" y="712" width="189" height="108" rx="18" fill="#0E1D52"/>
+<rect x="245" y="712" width="189" height="108" rx="18" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="261" y="710.5" width="44" height="3" rx="1.5" fill="#FFD36E"/>
+<g transform="translate(408 796)"><circle r="13" fill="#13296B" stroke="#FFD36E" stroke-width="2"/><path d="M0 0 V-8 M0 0 L6 4" stroke="#FFD36E" stroke-width="2" stroke-linecap="round"/></g>
 <text x="259" y="741" class="h3s" >session.idle</text>
 <text x="259" y="764" class="bodys" >Naïve webhook: an agent</text>
 <text x="259" y="782" class="bodys" >finished, resume its job</text>
-<rect x="259" y="792" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<rect x="259" y="792" width="53" height="20" rx="10" fill="#FFD36E"/>
 <text x="285.5" y="806" class="chip" text-anchor="middle">NAÏVE</text>
-<rect x="455" y="717" width="189" height="108" rx="14" fill="#FFC233" stroke="#22223B" stroke-width="2"/>
-<rect x="450" y="712" width="189" height="108" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
-<g transform="translate(613 796)"><circle r="13" fill="#FFF8EC" stroke="#22223B" stroke-width="2"/><path d="M0 0 V-8 M0 0 L6 4" stroke="#22223B" stroke-width="2" stroke-linecap="round"/></g>
+<rect x="450" y="712" width="189" height="108" rx="18" fill="none" stroke="#FFB13B" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="450" y="712" width="189" height="108" rx="18" fill="#0E1D52"/>
+<rect x="450" y="712" width="189" height="108" rx="18" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="466" y="710.5" width="44" height="3" rx="1.5" fill="#FFB13B"/>
+<g transform="translate(613 796)"><circle r="13" fill="#13296B" stroke="#FFD36E" stroke-width="2"/><path d="M0 0 V-8 M0 0 L6 4" stroke="#FFD36E" stroke-width="2" stroke-linecap="round"/></g>
 <text x="464" y="741" class="h3s" >message.received</text>
 <text x="464" y="764" class="bodys" >AgentMail webhook:</text>
 <text x="464" y="782" class="bodys" >a family wrote back</text>
-<rect x="464" y="792" width="82" height="20" rx="10" fill="#FFC233" stroke="#22223B" stroke-width="1.5"/>
+<rect x="464" y="792" width="82" height="20" rx="10" fill="#FFB13B"/>
 <text x="505" y="806" class="chip" text-anchor="middle">AGENTMAIL</text>
-<rect x="660" y="717" width="189" height="108" rx="14" fill="#B8A1FF" stroke="#22223B" stroke-width="2"/>
-<rect x="655" y="712" width="189" height="108" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
-<g transform="translate(818 796)"><circle r="13" fill="#FFF8EC" stroke="#22223B" stroke-width="2"/><path d="M0 0 V-8 M0 0 L6 4" stroke="#22223B" stroke-width="2" stroke-linecap="round"/></g>
+<rect x="655" y="712" width="189" height="108" rx="18" fill="none" stroke="#3D7BFF" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="655" y="712" width="189" height="108" rx="18" fill="#0E1D52"/>
+<rect x="655" y="712" width="189" height="108" rx="18" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="671" y="710.5" width="44" height="3" rx="1.5" fill="#3D7BFF"/>
+<g transform="translate(818 796)"><circle r="13" fill="#13296B" stroke="#FFD36E" stroke-width="2"/><path d="M0 0 V-8 M0 0 L6 4" stroke="#FFD36E" stroke-width="2" stroke-linecap="round"/></g>
 <text x="669" y="741" class="h3s" >Page pulses</text>
 <text x="669" y="764" class="bodys" >an open order or office</text>
 <text x="669" y="782" class="bodys" >page nudges the clock</text>
-<rect x="669" y="792" width="38" height="20" rx="10" fill="#B8A1FF" stroke="#22223B" stroke-width="1.5"/>
+<rect x="669" y="792" width="38" height="20" rx="10" fill="#3D7BFF"/>
 <text x="688" y="806" class="chip" text-anchor="middle">WEB</text>
-<line x1="134.5" y1="708" x2="134.5" y2="678" stroke="#22223B" stroke-width="2.5" stroke-linecap="round"/>
-<line x1="339.5" y1="708" x2="339.5" y2="678" stroke="#22223B" stroke-width="2.5" stroke-linecap="round"/>
-<line x1="544.5" y1="708" x2="544.5" y2="678" stroke="#22223B" stroke-width="2.5" stroke-linecap="round"/>
-<line x1="749.5" y1="708" x2="749.5" y2="678" stroke="#22223B" stroke-width="2.5" stroke-linecap="round"/>
-<line x1="134.5" y1="678" x2="864" y2="678" stroke="#22223B" stroke-width="2.5" stroke-linecap="round"/>
-<path d="M719 678 V654" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
-<rect x="148.5" y="656" width="404" height="20" rx="6" fill="#FFF8EC"/>
+<line x1="134.5" y1="708" x2="134.5" y2="678" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="339.5" y1="708" x2="339.5" y2="678" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="544.5" y1="708" x2="544.5" y2="678" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="749.5" y1="708" x2="749.5" y2="678" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="134.5" y1="678" x2="864" y2="678" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M719 678 V654" fill="none" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<rect x="148.5" y="656" width="404" height="20" rx="6" fill="#0A1847"/>
 <text x="154.5" y="671" class="tinyb" >every wake-up runs tick(): claim due jobs for ~6.5 s</text>
-<rect x="45" y="851" width="804" height="104" rx="16" fill="#3BB273" stroke="#22223B" stroke-width="2"/>
-<rect x="40" y="846" width="804" height="104" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
-<g transform="translate(80 898)"><circle r="22" fill="#FFF8EC" stroke="#22223B" stroke-width="2"/><path d="M-11 -4 A12 12 0 1 1 -4 10" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round"/><path d="M-16 -9 L-11 -2 L-4 -8" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+<rect x="40" y="846" width="804" height="104" rx="20" fill="none" stroke="#FF6FAE" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="40" y="846" width="804" height="104" rx="20" fill="#0E1D52"/>
+<rect x="40" y="846" width="804" height="104" rx="20" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="56" y="844.5" width="44" height="3" rx="1.5" fill="#FF6FAE"/>
+<g transform="translate(80 898)"><circle r="22" fill="#13296B" stroke="#FFD36E" stroke-width="2"/><path d="M-11 -4 A12 12 0 1 1 -4 10" fill="none" stroke="#FFD36E" stroke-width="2.5" stroke-linecap="round"/><path d="M-16 -9 L-11 -2 L-4 -8" fill="none" stroke="#FFD36E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g>
 <text x="118" y="878" class="h3" >+ self-continuation</text>
 <text x="118" y="904" class="bodys" >On serverless nothing runs between requests, so after each tick the app POSTs /api/pulse to itself while work is due.</text>
 <text x="118" y="926" class="bodys" >One lease in Postgres = one chain at a time; a depth cap means it can never loop forever. Books finish with nobody watching.</text>
-<path d="M850 876 H864 V686" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<path d="M850 876 H864 V686" fill="none" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
 <text x="884" y="700" class="sec" >THE RECORD</text>
-<path d="M1222 654 V704" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<path d="M1222 654 V704" fill="none" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
 <text x="1234" y="684" class="tinyb" >every step writes a ledger line</text>
-<rect x="889" y="717" width="676" height="108" rx="16" fill="#B8A1FF" stroke="#22223B" stroke-width="2"/>
-<rect x="884" y="712" width="676" height="108" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="884" y="712" width="676" height="108" rx="20" fill="none" stroke="#3D7BFF" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="884" y="712" width="676" height="108" rx="20" fill="#0E1D52"/>
+<rect x="884" y="712" width="676" height="108" rx="20" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="900" y="710.5" width="44" height="3" rx="1.5" fill="#3D7BFF"/>
 <text x="900" y="742" class="h3" >Public ledger</text>
-<rect x="1044" y="726" width="67" height="20" rx="10" fill="#B8A1FF" stroke="#22223B" stroke-width="1.5"/>
+<rect x="1044" y="726" width="67" height="20" rx="10" fill="#3D7BFF"/>
 <text x="1077.5" y="740" class="chip" text-anchor="middle">SHA-256</text>
 <text x="900" y="770" class="mono" >hash = sha256(canonical sorted-key JSON + prev hash)</text>
 <text x="900" y="796" class="bodys" >Every human action is logged as an intervention. Anyone can re-verify the chain.</text>
-<rect x="1364" y="730" width="34" height="26" rx="6" fill="#FFC233" stroke="#22223B" stroke-width="2"/>
-<line x1="1398" y1="743" x2="1410" y2="743" stroke="#22223B" stroke-width="2.5"/>
-<rect x="1410" y="730" width="34" height="26" rx="6" fill="#4DA8DA" stroke="#22223B" stroke-width="2"/>
-<line x1="1444" y1="743" x2="1456" y2="743" stroke="#22223B" stroke-width="2.5"/>
-<rect x="1456" y="730" width="34" height="26" rx="6" fill="#3BB273" stroke="#22223B" stroke-width="2"/>
-<line x1="1490" y1="743" x2="1502" y2="743" stroke="#22223B" stroke-width="2.5"/>
-<rect x="1502" y="730" width="34" height="26" rx="6" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
-<rect x="889" y="851" width="328" height="104" rx="16" fill="#4DA8DA" stroke="#22223B" stroke-width="2"/>
-<rect x="884" y="846" width="328" height="104" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="1364" y="730" width="34" height="26" rx="6" fill="#FFB13B"/>
+<line x1="1398" y1="743" x2="1410" y2="743" stroke="#A9B6E0" stroke-width="2.5"/>
+<rect x="1410" y="730" width="34" height="26" rx="6" fill="#6FC3FF"/>
+<line x1="1444" y1="743" x2="1456" y2="743" stroke="#A9B6E0" stroke-width="2.5"/>
+<rect x="1456" y="730" width="34" height="26" rx="6" fill="#FF6FAE"/>
+<line x1="1490" y1="743" x2="1502" y2="743" stroke="#A9B6E0" stroke-width="2.5"/>
+<rect x="1502" y="730" width="34" height="26" rx="6" fill="#FFD36E"/>
+<rect x="884" y="846" width="328" height="104" rx="20" fill="none" stroke="#6FC3FF" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="884" y="846" width="328" height="104" rx="20" fill="#0E1D52"/>
+<rect x="884" y="846" width="328" height="104" rx="20" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="900" y="844.5" width="44" height="3" rx="1.5" fill="#6FC3FF"/>
 <text x="900" y="876" class="h3" >Public board</text>
 <text x="1196" y="875" class="mono" text-anchor="end">/board</text>
 <text x="900" y="902" class="bodys" >books, revenue, agent runs and every</text>
 <text x="900" y="922" class="bodys" >intervention, live; chain verified</text>
-<rect x="1237" y="851" width="328" height="104" rx="16" fill="#FFC233" stroke="#22223B" stroke-width="2"/>
-<rect x="1232" y="846" width="328" height="104" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<rect x="1232" y="846" width="328" height="104" rx="20" fill="none" stroke="#FFB13B" stroke-opacity=".55" stroke-width="4" filter="url(#nlsoft)"/>
+<rect x="1232" y="846" width="328" height="104" rx="20" fill="#0E1D52"/>
+<rect x="1232" y="846" width="328" height="104" rx="20" fill="url(#nlglass)" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="1248" y="844.5" width="44" height="3" rx="1.5" fill="#FFB13B"/>
 <text x="1248" y="876" class="h3" >3D office</text>
 <text x="1544" y="875" class="mono" text-anchor="end">/office</text>
 <text x="1248" y="902" class="bodys" >Three.js: the 12 desks act out the</text>
 <text x="1248" y="922" class="bodys" >ledger as the company works</text>
-<path d="M1048 826 V840" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
-<path d="M1396 826 V840" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<path d="M1048 826 V840" fill="none" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<path d="M1396 826 V840" fill="none" stroke="#A9B6E0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
 <text x="800" y="994" class="stat" text-anchor="middle">Measured locally: order → bound book in 1.6 min · in the inbox at 102 s · revision re-emailed in 46 s · paintings $0.122 per book · ≈94% gross margin on $19</text>
-<path d="M0 1040 C 220 1000, 420 1002, 640 1030 S 1060 1076, 1280 1022 S 1520 996, 1600 1012 V1150 H0 Z" fill="#3BB273" fill-opacity=".45" stroke="#22223B" stroke-width="2"/>
-<path d="M0 1076 C 260 1050, 520 1042, 800 1064 S 1300 1086, 1600 1058 V1150 H0 Z" fill="#3BB273" stroke="#22223B" stroke-width="2"/>
-<rect x="107.5" y="1088" width="1385" height="40" rx="20" fill="#FFF8EC" stroke="#22223B" stroke-width="2"/>
-<rect x="125.5" y="1098" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<path d="M0 1040 C 220 1000, 420 1002, 640 1030 S 1060 1076, 1280 1022 S 1520 996, 1600 1012 V1150 H0 Z" fill="#1F3FA6" fill-opacity=".35" stroke="#6FC3FF" stroke-opacity=".25" stroke-width="1.5"/>
+<path d="M0 1076 C 260 1050, 520 1042, 800 1064 S 1300 1086, 1600 1058 V1150 H0 Z" fill="#0B1A4A" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="107.5" y="1088" width="1385" height="40" rx="20" fill="#050B2E" fill-opacity=".85" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1.5"/>
+<rect x="125.5" y="1098" width="53" height="20" rx="10" fill="#FFD36E"/>
 <text x="152" y="1112" class="chip" text-anchor="middle">NAÏVE</text>
 <text x="186.5" y="1113" class="bodys" >agents, schedules, speech, hosting, Postgres, MCP, webhooks</text>
-<rect x="601.5" y="1098" width="53" height="20" rx="10" fill="#4DA8DA" stroke="#22223B" stroke-width="1.5"/>
+<rect x="601.5" y="1098" width="53" height="20" rx="10" fill="#6FC3FF"/>
 <text x="628" y="1112" class="chip" text-anchor="middle">MONID</text>
 <text x="662.5" y="1113" class="bodys" >paintings, SMS, phone</text>
-<rect x="827.5" y="1098" width="82" height="20" rx="10" fill="#FFC233" stroke="#22223B" stroke-width="1.5"/>
+<rect x="827.5" y="1098" width="82" height="20" rx="10" fill="#FFB13B"/>
 <text x="868.5" y="1112" class="chip" text-anchor="middle">AGENTMAIL</text>
 <text x="917.5" y="1113" class="bodys" >email in + out</text>
-<rect x="1035.5" y="1098" width="82" height="20" rx="10" fill="#3BB273" stroke="#22223B" stroke-width="1.5"/>
+<rect x="1035.5" y="1098" width="82" height="20" rx="10" fill="#FF6FAE"/>
 <text x="1076.5" y="1112" class="chip" text-anchor="middle">MOBILERUN</text>
 <text x="1125.5" y="1113" class="bodys" >real-phone proofreading</text>
-<rect x="1303.5" y="1098" width="45" height="20" rx="10" fill="#B8A1FF" stroke="#22223B" stroke-width="1.5"/>
+<rect x="1303.5" y="1098" width="45" height="20" rx="10" fill="#3D7BFF"/>
 <text x="1326" y="1112" class="chip" text-anchor="middle">CODE</text>
 <text x="1356.5" y="1113" class="bodys" >plain programs</text>
 </svg>

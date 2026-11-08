@@ -1,14 +1,16 @@
 (() => {
   const ID = window.BOOK_ID, $ = (s) => document.querySelector(s); let book = null, pages = [], at = 0, playing = false, ver = "";
-  const pic = $("#pic"), txt = $("#txt"), aud = $("#aud"), dots = $("#dots");
+  const pic = $("#pic"), txt = $("#txt"), aud = $("#aud"), dots = $("#dots"), spread = $("#spread");
   const facts = () => (Array.isArray(book?.robot_facts) ? book.robot_facts : []);
   const slides = () => [{ cover: true }, ...pages, ...(facts().length ? [{ facts: true }] : [])];
-  const vid = document.createElement("video"); vid.id = "vid"; vid.muted = true; vid.loop = true; vid.playsInline = true; vid.setAttribute("playsinline", ""); vid.style.cssText = "width:100%;aspect-ratio:3/2;object-fit:cover;display:none;background:#0b1a4a"; pic.after(vid);
+  const vid = document.createElement("video"); vid.id = "vid"; vid.muted = true; vid.loop = true; vid.playsInline = true; vid.setAttribute("playsinline", ""); vid.style.cssText = "width:100%;aspect-ratio:3/2;object-fit:cover;display:none;background:#13296B"; pic.after(vid);
   function showMedia(imageId, videoId) { if (videoId) { pic.style.display = "none"; vid.style.display = "block"; const src = `/api/media/${videoId}`; if (!vid.src.endsWith(src)) { vid.src = src; vid.poster = imageId ? `/api/media/${imageId}` : ""; } vid.play().catch(() => {}); } else { vid.pause(); vid.style.display = "none"; pic.style.display = "block"; pic.src = imageId ? `/api/media/${imageId}` : ""; } }
   function render() {
     const s = slides()[at]; if (!s) return;
-    if (s.facts) { showMedia(pages[pages.length - 1]?.image_media_id, null); txt.innerHTML = `<div style="font:600 26px/1.2 var(--display, Fredoka)">🤖 Learn about robots</div><ol style="text-align:left;max-width:640px;margin:12px auto 0;padding-left:22px;line-height:1.5">${facts().map((f) => `<li style="margin:6px 0">${esc(f)}</li>`).join("")}</ol>`; }
-    else if (s.cover) { showMedia(book.cover_media_id, book.cover_video_media_id); txt.innerHTML = `<span style="font:600 28px/1.2 var(--display)">${esc(book.title || "")}</span>${book.dedication ? `<div class="small muted" style="margin-top:8px;font-style:italic">${esc(book.dedication)}</div>` : ""}`; }
+    if (s.facts && !spread.classList.contains("fx")) spread.style.minHeight = `${spread.offsetHeight}px`; else if (!s.facts) spread.style.minHeight = "";
+    spread.classList.toggle("fx", !!s.facts);
+    if (s.facts) { vid.pause(); vid.style.display = "none"; pic.style.display = "none"; txt.innerHTML = `<div class="fx-h">Learn about robots</div><div class="fx-s">Three true things to wonder about together</div><ol class="fx-l">${facts().slice(0, 3).map((f, i) => `<li><i>${i + 1}</i><span>${esc(f)}</span></li>`).join("")}</ol>`; }
+    else if (s.cover) { showMedia(book.cover_media_id, book.cover_video_media_id); txt.innerHTML = `<span class="cvt">${esc(book.title || "")}</span>${book.dedication ? `<div class="ded">${esc(book.dedication)}</div>` : ""}`; }
     else { showMedia(s.image_media_id, s.video_media_id); txt.textContent = s.text; }
     dots.innerHTML = slides().map((_, i) => `<i class="${i === at ? "on" : ""}"></i>`).join("");
     const nx = slides()[at + 1]; if (nx?.image_media_id) { const im = new Image(); im.src = `/api/media/${nx.image_media_id}`; }

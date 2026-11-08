@@ -7,20 +7,20 @@
 <p align="center"><b>A bedtime picture book starring your child, written, painted, narrated, bound and emailed in under two minutes by a publisher with no employees.</b></p>
 
 <p align="center">
-  <a href="https://nightlight-press-z5ept2z3by3j.vercel.app"><img alt="Live demo" src="https://img.shields.io/badge/live%20demo-open%20the%20shop-FF6B4A?style=for-the-badge"></a>
+  <a href="https://nightlight-press-z5ept2z3by3j.vercel.app"><img alt="Live demo" src="https://img.shields.io/badge/live%20demo-open%20the%20shop-FFD36E?style=for-the-badge"></a>
 </p>
 
 <p align="center">
-  <img alt="Employees: 0" src="https://img.shields.io/badge/employees-0-22223B?style=flat-square">
-  <img alt="Price: $19" src="https://img.shields.io/badge/price-%2419%20one--time-FF6B4A?style=flat-square">
-  <img alt="Order to inbox: 102 s" src="https://img.shields.io/badge/order%20%E2%86%92%20inbox-102%20s-3BB273?style=flat-square">
-  <img alt="Gross margin about 94%" src="https://img.shields.io/badge/gross%20margin-%E2%89%8894%25-FFC233?style=flat-square">
+  <img alt="Employees: 0" src="https://img.shields.io/badge/employees-0-0B1A4A?style=flat-square">
+  <img alt="Price: $19" src="https://img.shields.io/badge/price-%2419%20one--time-FF6FAE?style=flat-square">
+  <img alt="Order to inbox: 102 s" src="https://img.shields.io/badge/order%20%E2%86%92%20inbox-102%20s-6FC3FF?style=flat-square">
+  <img alt="Gross margin about 94%" src="https://img.shields.io/badge/gross%20margin-%E2%89%8894%25-FFD36E?style=flat-square">
   <br>
-  <img alt="Built on Naïve" src="https://img.shields.io/badge/built%20on-Na%C3%AFve-FF6B4A?style=flat-square">
-  <img alt="Monid" src="https://img.shields.io/badge/paints%20%26%20phones-Monid-4DA8DA?style=flat-square">
-  <img alt="AgentMail" src="https://img.shields.io/badge/mail-AgentMail-FFC233?style=flat-square">
-  <img alt="Mobilerun" src="https://img.shields.io/badge/proofs%20on%20a%20real%20phone-Mobilerun-3BB273?style=flat-square">
-  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-B8A1FF?style=flat-square">
+  <img alt="Built on Naïve" src="https://img.shields.io/badge/built%20on-Na%C3%AFve-FFD36E?style=flat-square">
+  <img alt="Monid" src="https://img.shields.io/badge/paints%20%26%20phones-Monid-6FC3FF?style=flat-square">
+  <img alt="AgentMail" src="https://img.shields.io/badge/mail-AgentMail-FF6FAE?style=flat-square">
+  <img alt="Mobilerun" src="https://img.shields.io/badge/proofs%20on%20a%20real%20phone-Mobilerun-3D7BFF?style=flat-square">
+  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-0B1A4A?style=flat-square">
 </p>
 
 <p align="center">
