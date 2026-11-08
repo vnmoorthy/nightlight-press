@@ -1,0 +1,23 @@
+# dependencies and builds
+node_modules/
+app/node_modules/
+deck/build/node_modules/
+app/dist/
+# secrets: never commit
+.env
+.env.*
+app/.env.local
+**/.env
+**/.env.local
+# generated (rebuilt by app/gen-prompts.mjs from prompts/ and fonts)
+app/src/prompts.generated.js
+# local noise
+*.log
+.DS_Store
+.vercel/
+.naive/
+deck/build/qa/
+# bulky intermediates (final renders live in assets/blender/*.mp4|png|jpg)
+assets/blender/renders/
+assets/blender/frames/
+deck/build/shots/
