@@ -334,7 +334,11 @@ export async function chainPulse(depth = 0) {
   const base = BASE();
   if (!/^https:\/\//.test(base) || process.env.SELF_PULSE === "0") return false;
   if (depth >= Number(process.env.CHAIN_MAX || 400)) return false;
-  if (!(await dueCount())) return false;
+  // When the next job is a few seconds away (a painting or film still rendering), wait for it here,
+  // inside the background run, rather than letting the chain stop.
+  const next = await one(`select extract(epoch from (min(next_run_at) - now())) * 1000 as ms from jobs where status in ('queued','waiting')`);
+  if (next?.ms == null || Number(next.ms) > 20_000) return false;
+  if (Number(next.ms) > 0) await new Promise((r) => setTimeout(r, Math.min(Number(next.ms) + 300, 18_000)));
   const lease = await one(`insert into kv(k, v, updated_at) values('chain', '0', now()) on conflict (k) do update set updated_at=now() where $1::int > 0 or kv.updated_at < now() - interval '15 seconds' returning k`, [depth]);
   if (!lease) return false;
   try { await fetch(`${base}/api/pulse`, { method: "POST", headers: { "x-chain-depth": String(depth + 1) }, signal: AbortSignal.timeout(8000) }); } catch { /* the Night Manager and webhooks will pick it up */ }
