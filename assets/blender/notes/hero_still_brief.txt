@@ -1,0 +1,46 @@
+Write a complete Blender 5.2 Python script that builds and renders ONE still image: key art for "Nightlight Press", a children's picture-book publisher run entirely by friendly AI agents.
+
+SCENE BRIEF (hero_still)
+A tiny handmade miniature diorama of the Nightlight Press office, in a warm, sunny, rounded clay / paper-cut storybook style (think felt, matte clay and thick cut paper; everything soft, chunky and bevelled, no sharp edges, no realism, no text).
+- The office sits on a thick rounded-rectangle paper base (about 16 x 10 units, 0.6 thick, bevelled, cream paper FFF8EC with a slightly darker tomato or sun-coloured edge band) floating on an infinite soft cream backdrop (large ground plane, same paper colour, plus a curved cyclorama/backdrop so there is no horizon line).
+- Two rows of little desks on the base: 6 desks in the back row, 5 in the front row, with a walkway between rows. Each desk: rounded box tabletop on 4 short cylinder legs, a tiny monitor or open laptop, a little stack of paper or mug. Under each desk a round flat pastel rug (paper disc). Rug colours cycle through lilac B8A1FF, sky 4DA8DA, leaf 3BB273, sun FFC233, tomato FF6B4A (lightened toward paper so they are pastel).
+- At every desk sits one cute AI agent character: a rounded capsule body (palette colour), a big sphere head in paper/cream colour with two small ink 22223B dot eyes and a tiny rosy cheek dot, maybe a small antenna with a glowing sun-coloured ball. Vary body colours across the palette. Agents face their desks; give a couple a slight head tilt toward the flying book.
+- Props for charm: 3 or 4 rounded potted plants (leaf-green sphere clusters in tomato pots), a small bookshelf of chunky colourful books at one end, a little printing press (rounded boxes + cylinder rollers) at the other end, a paper-cut cloud or two and a small sun disc on thin sticks at the back edge of the base.
+- HERO ELEMENT: a glowing open picture book in mid-flight above the desks, slightly right of centre of the diorama, roughly 2.5-3.5 units above the desk tops. Open book = two slightly V-angled page slabs (paper colour, slightly emissive warm white, emission strength ~3-6) on a tomato FF6B4A hard cover. A soft warm point/area light inside the book so it casts golden light down onto the desks. A gentle arcing trail of 40-70 tiny emissive sparkle spheres (sun FFC233 and paper white, radius 0.03-0.08, emission strength 8-20) curving from one of the desks up to the book, plus 20-30 floating dust/sparkle spheres scattered around the book.
+- Animation (keep it, even though we render one still): keyframe the book on a gentle arc rising from a front-row desk (frame 1) to its hero position (frame 48) with a slight rotation wobble; keyframe sparkle spheres to drift/bob. Render the still at the frame given by env var NL_FRAME (default 48).
+
+CAMERA AND COMPOSITION (very important)
+- Three-quarter top-down view: camera elevated about 45-55 degrees looking down at the diorama, rotated about 30-40 degrees around Z so we see two sides of the base. Focal length 50-70 mm, slightly telephoto so it reads like a miniature.
+- Output aspect 2400x1260 (1.905:1). The diorama must sit in the RIGHT and LOWER part of the frame: its bounding box should occupy roughly the right 60-65% horizontally and the lower 70% vertically. The UPPER-LEFT third of the image must be calm, EMPTY soft cream/warm backdrop (no objects, no sparkles, no bright highlights there) because a title will be overlaid there. Achieve this with camera shift (camera.data.shift_x / shift_y, e.g. shift_x around -0.15 to -0.2 and shift_y around +0.08 to +0.12) rather than by cropping the diorama.
+- Depth of field: camera.data.dof.use_dof = True, focus on an empty placed at the flying book, aperture_fstop around 2.8-4 so the back of the diorama and backdrop melt softly (tilt-shift miniature feel) while the book and middle desks stay sharp.
+
+LIGHTING (warm morning)
+- One SUN light, warm (around 1.0, 0.86, 0.68), strength 3-4, coming low from the back-right so long soft shadows fall toward the camera-left; angle (light.angle) about 8-12 degrees for soft shadow edges.
+- Two or three large AREA lights for soft fill: a big soft cool-ish sky fill from camera-left (very light sky blue, low power) and a warm bounce from the front. Keep shadows soft, contrast gentle, nothing pitch black.
+- World background colour warm cream (around 1.0, 0.96, 0.9) at strength 0.4-0.7 so ambient light is warm.
+- Colour management: view_transform 'AgX' (look 'AgX - Base Contrast' or none) or 'Standard' — the final image must read bright, warm and creamy, not grey. Exposure can be raised slightly (+0.2 to +0.5).
+
+MATERIALS
+- Simple Principled BSDF per palette colour: roughness 0.6-0.85, specular low, a little sheen (Sheen Weight 0.2-0.4) for felt/paper softness; optional very subtle bump from a Noise Texture (strength ~0.05) for paper grain. Palette: paper FFF8EC, ink 22223B, tomato FF6B4A, sun FFC233, sky 4DA8DA, leaf 3BB273, lilac B8A1FF. Convert hex sRGB to linear for Base Color.
+- Emissive materials (Emission Color + Emission Strength sockets on Principled BSDF) for book pages, antenna balls and sparkles.
+
+TECHNICAL CONSTRAINTS (Blender 5.2.1 LTS, run headless: Blender -b --factory-startup -P script.py)
+- Start by deleting all default objects; build everything procedurally from primitives (bpy.ops.mesh.primitive_* or bmesh): cubes with Bevel modifiers (segments 3-4, width 0.05-0.15) for rounded boxes, UV spheres / cylinders with Subdivision Surface or smooth shading. No external assets, no image textures, no add-ons, no text objects. Use bpy.ops.object.shade_smooth() (or mesh polygons use_smooth) on curved parts.
+- Render engine: scene.render.engine = 'BLENDER_EEVEE' (in 5.2 this is the only EEVEE identifier; wrap in try/except and fall back to 'BLENDER_EEVEE_NEXT'). scene.eevee.taa_render_samples from env NL_SAMPLES (default 32). You may enable scene.eevee.use_raytracing = True and scene.eevee.use_shadows = True; set light.shadow_soft_size / light.angle for soft shadows. There is NO scene.eevee.use_bloom and NO use_gtao in 5.x — do not use them.
+- Bloom via the compositor, Blender 5.x API (scene.node_tree NO LONGER EXISTS and CompositorNodeComposite no longer exists):
+    ng = bpy.data.node_groups.new("NL_Comp", "CompositorNodeTree")
+    ng.interface.new_socket(name="Image", in_out='OUTPUT', socket_type='NodeSocketColor')
+    rl = ng.nodes.new("CompositorNodeRLayers"); out = ng.nodes.new("NodeGroupOutput")
+    glare = ng.nodes.new("CompositorNodeGlare")
+    glare.inputs["Type"].default_value = 'Bloom'   # menu socket; valid: 'Bloom','Fog Glow','Streaks',...
+    glare.inputs["Quality"].default_value = 'High'  # 'High','Medium','Low'
+    glare.inputs["Threshold"].default_value = 0.9; glare.inputs["Strength"].default_value = 0.6; glare.inputs["Size"].default_value = 0.6
+    ng.links.new(rl.outputs["Image"], glare.inputs["Image"]); ng.links.new(glare.outputs["Image"], out.inputs["Image"])
+    scene.compositing_node_group = ng
+  Glare settings are INPUT SOCKETS (not node properties) in 5.x. Do not use scene.use_nodes.
+- Depth of field via camera.data.dof (use_dof, focus_object, aperture_fstop).
+- Sparkles/dust: small emissive UV spheres (low segment counts, e.g. 12x8) animated with keyframe_insert on location; do NOT use particle systems. Share one or two materials across all sparkles.
+- Lights: one SUN + 2-3 AREA lights (+ optional point light in the book). Light energy in watts (area lights 100-600 W given scene scale of ~16 units).
+- Read these env vars: NL_OUT (full output PNG file path, required), NL_RES_X (default 2400), NL_RES_Y (default 1260), NL_SAMPLES (default 32), NL_FRAME (default 48). Set scene.render.resolution_percentage = 100, image_settings.file_format = 'PNG', color_mode 'RGB', film_transparent False. Set scene.frame_start=1, frame_end=48, scene.frame_set(NL_FRAME), render.filepath = NL_OUT and call bpy.ops.render.render(write_still=True).
+- Keep render time small: low samples, total object count under ~400, no volumetrics, no hair, no displacement modifiers.
+- Wrap only optional niceties in try/except; core scene must build without errors. Print a short summary at the end.
