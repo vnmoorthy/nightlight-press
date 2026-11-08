@@ -1277,6 +1277,7 @@ def main():
         scene.render.filepath = os.path.join(output, "frame_")
         scene.frame_start = int(os.environ.get('NL_START', '1'))
         scene.frame_end = int(os.environ.get('NL_END', '330'))
+        scene.frame_step = int(os.environ.get('NL_STEP', '1'))
         bpy.ops.render.render(animation=True)
 
     elapsed = time.perf_counter() - start

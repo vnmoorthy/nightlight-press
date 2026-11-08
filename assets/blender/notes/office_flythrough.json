@@ -1,0 +1,143 @@
+{
+  "shot": "office_flythrough",
+  "model": "gpt-6-astra (OpenAI chat completions)",
+  "astra_rounds": 2,
+  "rounds": [
+    {
+      "round": 1,
+      "kind": "generate",
+      "seconds": 212.3,
+      "usage": {
+        "prompt_tokens": 3306,
+        "completion_tokens": 14686,
+        "total_tokens": 17992,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 3303,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 2048,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "script": "scripts/office_flythrough_astra_r1.py",
+      "lines": 881
+    },
+    {
+      "round": 2,
+      "kind": "revise",
+      "seconds": 131.1,
+      "usage": {
+        "prompt_tokens": 16651,
+        "completion_tokens": 14120,
+        "total_tokens": 30771,
+        "prompt_tokens_details": {
+          "cached_tokens": 3303,
+          "cache_write_tokens": 13345,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 490,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "script": "scripts/office_flythrough_astra_r2.py",
+      "lines": 1294
+    }
+  ],
+  "system_prompt": "You are a senior Blender technical artist who writes production-quality bpy scripts. Reply with ONE complete, self-contained Python script inside a single ```python code block and nothing else outside the block. The script must run headless with `Blender -b -P script.py --python-exit-code 1` on Blender 5.2 LTS.",
+  "prompt_round1_exact": "Write a Blender 5.2 Python (bpy) script that builds and renders an animated shot called \"office_flythrough\" for Nightlight Press, a children's picture-book publisher run by AI agents.\n\n== SHOT BRIEF ==\nA miniature isometric diorama of a cosy, sunny DAYTIME children's-book publishing office sitting on a round base, like a handmade clay + paper-cut toy model. Warm, rounded, soft, friendly; no sharp or realistic details.\n- Round base: a thick cylinder (radius ~5.4, height ~0.5) in paper cream with a thin tomato-coloured rim band; the room sits on top.\n- Wooden floor: a disc/plank floor in two warm honey-wood tones (thin rounded planks or a disc with darker plank strips).\n- Cutaway walls: only TWO walls, meeting at the back corner (the front is open so we see inside): a LEFT wall in the plane x = -3.5 (spanning y from about -2.2 to 3.5) and a BACK wall in the plane y = 3.5 (spanning x from -3.5 to about 3.0). Height ~2.8, thickness ~0.18, slightly rounded (bevel modifier). Back wall lilac, left wall paper cream, each with a thin paper-cream top trim.\n- Two windows in the LEFT wall (rectangular holes made by building the wall from several boxes, with paper-cream frames and a cross mullion). Warm sunlight streams through them across the floor (sun light angled so it enters through the left-wall windows and casts window-shaped patches on the floor).\n- A big round wall clock on the BACK wall (white face, ink hands, tomato rim) around x = 0.6, z = 2.0.\n- A tall bookshelf against the BACK wall around x = -1.6 with 3-4 shelves filled with small colourful books (rounded boxes of varied heights in tomato/sun/sky/leaf/lilac, a few leaning).\n- A FRONT DOOR in the BACK wall around x = 2.5 (an opening ~0.9 wide x 1.9 tall), with the door leaf swung open (hinged, rotated ~70 degrees outward) in sun-yellow with a little round knob. Behind/outside the doorway: a very bright warm sunlight glow (a large emissive plane outside the wall facing inward, warm white, strength ~6-8, plus an area light shining in through the doorway) so the doorway reads as glowing sunshine and blooms.\n- Two rows of little desks: back row at y = 1.3 and front row at y = -0.9, each row with desks at x = -1.8, 0.0, 1.8. Each desk: rounded wooden top on four short legs, a small monitor (rounded box, screen slightly emissive sky-blue, strength ~1.5), and a desk lamp (base, bent arm, cone shade in sun-yellow or tomato) with a small emissive bulb (warm yellow, strength ~12) plus a small point light (~15-25 W) so lamps glow and bloom.\n- Specific stations along the book's route:\n  1. WRITER desk = front-left desk (-1.8, -0.9): a stack of paper and a pencil on it.\n  2. EASEL standing near the left wall at about (-2.8, 0.4): a three-legged wooden easel holding a canvas with a simple painted sun/hill (flat coloured shapes).\n  3. MICROPHONE desk = back-middle desk (0.0, 1.3): a round studio microphone on a little stand.\n  4. little PRINTING PRESS at about (2.9, -0.6): a chunky rounded machine (tomato body, ink-coloured rollers, a stack of paper sheets).\n  5. MAIL desk = back-right desk (1.8, 1.3): a pile of envelopes and a small sky-blue mailbox.\n  (The other desks \u2014 front-middle and front-right and back-left \u2014 are just ordinary work desks.)\n- Potted plants (terracotta pot + 3-5 leaf-green rounded leaves/spheres) in a few spots: back-left corner, next to the door, near the front-right edge.\n- Small rounded clay STAFF figures (body = capsule/rounded cylinder, head = sphere, tiny ink dot eyes, no arms needed or simple stubby arms) seated on little stools at all six desks, facing their monitors (monitors are on the far side of each desk, figure on the near side facing +y... choose so faces are visible to the camera where possible). Body colours: tomato, sun, sky, leaf, lilac, tomato. Give each figure a gentle idle animation (head bob / slight sway, different phases).\n- THE HERO: a glowing open picture book (two thin cover boards in tomato forming a shallow V + a paper-cream page block whose material is emissive warm white, strength ~4-6) with a parented warm point light (~40-60 W, sun-tinted). The book starts resting on the writer desk, lifts off, and flies along a SMOOTH curved path (Catmull-Rom/Bezier through the waypoints, heights between 1.0 and 1.9 above the floor, arcing up between stations): writer desk -> easel -> microphone desk -> printing press -> mail desk -> out through the FRONT DOOR into the sunlight beyond (continue ~3 units past the door, outside the back wall, rising, and scale the book down / let it dissolve into the bright light). The book eases/slows a little near each station (hover) without fully stopping, gently flaps its covers like wings (cover rotation keyframes), orients along its direction of travel with a slight bank, and leaves a SPARKLE TRAIL: many tiny emissive spheres (sun-yellow and white, strength ~15-25) spawned behind the book every frame or two at its position with a small random offset; each sparkle pops in (scale 0 -> 1), drifts slightly down/out, and shrinks to 0 over ~20-30 frames (keyframe scale; never use particle systems).\n- Gentle floating DUST: ~60-80 tiny emissive warm specks (strength ~4-6, radius ~0.015-0.03) spread through the room volume, slowly bobbing/drifting with keyframes (sine-based positions keyed every ~15 frames), especially visible in the sun shafts.\n- CAMERA: slow cinematic orbit + dolly around the diorama at an isometric-ish elevation (~30-35 degrees down), seen from the open front. Orbit centre about (0, 0.8, 1.0); azimuth sweeps smoothly from about -125 deg to -65 deg (where -90 deg is straight in front, on the -y side), radius easing from ~14.5 to ~11.5, focal length ~55 mm, sensor 36 mm. The camera aims (Track To / or computed rotation) at a smoothed target that blends 55% book position + 45% orbit centre so the book stays in frame but the motion is calm. Near the end follow the book toward the door. Depth of field: camera.data.dof.use_dof = True, focus_object = the book, aperture_fstop ~1.2 (miniature tilt-shift feel; background and foreground clearly soft, book sharp).\n- LIGHTING: a warm Sun light (strength ~3-4, angle ~3 deg, colour slightly warm) coming from the left through the windows (rotate so its direction goes from -x toward +x and downward ~40 deg); a large soft AREA light above-front for fill (size ~8, warm white, ~400-800 W); a smaller cool sky-tinted area light from the right for gentle rim (~150-300 W). World background: a soft warm paper colour (FFF8EC-ish, strength ~0.6-0.9) so the image is bright, airy and sunny \u2014 NOT dark.\n- Overall look: bright, sunny morning, pastel storybook, soft clay/paper materials (Principled BSDF, roughness 0.6-0.85, no metal, specular low, optional tiny sheen), bloom on lamps/book/sparkles/doorway.\n\n== PALETTE (Daybreak storybook, hex sRGB; convert to linear for Base Color with a helper function) ==\npaper FFF8EC, ink 22223B, tomato FF6B4A, sun FFC233, sky 4DA8DA, leaf 3BB273, lilac B8A1FF. Woods: honey D9A066 / darker C08552; terracotta for pots E07A4F.\n\n== TIMELINE ==\n30 fps, frames 1..330 (11 s). Suggested book timing: frames 1-24 resting + glowing up; lift-off 24-40; easel ~80; microphone desk ~130; press ~180; mail desk ~230; door ~272; outside/dissolved by ~305; frames 305-330 the camera settles on the glowing doorway with sparkles fading. Sparkle trail emitted from frame ~28 to ~300.\n\n== TECHNICAL CONSTRAINTS (verified on this exact Blender 5.2.1 build \u2014 follow them) ==\n- Start by clearing the default scene via bpy.data (remove all objects, meshes, materials, lights, cameras) \u2014 do not rely on bpy.ops selection state.\n- Build everything procedurally from primitives (bpy.ops.mesh.primitive_* or bmesh); NO external assets, images, fonts or add-ons. Use Bevel modifiers (width small, segments 2-3) and shade_smooth for the rounded clay look. Keep total poly count modest (UV spheres with 8-16 segments for small things).\n- Share materials: create one material per colour (plus emissive variants) and reuse them.\n- Render engine: scene.render.engine = 'BLENDER_EEVEE' (wrap in try/except and fall back to 'BLENDER_EEVEE_NEXT'). Samples: scene.eevee.taa_render_samples = int(os.environ.get('NL_SAMPLES', '24')). Leave scene.eevee.use_raytracing False. scene.view_settings.view_transform = 'Standard' (keeps the palette accurate), look 'None', exposure 0.\n- Principled BSDF input names in 5.2: 'Base Color', 'Roughness', 'Metallic', 'Specular IOR Level', 'Emission Color', 'Emission Strength', 'Sheen Weight', 'Alpha'. New materials already have a node tree with 'Principled BSDF' and 'Material Output' nodes (mat.node_tree.nodes['Principled BSDF']); do not set mat.use_nodes (deprecated).\n- COMPOSITOR in Blender 5.x (IMPORTANT, the old API is gone): there is no scene.node_tree and no CompositorNodeComposite. Do exactly this:\n    ng = bpy.data.node_groups.new(\"NL_Comp\", \"CompositorNodeTree\")\n    scene.compositing_node_group = ng\n    rl = ng.nodes.new(\"CompositorNodeRLayers\")\n    glare = ng.nodes.new(\"CompositorNodeGlare\")\n    glare.inputs['Type'].default_value = 'Bloom'      # menu socket; valid: 'Bloom','Fog Glow','Streaks','Ghosts','Simple Star','Sun Beams','Kernel'\n    glare.inputs['Quality'].default_value = 'Medium'  # 'High','Medium','Low'\n    glare.inputs['Threshold'].default_value = 1.0 ; glare.inputs['Strength'].default_value = 0.6 ; glare.inputs['Size'].default_value = 0.6\n    out = ng.nodes.new(\"NodeGroupOutput\")\n    ng.interface.new_socket(name=\"Image\", in_out='OUTPUT', socket_type='NodeSocketColor')\n    ng.links.new(rl.outputs['Image'], glare.inputs['Image'])\n    ng.links.new(glare.outputs['Image'], out.inputs[0])\n  (Glare node settings are INPUT SOCKETS now, not properties: there is no glare.glare_type / glare.quality / glare.threshold attribute.)\n- Depth of field: cam.data.dof.use_dof, cam.data.dof.focus_object, cam.data.dof.aperture_fstop. (No other DOF settings needed.)\n- ANIMATION: use obj.keyframe_insert(data_path=..., frame=...) only. Blender 5 uses layered actions: Action.fcurves DOES NOT EXIST \u2014 do not touch action.fcurves or fcurve interpolation. For smooth motion compute positions in Python (Catmull-Rom spline + easing) and key the book, camera and aim-target EVERY frame; key sparkles/dust/figures at a few frames each. Avoid particle systems, drivers and frame-change handlers.\n- Use a single Empty as camera aim target with a TRACK_TO constraint on the camera (track_axis 'TRACK_NEGATIVE_Z', up_axis 'UP_Y'), keyframing the empty every frame.\n- Lights: bpy.data.lights.new(name, type='SUN'|'AREA'|'POINT'), set .energy, .color, for SUN .angle, for AREA .size / .shape; link via bpy.data.objects.new and scene.collection.objects.link.\n- Hide sparkles before their spawn frame with scale (0,0,0) keyframes (not hide_render).\n- Output and environment variables (REQUIRED):\n    NL_OUT     = output folder for frames (required); write PNG RGB 8-bit frames named frame_####.png (scene.render.filepath = os.path.join(NL_OUT, 'frame_') ; image_settings.file_format='PNG', color_mode='RGB', compression 15).\n    NL_FRAMES  = optional comma-separated list of frame numbers (e.g. \"1,60,140\"): if set, render ONLY those frames, each with scene.frame_set(f); scene.render.filepath = os.path.join(NL_OUT, f'frame_{f:04d}'); bpy.ops.render.render(write_still=True). If not set, render the full animation with bpy.ops.render.render(animation=True).\n    NL_RES_PCT = resolution percentage (default 100) applied to scene.render.resolution_percentage; base resolution 1600 x 900.\n    NL_SAMPLES = EEVEE render samples (default 24).\n  Set scene.frame_start=1, frame_end=330, render.fps=30. Print a short progress line and the total render time at the end.\n- Keep render time small (target < 2 s per frame at 1600x900 on an Apple M3): few lights (only the lamp point lights, the book light, sun, 2-3 area lights), modest geometry, no volumetrics, no motion blur.\n- Use a fixed random seed (random.seed(7)) so the result is reproducible.\n- Structure the script with small helper functions (hex_to_linear, make_mat, add_box/rounded_box, add_sphere, add_cylinder, build_desk, build_figure, build_lamp, build_book, catmull_rom, etc.) and a main() guarded by if __name__ == \"__main__\". Wrap main() so any exception prints a full traceback and exits with a non-zero status (sys.exit(1)).\n\nReturn the complete script only.\n",
+  "prompt_round2_exact": "Great first pass: it ran without errors and the diorama (bookshelf, clock, sign, desks, easel, press, door, plants, figures) looks charming. I rendered test frames 1, 70, 130, 200, 280, 320 at 40% and reviewed them. Please return the FULL revised script (same structure, same env vars) with these changes:\n\n1. EXPOSURE IS FAR TOO HIGH: the whole image is washed out to near-white and bloom spreads everywhere. With the 'Standard' view transform, keep surfaces below 1.0. Reduce: sun strength 3.25 -> ~1.7; above-front area fill 600 W -> ~220 W; rim area 225 W -> ~110 W; world strength 0.75 -> ~0.35; lamp point lights ~10 W. Raise the Glare threshold to ~1.3 and Strength to ~0.45 so ONLY the lamps, book, sparkles and doorway bloom. The window-shaped sun patches on the floor should be clearly visible (brighter than the surrounding floor).\n2. BACKGROUND: the big studio ground plane reads as pure white. Give it a soft warm tone (hex F2DFC2, roughness 0.9) and make the world colour a soft warm peach-cream (hex F7E6CC) so the diorama sits on a warm paper backdrop, not white.\n3. CAMERA/FRAMING: the camera is too close (the round base is cropped) and at the start it looks at the OUTSIDE of the left wall, which blocks the view. The open sides of the room are the front (-y) and the right (+x), so view from the FRONT-RIGHT: azimuth should sweep smoothly from about -78 deg to about -40 deg (angles measured from +x, -90 = straight in front). Lens 50 mm. Radius eases from ~19.5 at the start (the WHOLE round base visible with breathing room around it, a true miniature diorama) to ~14 at the end. Elevation ~34 deg. Keep the aim target blend (book + centre) but use 40% book / 60% centre so the motion stays calm; in the last 45 frames ease the aim toward the doorway as now. Keep DOF focused on the book, aperture_fstop ~0.9 so the miniature tilt-shift blur is visible at this larger distance.\n4. FIGURES face away from the camera (we only see the backs of their heads). Put each figure on the FAR side of its desk (+y side, seated on its stool) facing -y toward the camera, so their faces and dot eyes are visible; place the monitor on the near half of the desk turned ~35 degrees so its glowing screen still partly shows and it does not hide the face (keep the monitor short so the head is visible above it).\n5. THE BOOK must be the clear hero: scale the whole book rig up ~1.7x, keep tomato covers and the emissive warm page block (strength ~6), and increase the parented point light to ~70 W. Make the sparkle trail denser and a bit bigger (spawn 2 sparkles per frame, radius ~0.035-0.06, life ~28 frames) so the path reads clearly. On frames 1-24 the book rests on the writer desk, already glowing.\n6. Keep render time low (same EEVEE settings).\n",
+  "error_fix_rounds": 0,
+  "manual_edits_after_astra": [
+    "Sparkle trail: one sparkle every 2 frames instead of 2 per frame (546 -> 137 keyframed objects) because scene build + per-frame depsgraph time was ~6 min on a heavily loaded machine; radius raised to 0.045-0.070 to compensate.",
+    "View exposure set to +0.35 (env NL_EXPOSURE) for a brighter sunny look.",
+    "Added NL_START / NL_END / NL_STEP env vars so two Blender processes could render odd/even frames in parallel."
+  ],
+  "scripts": {
+    "final": "scripts/office_flythrough.py",
+    "astra_round1": "scripts/office_flythrough_astra_r1.py",
+    "astra_round2": "scripts/office_flythrough_astra_r2.py",
+    "driver": "scripts/astra_driver_office_flythrough.py",
+    "test_runner": "scripts/run_office_test.sh"
+  },
+  "render_settings": {
+    "engine": "BLENDER_EEVEE (Blender 5.2.1 LTS)",
+    "eevee_samples": 12,
+    "render_resolution": "1280x720 (NL_RES_PCT=80 of 1600x900), upscaled to 1600x900 with lanczos in ffmpeg",
+    "fps": 30,
+    "frames": "1-300 (10.0 s); the scripted timeline runs to 330 but frames 301-330 (doorway hold) were dropped for time",
+    "view_transform": "Standard, exposure +0.35",
+    "bloom": "compositor Glare node, Type Bloom (threshold/strength set by Astra r2)",
+    "dof": "camera dof focus_object=book, f/0.9, 50 mm",
+    "parallel": "2 processes (odd / even frames)"
+  },
+  "test_renders": [
+    {
+      "round": 1,
+      "frames": [
+        1,
+        70,
+        130,
+        200,
+        280,
+        320
+      ],
+      "res_pct": 40,
+      "samples": 12,
+      "wall_seconds": 16,
+      "verdict": "ran first try; heavily overexposed, camera too close and blocked by the outside of the left wall at the start, figures facing away, book too small"
+    },
+    {
+      "round": 2,
+      "frames": [
+        1,
+        70,
+        130,
+        200,
+        280,
+        320
+      ],
+      "res_pct": 40,
+      "samples": 12,
+      "wall_seconds": 446,
+      "verdict": "exposure, framing, faces and book fixed; scene build very slow under machine load (load avg ~150-200)"
+    },
+    {
+      "round": "2+manual",
+      "frames": [
+        1,
+        90
+      ],
+      "res_pct": 100,
+      "samples": 16,
+      "wall_seconds": 400,
+      "verdict": "approved; ~4.4 s/frame at 1600x900 under load"
+    }
+  ],
+  "encode": "ffmpeg -framerate 30 -i frame_%04d.png -vf scale=1600:900:flags=lanczos -c:v libx264 -pix_fmt yuv420p -crf 20 -movflags +faststart",
+  "render_seconds": {
+    "per_process_render": [
+      419.1,
+      419.6
+    ],
+    "processes": 2,
+    "wall_clock_total_incl_scene_build": "~570 s (08:00:40 -> 08:10:10)",
+    "approx_seconds_per_frame_per_process": 2.8
+  },
+  "outputs": {
+    "video": "office_flythrough.mp4",
+    "video_bytes": 3314627,
+    "duration_s": 10.0,
+    "frames": 300,
+    "size": "1600x900",
+    "fps": 30,
+    "poster": "office_flythrough_poster.png (frame 151, book glowing mid-room at the microphone desk, upscaled to 1600x900)"
+  },
+  "intermediate_frames": "frames/office_flythrough/*.png (1280x720) deleted after encoding to keep assets small; re-render with: NL_OUT=<dir> NL_START=1 NL_END=300 NL_RES_PCT=80 NL_SAMPLES=12 Blender -b --factory-startup -P scripts/office_flythrough.py --python-exit-code 1"
+}

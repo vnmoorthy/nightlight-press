@@ -49,7 +49,10 @@ scene.render.filepath = OUT
 
 scene.view_settings.view_transform = 'Standard'
 scene.view_settings.look = 'None'
-scene.view_settings.exposure = 0.0
+# [manual tweak after Astra round 3] Standard view clipped the sunlit paper and
+# backdrop to pure white at exposure 0 (sun 3.0 + world 0.6 + fills is ~2.7x
+# the white point); -0.9 stops (tested -1.4 and -1.0) brings it back to cream.
+scene.view_settings.exposure = float(os.environ.get("NL_EXPOSURE", "-0.9"))
 scene.view_settings.gamma = 1.0
 
 HEX = {
@@ -117,8 +120,10 @@ RUG = {
 
 # The broad surfaces have a small constant warm contribution, not white sheen.
 # This keeps cream luminous without lifting the saturation of coloured objects.
+# [manual tweak after Astra round 3] F7E6C8 rendered as tan kraft (F1DDBA);
+# a lighter, less saturated cream reads as Daybreak paper on screen.
 M["backdrop"] = material(
-    "Warm cream seamless backdrop", rgb("F7E6C8"), emission=0.30)
+    "Warm cream seamless backdrop", rgb("FBEFDC"), emission=0.30)
 M["platform"] = material(
     "Warm sunlit platform paper", rgb("FFF3E0"), emission=0.22, grain=True)
 M["head"] = material("Warm cream agent heads", rgb("F6EAD6"), grain=True)
