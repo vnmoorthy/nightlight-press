@@ -28,7 +28,7 @@
   <a href="https://nightlight-press-z5ept2z3by3j.vercel.app/office">3D office</a> ·
   <a href="https://nightlight-press-z5ept2z3by3j.vercel.app/board">Public board</a> ·
   <a href="https://nightlight-press-z5ept2z3by3j.vercel.app/shelf">Free shelf</a> ·
-  <a href="docs/ARCHITECTURE.md">Architecture</a>
+  <a href="https://nightlight-press-z5ept2z3by3j.vercel.app/tell">Tell a story</a> · <a href="https://vnmoorthy.github.io/nightlight-press/">Showcase</a> · <a href="https://vnmoorthy.github.io/nightlight-press/playrobot/">PlayRobot store</a> · <a href="docs/ARCHITECTURE.md">Architecture</a>
 </p>
 
 ---
