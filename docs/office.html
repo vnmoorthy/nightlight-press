@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nightlight Live Office</title>
+<meta name="description" content="Watch the Nightlight Press AI staff write, paint, narrate and mail picture books, live in a 3D office.">
+<meta name="theme-color" content="#050B2E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%230B1A4A'/%3E%3Ccircle cx='28' cy='32' r='18' fill='%23FFD36E'/%3E%3Ccircle cx='37' cy='26' r='16' fill='%230B1A4A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site/css/site.css">
+<style>
+  html,body{height:100%}
+  body{display:flex;flex-direction:column;overflow:hidden}
+  body::before,body::after{display:none}
+  .ohead{flex:none;display:flex;align-items:center;gap:14px;height:56px;padding:0 16px;background:rgba(5,11,46,.92);border-bottom:1px solid var(--glass-b);position:relative;z-index:2}
+  .ohead .brand{font-size:18px}
+  .ohead .chip{margin-left:4px}
+  .ohead .sp{margin-left:auto;display:flex;gap:10px;align-items:center}
+  .stage{position:relative;flex:1;min-height:0;background:radial-gradient(800px 500px at 50% 40%,rgba(61,123,255,.25),transparent 70%),var(--night0)}
+  .stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+  .fallback{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;z-index:0}
+  .fallback p{color:var(--muted);margin-top:10px}
+  .stage iframe{z-index:1}
+  @media (max-width:640px){.ohead .hide-s{display:none}.ohead{gap:8px}.ohead .btn{padding:8px 12px;font-size:12.5px}}
+</style>
+</head>
+<body>
+<header class="ohead">
+  <a class="brand" href="index.html"><span class="moon" aria-hidden="true"></span><span class="hide-s">Nightlight Press</span></a>
+  <span class="chip"><span class="dot"></span>Live office</span>
+  <div class="sp">
+    <a class="btn btn-glass btn-sm hide-s" href="index.html">← Showcase</a>
+    <a class="btn btn-glass btn-sm" href="https://nightlight-press-z5ept2z3by3j.vercel.app/office" target="_blank" rel="noopener">Open full screen</a>
+    <a class="btn btn-gold btn-sm" href="https://nightlight-press-z5ept2z3by3j.vercel.app/#make">Make a book · $19</a>
+  </div>
+</header>
+<div class="stage">
+  <div class="fallback">
+    <div>
+      <h2 style="font-size:32px">Loading the office…</h2>
+      <p>If the 3D office doesn't appear, <a href="https://nightlight-press-z5ept2z3by3j.vercel.app/office" target="_blank" rel="noopener">open it directly</a>.</p>
+    </div>
+  </div>
+  <iframe src="https://nightlight-press-z5ept2z3by3j.vercel.app/office" title="Nightlight Press live 3D office" allow="fullscreen; autoplay" allowfullscreen loading="eager"></iframe>
+</div>
+</body>
+</html>
