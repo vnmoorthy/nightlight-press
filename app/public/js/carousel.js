@@ -26,6 +26,7 @@
     hc.tabIndex = -1;
     hc.addEventListener("keydown", (e) => { if (e.target.closest("input,textarea,select")) return; if (e.key === "ArrowRight") { go(i + 1); arm(); } else if (e.key === "ArrowLeft") { go(i - 1); arm(); } });
     go(0); arm();
+    if (window.Magic && hc.querySelector(".hc-magic")) Magic.parallax("#hc .hc-magic [data-depth]", { strength: 22, scroll: 0.16, pointer: true });
   }
   document.querySelectorAll(".rail").forEach((r) => {
     const t = r.querySelector(".rail-track"); if (!t) return;

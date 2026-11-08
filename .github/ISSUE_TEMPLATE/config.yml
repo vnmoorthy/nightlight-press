@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security problem privately
+    url: https://github.com/vnmoorthy/nightlight-press/security/advisories/new
+    about: Keys, webhook signatures, child data or admin access. Please do not open a public issue.
+  - name: Try the live demo
+    url: https://nightlight-press-z5ept2z3by3j.vercel.app
+    about: Order a book, tell a story, or watch the office work.
+  - name: Read the architecture
+    url: https://github.com/vnmoorthy/nightlight-press/blob/main/docs/ARCHITECTURE.md
+    about: How the queue, the clocks and the ledger fit together.

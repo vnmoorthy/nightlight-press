@@ -1,0 +1,75 @@
+name: Bug report
+description: Something in the shop, the line, the office or the docs is broken.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this.
+        **Please never paste API keys, webhook secrets, admin tokens, or a real child's name, photo or details.** Security problems go to the [private advisory form](https://github.com/vnmoorthy/nightlight-press/security/advisories/new) instead.
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where did it happen?
+      options:
+        - Hosted demo (nightlight-press-z5ept2z3by3j.vercel.app)
+        - My local run (app/dev.sh)
+        - My own deploy on Naïve
+        - Docs or README
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part?
+      options:
+        - Shop or order form (/)
+        - Tell a story (/tell)
+        - Making-of page (/order/<id>)
+        - Reader or Read to me (/book/<id>)
+        - 3D office (/office)
+        - Public board or ledger (/board, /api/verify)
+        - Free shelf (/shelf)
+        - A desk on the production line
+        - Email, SMS or revisions
+        - Setup, build or deploy
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open /tell
+        2. Tell a short story and press Make it a book
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: ledger
+    attributes:
+      label: Ledger lines or logs
+      description: Relevant ledger lines from the board or the making-of page (kind, actor, detail), job errors, or server output. Remove any secrets or personal details first.
+      render: text
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      description: Node version, OS, browser or phone.
+      placeholder: Node 20.x, macOS, Safari on iPhone
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I removed every key, token, secret and real child's detail from this report.
+          required: true

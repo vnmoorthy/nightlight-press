@@ -38,9 +38,18 @@
     const story = (box.innerText || "").trim();
     if (story.split(/\s+/).length < 12) { err.textContent = "Tell a little more: a sentence or two about the hero and the story."; return; }
     if (!form.consent.checked) { err.textContent = "A grown-up needs to tick the permission box first."; return; }
-    go.disabled = true; go.innerHTML = '<span class="spin"></span> Sending your story to the Author…';
+    if (window.Magic) Magic.burst(go, { count: 70, power: 1.15 }); go.disabled = true; go.innerHTML = '<span class="spin"></span> Sending your story to the Author…';
     const d = Object.fromEntries(new FormData(form).entries()); d.robot = !!form.robot.checked; d.consent = !!form.consent.checked; d.share = !!form.share.checked; d.story = story; d.source = "tell";
     try { const r = await fetch("/api/tell", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(d) }); const j = await r.json(); if (!r.ok) throw new Error(j.error || "Something went wrong."); location.href = j.url; }
     catch (x) { err.textContent = x.message; go.disabled = false; go.textContent = "Make it a book"; }
   };
+  /* words arrive with a gentle sparkle */
+  (() => {
+    const t = document.getElementById("transcript"); if (!t || !window.MutationObserver) return; let last = 0, tm = 0;
+    new MutationObserver(() => {
+      t.classList.add("lit"); clearTimeout(tm); tm = setTimeout(() => t.classList.remove("lit"), 900);
+      const now = Date.now(); if (!window.Magic || Magic.reduced() || now - last < 700 || document.activeElement === t) return; last = now;
+      const r = t.getBoundingClientRect(); Magic.burst({ x: r.left + r.width * (0.3 + Math.random() * 0.5), y: r.top + Math.min(r.height - 20, 70 + Math.random() * 60) }, { count: 12, power: 0.45 });
+    }).observe(t, { childList: true, characterData: true, subtree: true });
+  })();
 })();

@@ -7,7 +7,7 @@ export async function enqueue(kind, { order_id = null, book_id = null, page_id =
   return one(`insert into jobs(kind, order_id, book_id, page_id, payload, next_run_at) values($1,$2,$3,$4,$5, now() + ($6 || ' milliseconds')::interval) returning id`, [kind, order_id, book_id, page_id, JSON.stringify(payload), String(Math.max(0, Math.round(delayMs)))]);
 }
 export async function claim() {
-  return one(`update jobs set lease_until = now() + interval '40 seconds', polls = polls + 1, updated_at = now()
+  return one(`update jobs set lease_until = now() + case when kind in ('bind','deliver','market') then interval '180 seconds' else interval '40 seconds' end, polls = polls + 1, updated_at = now()
     where id = (select id from jobs where status in ('queued','waiting') and next_run_at <= now() and (lease_until is null or lease_until < now())
                 order by next_run_at, id limit 1 for update skip locked)
     returning *`);

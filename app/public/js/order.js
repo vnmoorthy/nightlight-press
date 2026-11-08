@@ -35,7 +35,7 @@
       if (b.cover_media_id) $("#readyCover").style.backgroundImage = `url('/api/media/${b.cover_media_id}')`;
       $("#readyNote").textContent = kinds.has("deliver") ? "It's in your inbox too, with the PDF attached." : "The Mailroom is sending it to your inbox now.";
       $("#sub").textContent = "Read it tonight. Reply to the email, or use the box beside the book, to change anything.";
-      toast("The book is ready."); setTimeout(() => { done = false; }, 20000);
+      toast("The book is ready."); if (!window.__nlBurst && window.Magic) { window.__nlBurst = 1; setTimeout(() => { Magic.burst("#readyCover", { count: 80, power: 1.2 }); setTimeout(() => Magic.burst("#readyOpen", { count: 40 }), 350); }, 250); } setTimeout(() => { done = false; }, 20000);
     }
   }
   load(); setInterval(load, 2000);

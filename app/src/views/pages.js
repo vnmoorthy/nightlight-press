@@ -1,4 +1,4 @@
-import { layout, esc, STAFF } from "./layout.js";
+import { layout, esc, STAFF, art, WAVE } from "./layout.js";
 import { LANG, STYLES } from "../prompts.js";
 const SW = { watercolor: "linear-gradient(135deg,#FFF7E8,#6FC3FF 55%,#FF6FAE)", storybook: "linear-gradient(135deg,#FFB13B,#FFD36E 45%,#1F3FA6)", papercut: "linear-gradient(135deg,#FF6FAE,#FFD36E 38%,#6FC3FF 68%,#1F3FA6)", pencil: "repeating-linear-gradient(45deg,#FFF7E8 0 6px,#A9B6E0 6px 8px)", night: "linear-gradient(135deg,#050B2E,#1F3FA6 55%,#FFD36E)" };
 const SN = { watercolor: "Watercolour", storybook: "Storybook", papercut: "Paper-cut", pencil: "Crayon", night: "Starry night" };
@@ -13,18 +13,23 @@ export function landingPage({ mode, price: p = 1900, shelf = [], from }) {
   while (fan.length < 3) fan.push(demo[fan.length]);
   const body = `
 <header class="hc" id="hc" aria-roledescription="carousel" aria-label="Nightlight Press highlights">
-  <div class="hc-slide on" role="group" aria-roledescription="slide" aria-label="1 of 3"><video muted loop playsinline autoplay preload="auto" poster="/media/office_flythrough_poster.jpg" src="/media/office_flythrough.mp4"></video>
-    <div class="hc-copy"><div class="wrap"><div class="in"><div class="eyebrow white">A children's publisher with no employees</div>
-      <h1>Tonight's bedtime book stars <em class="hl">your child.</em></h1>
-      <p>Tell us their name, what they look like and what they love. Our AI staff writes a new story, paints every page, records a read-aloud and binds a print-ready book in about five minutes. ${price(p)}, with changes free.</p>
-      <div class="ctas"><a class="btn" href="#make">Make their book · ${price(p)}</a><a class="btn ghost" href="/office">Watch the office work</a></div>
-      <div class="hc-badges"><span>✒️ A new story every time</span><span>🎨 Painted for them</span><span>🎙️ Read aloud, 16 languages</span><span>☎️ We'll phone Grandma</span></div></div></div></div></div>
+  <div class="hc-slide on hc-magic" role="group" aria-roledescription="slide" aria-label="1 of 3">
+    <div class="hc-scene" aria-hidden="true">
+      <div class="hc-layer hc-bg" data-depth="0.12">${art("hero-panorama", { eager: true })}</div>
+      <div class="hc-stars" data-starfield></div>
+      <div class="hc-layer hc-pip" data-depth="0.6"><div class="hc-pip-in"><img class="float float-glow" src="/media/pip_hero.webp" width="1024" height="1024" alt="Pip the PlayRobot, rendered in 3D, waving" fetchpriority="high" decoding="async"><span class="hc-hi">Hi, I'm Pip!</span></div></div>
+    </div>
+    <div class="hc-copy"><div class="wrap"><div class="in"><div class="eyebrow white" data-reveal="fade">A children's publisher with no employees</div>
+      <h1 data-reveal>Tonight's bedtime book stars <em class="hl"><span class="swoosh gild" style="--swoosh-delay:.9s">your child.</span></em></h1>
+      <p data-reveal>Tell us their name, what they look like and what they love. Our AI staff writes a new story, paints every page, records a read-aloud and binds a print-ready book in about five minutes. ${price(p)}, with changes free.</p>
+      <div class="ctas" data-reveal="zoom"><a class="btn" href="#make" data-sparkle>Make their book · ${price(p)}</a><a class="btn ghost" href="/tell">Tell a story out loud</a></div>
+      <div class="hc-badges" data-reveal="fade"><span>✒️ A new story every time</span><span>🎨 Painted for them</span><span>🎙️ Read aloud, 16 languages</span><span>☎️ We'll phone Grandma</span></div></div></div></div></div>
   <div class="hc-slide" role="group" aria-roledescription="slide" aria-label="2 of 3"><video muted loop playsinline preload="none" poster="/media/book_open_poster.jpg" src="/media/book_open.mp4"></video>
     <div class="hc-copy"><div class="wrap"><div class="in"><div class="eyebrow white">New · Tell a story</div>
       <h2>Tell us a story. <em class="hl">We'll make it a book.</em></h2>
       <p>Say it out loud: a bedtime tale, something from today, a story from when you were small. The Author keeps your words, the Illustrator paints every page.</p>
       <div class="ctas"><a class="btn" href="/tell">Tell a story</a><a class="btn ghost" href="/shelf">Read the free shelf</a></div></div></div></div></div>
-  <div class="hc-slide" role="group" aria-roledescription="slide" aria-label="3 of 3"><img src="/media/hero.jpg" alt="" loading="lazy">
+  <div class="hc-slide" role="group" aria-roledescription="slide" aria-label="3 of 3"><video muted loop playsinline preload="none" poster="/media/office_flythrough_poster.jpg" src="/media/office_flythrough.mp4"></video>
     <div class="hc-copy"><div class="wrap"><div class="in"><div class="eyebrow white">Run entirely by AI agents</div>
       <h2>A publisher with <em class="hl">no employees.</em></h2>
       <p>Twelve desks, every one an agent or a piece of code. Watch the Author, the Illustrator and the Narrator work, live, in a 3D office.</p>
@@ -33,21 +38,21 @@ export function landingPage({ mode, price: p = 1900, shelf = [], from }) {
     <button type="button" class="hc-arrow" data-dir="-1" aria-label="Previous slide">${CHEV("M15 5l-7 7 7 7")}</button><button type="button" class="hc-arrow" data-dir="1" aria-label="Next slide">${CHEV("M9 5l7 7-7 7")}</button></div></div>
 </header>
 
-<section class="rails"><div class="wrap">
+<section class="rails rails-night"><div class="sec-art" aria-hidden="true">${art("shelf-night")}</div><div class="wrap">
   <div class="rail"><div class="rail-h"><div><div class="eyebrow">The free shelf</div><h2 style="margin-top:12px">New on the free shelf</h2></div><div style="display:flex;gap:14px;align-items:center"><a href="/shelf">See all</a><div class="rail-nav"><button type="button" class="rail-arrow" data-dir="-1" aria-label="Scroll left">${CHEV("M15 5l-7 7 7 7")}</button><button type="button" class="rail-arrow" data-dir="1" aria-label="Scroll right">${CHEV("M9 5l7 7-7 7")}</button></div></div></div>
     <div class="rail-track">${(shelf.length ? shelf.slice(0, 12) : demo).map((b) => `<a class="tile" href="${b.id ? `/book/${b.id}` : "/shelf"}" style="${cov(b)}"><small>${SN[b.style] || "Free"}</small><b>${esc(b.title)}</b></a>`).join("")}</div></div>
   <div class="rail"><div class="rail-h"><div><div class="eyebrow">Pick a look</div><h2 style="margin-top:12px">Make one like these</h2></div><div class="rail-nav"><button type="button" class="rail-arrow" data-dir="-1" aria-label="Scroll left">${CHEV("M15 5l-7 7 7 7")}</button><button type="button" class="rail-arrow" data-dir="1" aria-label="Scroll right">${CHEV("M9 5l7 7-7 7")}</button></div></div>
     <div class="rail-track">${Object.keys(STYLES).map((k, i) => { const ex = shelf.find((b) => b.style === k && b.cover_media_id); return `<a class="tile" href="/#make" style="${ex ? cov(ex) : `background:${SW[k]}`}"><small>${SN[k] || k}</small><b>${esc(["A bedtime adventure", "First day of school", "A new baby in the family", "Being brave at the doctor", "Their birthday"][i % 5])}</b></a>`; }).join("")}</div></div>
 </div></section>
 
-<section id="how"><div class="wrap"><div class="eyebrow">How it works</div><h2 style="margin-top:16px;max-width:760px">Three minutes of you. Five minutes of them.</h2>
+${WAVE}<section id="how"><div class="wrap"><div class="sec-head"><div><div class="eyebrow" data-reveal="fade">How it works</div><h2 style="margin-top:16px;max-width:760px" data-reveal>Three minutes of you. <span class="swoosh">Five minutes of them.</span></h2></div><div class="sec-head-art books-art" aria-hidden="true">${art("floating-books", { cls: "float float-slow", w: 1024, h: 1024, png: true })}</div></div>
 <div class="steps">
-  <div class="card step"><div class="n">1</div><h3>Tell us about the hero</h3><p class="muted">First name, age, what they look like, what they love, and what the story is for: a first day of school, a new sibling, a brave trip to the dentist. No photos needed.</p></div>
-  <div class="card step"><div class="n">2</div><h3>Watch it being made</h3><p class="muted">The Author writes it, the Editor checks every word, the Illustrator paints each page and the Narrator records it. You watch each page arrive live.</p></div>
-  <div class="card step"><div class="n">3</div><h3>Read it tonight</h3><p class="muted">A web book with "Read to me", a print-ready PDF in your inbox, and if you like, a phone call that reads it to Grandma. Reply to the email to change anything.</p></div>
+  <div class="card step" data-reveal><div class="n">1</div><h3>Tell us about the hero</h3><p class="muted">First name, age, what they look like, what they love, and what the story is for: a first day of school, a new sibling, a brave trip to the dentist. No photos needed.</p></div>
+  <div class="card step" data-reveal><div class="n">2</div><h3>Watch it being made</h3><p class="muted">The Author writes it, the Editor checks every word, the Illustrator paints each page and the Narrator records it. You watch each page arrive live.</p></div>
+  <div class="card step" data-reveal><div class="n">3</div><h3>Read it tonight</h3><p class="muted">A web book with "Read to me", a print-ready PDF in your inbox, and if you like, a phone call that reads it to Grandma. Reply to the email to change anything.</p></div>
 </div></div></section>
 
-<section id="make" class="make-sec"><div class="wrap make">
+${WAVE}<section id="make" class="make-sec"><div class="wrap make">
   <div><div class="eyebrow">Make their book</div><h2 style="margin-top:16px">Who's the hero?</h2>
     <p class="lede muted" style="margin-top:16px">Every book is written from scratch for one child. Nothing is a template with a name pasted in.</p>
     <div class="card getcard"><b style="font:600 20px var(--display)">What you get for ${price(p)}</b>
@@ -82,29 +87,30 @@ export function landingPage({ mode, price: p = 1900, shelf = [], from }) {
   </form>
 </div></section>
 
-<section id="staff"><div class="wrap"><div class="eyebrow lilac">The staff</div><h2 style="margin-top:16px;max-width:820px">Twelve jobs. Nobody on payroll.</h2>
-<p class="lede muted" style="margin-top:14px">Each desk is a real agent or a piece of code with one job. Agents write, paint and talk. Code decides when, whether, and how much. <a href="/office">Watch them work in the office</a>.</p>
-<div class="staff">${STAFF.map((s) => `<div class="card" style="--c:${s.color}"><div class="av">${s.icon}</div><div><b>${esc(s.name)}</b><div class="small muted">${esc(s.role)}</div><span class="tag">${esc(s.kind)}</span></div></div>`).join("")}</div></div></section>
+${WAVE}<section id="staff"><div class="wrap"><div class="sec-head staff-head"><div><div class="eyebrow lilac" data-reveal="fade">The staff</div><h2 style="margin-top:16px;max-width:820px" data-reveal>Twelve jobs. <span class="swoosh gild">Nobody on payroll.</span></h2>
+<p class="lede muted" style="margin-top:14px" data-reveal>Each desk is a real agent or a piece of code with one job. Agents write, paint and talk. Code decides when, whether, and how much. <a href="/office">Watch them work in the office</a>.</p></div>
+<figure class="art-frame" data-reveal="right">${art("staff-scene", { alt: "A cutaway of the Nightlight office at night: robots writing, editing, painting, recording, filming, binding and sorting mail" })}<figcaption>After hours at the Nightlight office, Fernhush Bay</figcaption></figure></div>
+<div class="staff">${STAFF.map((s) => `<div class="card" data-reveal="zoom" style="--c:${s.color}"><div class="av">${s.icon}</div><div><b>${esc(s.name)}</b><div class="small muted">${esc(s.role)}</div><span class="tag">${esc(s.kind)}</span></div></div>`).join("")}</div></div></section>
 
 
 
-<section><div class="wrap"><div class="eyebrow leaf">Made carefully</div><h2 style="margin-top:16px">What we promise parents</h2>
-<div class="trust"><div class="card"><div class="ico" aria-hidden="true">📷</div><h3>No photos, ever</h3><p class="muted">We never ask for a picture of your child. The Illustrator works from your words.</p></div><div class="card"><div class="ico" aria-hidden="true">✅</div><h3>Checked by code, not vibes</h3><p class="muted">The Editor rejects drafts with too many words for the age, missing names, brands or anything scary, and sends them back to be rewritten.</p></div><div class="card"><div class="ico" aria-hidden="true">🤖</div><h3>AI says it's AI</h3><p class="muted">Every phone call starts by saying it's an AI storyteller. We only call people you've told us expect it, at most three times per book.</p></div></div>
+${WAVE}<section><div class="wrap"><div class="eyebrow leaf">Made carefully</div><h2 style="margin-top:16px">What we promise parents</h2>
+<div class="trust"><div class="card" data-reveal><div class="ico" aria-hidden="true">📷</div><h3>No photos, ever</h3><p class="muted">We never ask for a picture of your child. The Illustrator works from your words.</p></div><div class="card" data-reveal><div class="ico" aria-hidden="true">✅</div><h3>Checked by code, not vibes</h3><p class="muted">The Editor rejects drafts with too many words for the age, missing names, brands or anything scary, and sends them back to be rewritten.</p></div><div class="card" data-reveal><div class="ico" aria-hidden="true">🤖</div><h3>AI says it's AI</h3><p class="muted">Every phone call starts by saying it's an AI storyteller. We only call people you've told us expect it, at most three times per book.</p></div></div>
 <div class="faq" style="margin-top:54px;max-width:820px">
 <details><summary>How long does it take?</summary><p class="muted">Usually four to seven minutes. You can watch every page being painted on your order page.</p></details>
 <details><summary>Can I change something?</summary><p class="muted">Yes, free. Reply to the email or use the box beside the book: "make her hair curlier", "her dog is called Biscuit, not Cookie", "add her baby brother on page 4". The Front Desk sends it back to the right desk.</p></details>
 <details><summary>Who actually runs this company?</summary><p class="muted">Agents running on Naïve, with a public <a href="/board">company board</a> and a hash-chained ledger of everything they do. When a person steps in, it's recorded as an intervention.</p></details>
 <details><summary>Can I print it?</summary><p class="muted">The PDF is 11 × 8.5 inch landscape with full-bleed pictures, ready for any home printer or a print shop.</p></details>
 </div>
-<form id="subForm" class="card subscribe"><div style="flex:1;min-width:240px"><b>🌙 A free bedtime book, every night</b><div class="muted small">Marketing writes one each night. We'll email it to you.</div></div><input type="email" name="email" required placeholder="you@example.com" aria-label="Your email"><button class="btn dark">Subscribe</button></form>
+<form id="subForm" class="card subscribe" data-reveal="zoom"><div style="flex:1;min-width:240px"><b>🌙 A free bedtime book, every night</b><div class="muted small">Marketing writes one each night. We'll email it to you.</div></div><input type="email" name="email" required placeholder="you@example.com" aria-label="Your email"><button class="btn dark">Subscribe</button></form>
 </div></section>`;
-  return layout({ title: "Nightlight Press · a bedtime book starring your child", body, mode, scripts: `<script src="/js/site.js" defer></script><script src="/js/carousel.js" defer></script>` });
+  return layout({ title: "Nightlight Press · a bedtime book starring your child", body, mode, scripts: `<script src="/js/site.js" defer></script><script src="/js/carousel.js" defer></script>`, head: `<link rel="preload" as="image" href="/art/hero-panorama.webp" type="image/webp">` });
 }
 
 export function orderPage({ o, mode }) {
   const st = [["author", "Author", "writes the story"], ["editor", "Editor", "checks every word"], ["illustrator", "Illustrator", "paints each page"], ["narrator", "Narrator", "records it"], ["binder", "Binder", "binds the PDF"], ["mailroom", "Mailroom", "emails it to you"]];
   const sm = Object.fromEntries(STAFF.map((s) => [s.key, s]));
-  const body = `<main class="mo"><div class="wrap">
+  const body = `<main class="mo"><div class="mo-art" aria-hidden="true">${art("floating-books", { cls: "float float-slow", w: 1024, h: 1024, png: true })}</div><div class="wrap">
   <div class="eyebrow white">Order ${esc(o.id)}</div>
   <h1 id="headline" style="margin-top:16px;font-size:clamp(34px,5vw,60px)">${esc(o.child_name)}'s book is being made</h1>
   <p class="lede" id="sub" style="margin-top:14px">You can close this page. The book will arrive at ${esc(o.buyer_email || "your inbox")}. Or stay and watch each desk do its part.</p>
@@ -121,7 +127,7 @@ export function orderPage({ o, mode }) {
 
 export function readerPage({ b, mode }) {
   const custom = b.kind !== "catalog";
-  const body = `<main class="reader"><div class="stage"><div class="spread" id="spread"><img id="pic" alt="" src="${b.cover_media_id ? `/api/media/${b.cover_media_id}` : ""}"><div class="txt" id="txt"><span class="cvt">${esc(b.title || "A new book")}</span>${b.dedication ? `<div class="ded">${esc(b.dedication)}</div>` : ""}</div></div>
+  const body = `<main class="reader"><div class="stage" data-starfield><div class="spot" aria-hidden="true"></div><div class="spread" id="spread"><img id="pic" alt="" src="${b.cover_media_id ? `/api/media/${b.cover_media_id}` : ""}"><div class="txt" id="txt"><span class="cvt">${esc(b.title || "A new book")}</span>${b.dedication ? `<div class="ded">${esc(b.dedication)}</div>` : ""}</div></div>
     <div class="ctrls"><button id="prev" aria-label="Previous page">${CHEV("M15 5l-7 7 7 7")}</button><button class="read" id="readBtn">▶ Read to me</button><button id="nextp" aria-label="Next page">${CHEV("M9 5l7 7-7 7")}</button></div><div class="dots" id="dots" style="margin-top:16px"></div><audio id="aud" preload="none"></audio></div>
   <aside class="panel"><div><div class="eyebrow">${custom ? `A book for ${esc(b.hero_name)}` : "From the free shelf"}</div><h2 style="font-size:30px;margin-top:14px" id="btitle">${esc(b.title || "A new book")}</h2><p class="small muted" style="margin:8px 0 0" id="bstatus">${b.status === "ready" ? "Written, illustrated, narrated and bound by the Nightlight staff." : "This book is still being made. It will update by itself."}</p></div>
     <div class="box btnrow"><a class="btn small" href="/api/book/${b.id}.pdf" id="pdfBtn" ${b.pdf_media_id ? "" : "hidden"}>Download the PDF</a><button class="btn small ghost" id="shareBtn">Copy link</button></div>
@@ -133,8 +139,8 @@ export function readerPage({ b, mode }) {
 }
 
 export function shelfPage({ books, mode }) {
-  const body = `<header class="pagehero"><div class="wrap"><div class="eyebrow white">The shelf</div><h1 style="margin-top:16px;font-size:clamp(38px,5vw,64px);max-width:860px">Free bedtime books, written by our <em class="hl">staff.</em></h1><p class="lede" style="margin-top:16px">Marketing commissions a new one every night. Read them aloud for free, then make one starring your child.</p></div></header>
-<section style="padding-top:30px"><div class="wrap"><div class="shelf">${books.length ? books.map((b) => `<a class="cover" href="/book/${b.id}" style="${cov(b)}"><span class="t">${esc(b.title)}</span><span class="s">${SN[b.style] || ""}</span></a>`).join("") : `<p class="muted">The first shelf book is being written. Check back tonight.</p>`}</div>
+  const body = `<header class="pagehero shelfhero"><div class="sec-art" aria-hidden="true">${art("shelf-night", { eager: true })}</div><div class="wrap"><div class="eyebrow white" data-reveal="fade">The shelf</div><h1 style="margin-top:16px;font-size:clamp(38px,5vw,64px);max-width:860px" data-reveal>Free bedtime books, written by our <em class="hl"><span class="swoosh gild">staff.</span></em></h1><p class="lede" style="margin-top:16px">Marketing commissions a new one every night. Read them aloud for free, then make one starring your child.</p></div></header>
+<section style="padding-top:30px"><div class="wrap"><div class="shelf">${books.length ? books.map((b) => `<a class="cover" data-reveal="zoom" href="/book/${b.id}" style="${cov(b)}"><span class="t">${esc(b.title)}</span><span class="s">${SN[b.style] || ""}</span></a>`).join("") : `<p class="muted">The first shelf book is being written. Check back tonight.</p>`}</div>
 <div style="text-align:center;margin-top:54px"><a class="btn" href="/#make">Make a book starring your child</a></div></div></section>`;
   return layout({ title: "The shelf · Nightlight Press", body, mode });
 }

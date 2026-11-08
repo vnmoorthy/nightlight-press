@@ -1,0 +1,95 @@
+/* Nightlight Press - magic.css: companion styles for js/magic.js (Magic Hour theme).
+   All motion is switched off under prefers-reduced-motion. */
+:root{--mg-gold:#FFD36E;--mg-amber:#FFB13B;--mg-sky:#6FC3FF;--mg-pink:#FF6FAE;--mg-cream:#FFF7E8;--mg-glow:#3D7BFF;--mg-night:#050B2E}
+
+/* (a) starfield canvas: sits behind the host's content, above its background */
+.mg-starfield-host{isolation:isolate}
+.mg-starfield{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:block}
+.mg-starfield.mg-fixed{position:fixed;width:100vw;height:100vh}
+
+/* (b)(c) shared particle overlay */
+.mg-fx{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:2147483000;display:block}
+
+/* burst feedback on the source element */
+.mg-pop{animation:mg-pop .55s cubic-bezier(.3,1.6,.5,1)}
+@keyframes mg-pop{0%{scale:1}30%{scale:1.08}60%{scale:.97}100%{scale:1}}
+.mg-glow-pulse{animation:mg-glow-pulse 1.1s ease-out}
+@keyframes mg-glow-pulse{30%{box-shadow:0 0 0 5px rgba(255,211,110,.35),0 0 42px 10px rgba(255,211,110,.45)}100%{box-shadow:0 0 0 12px rgba(255,211,110,0),0 0 60px 18px rgba(255,211,110,0)}}
+
+/* (d) parallax layers */
+.mg-layer{will-change:translate}
+
+/* (e) "page opens" reveal - hidden only once magic.js has run, so no-JS pages stay visible */
+html.mg-js [data-reveal]:not(.is-revealed){opacity:0}
+[data-reveal].is-revealed{animation:mg-page-open .95s cubic-bezier(.2,.75,.25,1) var(--mg-delay,0ms) backwards}
+[data-reveal="zoom"].is-revealed{animation-name:mg-reveal-zoom}
+[data-reveal="fade"].is-revealed{animation-name:mg-reveal-fade}
+[data-reveal="left"].is-revealed{animation-name:mg-reveal-left}
+[data-reveal="right"].is-revealed{animation-name:mg-reveal-right}
+[data-reveal].is-revealed.mg-instant{animation:none}
+@keyframes mg-page-open{
+  0%{opacity:0;transform-origin:50% 100%;transform:perspective(900px) translateY(30px) rotateX(16deg) scale(.98);filter:blur(5px) brightness(1.5) drop-shadow(0 0 0 rgba(255,211,110,0))}
+  55%{opacity:1;transform-origin:50% 100%;filter:blur(0) brightness(1.1) drop-shadow(0 0 16px rgba(255,211,110,.42))}
+  100%{}
+}
+@keyframes mg-reveal-zoom{
+  0%{opacity:0;transform:scale(.9);filter:blur(4px) brightness(1.5) drop-shadow(0 0 0 rgba(255,211,110,0))}
+  55%{opacity:1;filter:blur(0) brightness(1.1) drop-shadow(0 0 18px rgba(255,211,110,.45))}
+  100%{}
+}
+@keyframes mg-reveal-fade{
+  0%{opacity:0;filter:brightness(1.4) drop-shadow(0 0 0 rgba(255,211,110,0))}
+  55%{opacity:1;filter:brightness(1.08) drop-shadow(0 0 14px rgba(255,211,110,.35))}
+  100%{}
+}
+@keyframes mg-reveal-left{
+  0%{opacity:0;transform:translateX(-36px);filter:blur(4px) drop-shadow(0 0 0 rgba(255,211,110,0))}
+  55%{opacity:1;filter:blur(0) drop-shadow(0 0 14px rgba(255,211,110,.38))}
+  100%{}
+}
+@keyframes mg-reveal-right{
+  0%{opacity:0;transform:translateX(36px);filter:blur(4px) drop-shadow(0 0 0 rgba(255,211,110,0))}
+  55%{opacity:1;filter:blur(0) drop-shadow(0 0 14px rgba(255,211,110,.38))}
+  100%{}
+}
+
+/* (f) wand swoosh underline: <span class="swoosh">magic</span>  (add .gild for gold lettering) */
+.swoosh{position:relative;display:inline-block;white-space:nowrap;z-index:0}
+.swoosh.gild{background:linear-gradient(100deg,var(--mg-cream) 0%,var(--mg-gold) 38%,var(--mg-amber) 70%,var(--mg-gold) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.mg-swoosh-wrap{position:absolute;left:-4%;right:-6%;bottom:-.3em;height:.44em;z-index:-1;pointer-events:none;filter:drop-shadow(0 0 .14em rgba(255,211,110,.55))}
+.mg-swoosh{display:block;width:100%;height:100%;overflow:visible;clip-path:inset(0 100% 0 0)}
+.swoosh.is-drawn .mg-swoosh{animation:mg-swoosh-draw .85s cubic-bezier(.6,0,.25,1) var(--swoosh-delay,.2s) forwards}
+@keyframes mg-swoosh-draw{to{clip-path:inset(0 0 0 0)}}
+.mg-swoosh-star{position:absolute;right:-.12em;top:-.18em;width:.5em;height:.5em;opacity:0;scale:0;rotate:-40deg;filter:drop-shadow(0 0 .12em rgba(255,247,232,.9))}
+.mg-swoosh-star svg{display:block;width:100%;height:100%;fill:var(--mg-cream)}
+.swoosh.is-drawn .mg-swoosh-star{animation:mg-star-pop .55s cubic-bezier(.3,1.7,.5,1) calc(var(--swoosh-delay,.2s) + .75s) forwards,mg-star-twinkle 3.2s ease-in-out calc(var(--swoosh-delay,.2s) + 1.4s) infinite}
+@keyframes mg-star-pop{to{opacity:1;scale:1;rotate:0deg}}
+@keyframes mg-star-twinkle{0%,100%{opacity:1;scale:1;rotate:0deg}50%{opacity:.55;scale:.7;rotate:45deg}}
+.swoosh:hover .mg-swoosh-wrap{filter:drop-shadow(0 0 .22em rgba(255,211,110,.8))}
+
+/* (g) floating mascot: <img class="float"> ; tune with --float-amp / --float-dur / --float-delay */
+.float{animation:mg-float var(--float-dur,6s) ease-in-out var(--float-delay,0s) infinite;will-change:translate}
+.float-slow{--float-dur:9s}
+.float-fast{--float-dur:4s;--float-amp:8px}
+.float-glow{filter:drop-shadow(0 18px 22px rgba(5,11,46,.55)) drop-shadow(0 0 20px rgba(255,211,110,.28))}
+@keyframes mg-float{
+  0%,100%{translate:0 0;rotate:0deg}
+  25%{rotate:1.2deg}
+  50%{translate:0 calc(var(--float-amp,12px) * -1);rotate:-1deg}
+  75%{rotate:.6deg}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html.mg-js [data-reveal]:not(.is-revealed){opacity:1}
+  [data-reveal].is-revealed,.float,.mg-pop{animation:none}
+  .mg-swoosh{clip-path:none}
+  .swoosh.is-drawn .mg-swoosh,.swoosh.is-drawn .mg-swoosh-star{animation:none}
+  .mg-swoosh-star{opacity:1;scale:1;rotate:0deg}
+  .mg-layer{translate:none!important}
+}
+@media print{html.mg-js [data-reveal]{opacity:1!important;animation:none!important}.mg-fx,.mg-starfield{display:none}}
+
+/* art director: keep the hero eyebrow on one line on phones so Pip never sits on it */
+@media (max-width:480px){.hc-copy .eyebrow{font-size:10.5px;letter-spacing:.07em;padding:6px 12px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}}
+/* art director: a short shelf sits centred under the header instead of leaving a hole on the right */
+@media (min-width:861px){.shelf{grid-template-columns:repeat(auto-fit,minmax(220px,267px));justify-content:center}}

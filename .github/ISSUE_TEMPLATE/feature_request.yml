@@ -1,0 +1,40 @@
+name: Feature request
+description: Suggest something the company should do, or do better.
+title: "[Idea]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Who is it for (a child, a parent, a grandparent, someone running their own instance, a contributor) and what gets easier for them?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered
+  - type: dropdown
+    id: decides
+    attributes:
+      label: Does a model or code decide?
+      description: "House rule: models write, code decides. Where would the deciding part of this live?"
+      options:
+        - Code decides; a model only writes or paints
+        - Only code is involved
+        - Not sure yet
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Child safety
+      options:
+        - label: This does not weaken the Editor's checks, the grown-up gates, consent, AI disclosure, the choice to leave Pip out, or opt-in public posting.
+          required: true

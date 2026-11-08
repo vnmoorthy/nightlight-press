@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Add unit tests for the Editor's checks",
+    "body": "The Editor (`app/src/editor.js`) is the most important safety code in the company, and it has no tests yet.\n\n**Do:**\n- Add `app/test/editor.test.js` using Node's built-in `node:test` and `node:assert` (no new dependencies).\n- Cover `maxWordsFor()` at ages 2, 4, 6 and 8, and `checkStory()` for: a clean story that passes; too few pages; a page over the word limit; the hero's name on too few pages; a banned word; a trademarked name; a web address.\n- Add `\"test\": \"node --test test/\"` to `app/package.json` and a `npm test` step to `.github/workflows/ci.yml`.\n\n**Done when:** `cd app && npm test` passes locally and in CI, with no network or keys needed.",
+    "labels": ["good first issue", "tests", "safety"]
+  },
+  {
+    "title": "Offline ledger verifier script",
+    "body": "Anyone can download the public ledger at `/api/ledger.json`, but re-checking the hash chain today means trusting `/api/verify` on the same server.\n\n**Do:**\n- Add `app/scripts/verify-ledger.mjs` that takes a base URL (default `http://localhost:3100`), fetches `/api/ledger.json`, and recomputes every hash the same way `ledger()` and `verifyChain()` do in `app/src/db.js` (sha256 of canonical sorted-key JSON of `kind`, `actor`, `detail`, `order_id`, `prev_hash`, starting from `GENESIS`).\n- Print the number of lines checked and the first broken `seq`, if any; exit non-zero on a break.\n- Mention it in `docs/ARCHITECTURE.md` under the ledger section.\n\n**Done when:** it reports OK against a local run, and reports a break if you edit one line of a saved copy of the JSON.",
+    "labels": ["good first issue", "ledger", "tooling"]
+  },
+  {
+    "title": "One-command local Postgres with docker compose",
+    "body": "The quickstart asks people to paste a `docker run` command for Postgres. A compose file would make it one short command and keep the settings in one place.\n\n**Do:**\n- Add `docker-compose.yml` at the repo root with a `postgres:16` service named `db`, port 5432, database `nightlight`, and a named volume so data survives restarts.\n- Update `docs/QUICKSTART.md` and the README's \"Run it yourself\" block to use `docker compose up -d db`, keeping the `docker run` line as an alternative.\n- Make sure the `DATABASE_URL` example in `app/.env.example` matches.\n\n**Done when:** a fresh clone can follow the quickstart with `docker compose up -d db` and `./dev.sh` boots and runs migrations.",
+    "labels": ["good first issue", "developer experience", "docs"]
+  },
+  {
+    "title": "Reading-grade check for Spanish books",
+    "body": "The Editor only computes a reading grade for English (`language === \"en\"` in `app/src/editor.js`). Spanish is one of the 16 languages families can choose.\n\n**Do:**\n- Add a Spanish readability score (for example Fernández-Huerta) with a small Spanish syllable counter, used when `language === \"es\"`.\n- Record it in the same `reading_grade` field so it shows up in the `edit_check` ledger line. Do not make it fail a book yet; just record it.\n- Add a test with a short Spanish passage.\n\n**Done when:** a Spanish book's `edit_check` line has a non-null `reading_grade`, and English behaviour is unchanged.",
+    "labels": ["good first issue", "editor", "i18n"]
+  },
+  {
+    "title": "Make the /tell microphone and live transcript accessible",
+    "body": "`/tell` is the page children use most, often with a grown-up helping. It should work well with a keyboard and a screen reader.\n\n**Do (in `app/src/views/tell.js` and `app/public/js/tell.js`):**\n- Give the microphone button an accessible name that changes with its state (\"Start telling\" / \"Stop\") and `aria-pressed`.\n- Put the live transcript in a polite `aria-live` region.\n- Make sure every control can be reached and used with Tab, Enter and Space, with a visible focus ring.\n- Announce errors (for example the grown-up permission message) with `role=\"alert\"`.\n\n**Done when:** you can tell a story and make a book using only the keyboard, and VoiceOver or NVDA reads the state changes. Include a short note of how you tested it in the PR.",
+    "labels": ["good first issue", "accessibility", "frontend"]
+  },
+  {
+    "title": "Show the Editor's report on the making-of page",
+    "body": "Every draft gets an `edit_check` ledger line with `pass`, `issues`, `words`, `reading_grade` and `round`. The making-of page (`app/public/js/order.js`) shows a one-line summary, and it is worth showing exactly what the Editor caught.\n\n**Do:**\n- In the making-of timeline, render `edit_check` lines with a small expandable panel: pass or sent back, the list of issues, total words, reading grade, and which round it was.\n- Keep the wording warm and short (for example \"Sent back once: page 4 had 52 words, the limit is 35\").\n- No server changes needed: the data is already in `/api/order/:id`.\n\n**Done when:** a book whose first draft failed shows both rounds clearly on `/order/<id>`, and the page still looks right on a phone.",
+    "labels": ["good first issue", "frontend", "transparency"]
+  }
+]

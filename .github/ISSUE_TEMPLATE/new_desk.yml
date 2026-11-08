@@ -1,0 +1,67 @@
+name: New desk
+description: Propose a new desk (a job the company should do on its own).
+title: "[Desk]: "
+labels: ["new desk", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A desk is one job kind with one handler in `app/src/engine.js`. See [Add a desk](https://github.com/vnmoorthy/nightlight-press/blob/main/CONTRIBUTING.md#add-a-desk) before you start.
+  - type: input
+    id: name
+    attributes:
+      label: Desk name
+      placeholder: Translator
+    validations:
+      required: true
+  - type: textarea
+    id: job
+    attributes:
+      label: What does this desk do?
+      description: One or two sentences, from the family's point of view.
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Agent or code?
+      options:
+        - Naïve agent (returns JSON against a schema)
+        - Model call (image, speech, film)
+        - Plain code
+        - A mix
+    validations:
+      required: true
+  - type: textarea
+    id: trigger
+    attributes:
+      label: When does it run, and what runs next?
+      description: Which job enqueues it, and which job it enqueues when it is done.
+      placeholder: Enqueued by `write` after the Editor passes; enqueues `paint` for each page.
+    validations:
+      required: true
+  - type: textarea
+    id: ledger
+    attributes:
+      label: Ledger lines
+      description: The ledger kind(s) and actor it writes, and what goes in `detail` (no secrets, no full emails or phone numbers).
+      placeholder: "kind: translate, actor: agent:translator, detail: { book, language, pages }"
+  - type: input
+    id: service
+    attributes:
+      label: Service and env vars
+      description: Which service it uses, and the names (never values) of any new environment variables.
+  - type: textarea
+    id: cost
+    attributes:
+      label: Cost and time per book
+      description: Rough cost and time per book, and how you will measure them. Every visit to the handler must finish in a few seconds.
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: House rules
+      options:
+        - label: Anything that decides safety, money or who gets contacted is code, not a prompt.
+          required: true
+        - label: It does not weaken any child-safety control.
+          required: true

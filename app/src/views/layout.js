@@ -15,6 +15,12 @@ export const STAFF = [
   { key: "cashier", name: "The Cashier", role: "Takes the $19 through Stripe Checkout. Agents never touch money", kind: "Code · Stripe", color: "#A99BFF", icon: "💳" },
   { key: "clock", name: "The Night Manager", role: "Wakes the office every five minutes and keeps the queue moving", kind: "Naïve scheduled agent", color: "#FFE08A", icon: "⏰" },
 ];
+/** Painted art from /art: webp with a jpg/png fallback, lazy by default, sized to stop layout shift. */
+export function art(name, { cls = "", alt = "", w = 1536, h = 1024, png = false, eager = false, attrs = "" } = {}) {
+  return `<picture class="${cls}" ${attrs}><source srcset="/art/${name}.webp" type="image/webp"><img src="/art/${name}.${png ? "png" : "jpg"}" alt="${esc(alt)}" width="${w}" height="${h}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></picture>`;
+}
+/** A glowing wavy divider between sections. */
+export const WAVE = `<div class="wave" aria-hidden="true"><svg viewBox="0 0 1440 64" preserveAspectRatio="none"><path class="w1" d="M0 34C180 6 360 6 540 30S900 58 1080 32 1320 8 1440 26"/><path class="w2" d="M0 44C200 22 380 24 560 40S920 60 1100 42 1330 22 1440 36"/></svg><span class="wave-star"></span></div>`;
 export function layout({ title, body, scripts = "", bodyClass = "", head = "", nav = true, mode = "pledge", desc }) {
   const d = desc || "A picture book starring your child: written, painted, narrated and bound in minutes by Nightlight Press, a publisher run entirely by AI agents.";
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -23,11 +29,11 @@ export function layout({ title, body, scripts = "", bodyClass = "", head = "", n
 <link rel="icon" href="data:image/svg+xml,${encodeURIComponent(LOGO.replace('aria-hidden="true"', 'xmlns="http://www.w3.org/2000/svg"'))}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Literata:ital,wght@0,400;0,500;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/nl.css">${head}</head><body class="${bodyClass}">
+<link rel="stylesheet" href="/css/nl.css"><link rel="stylesheet" href="/css/magic.css">${head}</head><body class="${bodyClass}">
 ${nav ? `<nav class="top"><div class="wrap"><a class="brand" href="/">${LOGO}Nightlight Press</a><div class="links"><a href="/#how">How it works</a><a href="/tell">Tell a story</a><a href="/shelf">The shelf</a><a href="/office">Watch the office</a><a href="/board">Company board</a><a class="btn small" href="/#make">Make their book</a></div></div></nav>` : ""}
 ${body}
 ${nav ? `<footer><div class="wrap"><div>${LOGO.replace("<svg", '<svg style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"')}Nightlight Press. A US children's publisher with no employees: agents on Naïve, art and phone calls through Monid, letters through AgentMail, phones through Mobilerun.</div><div><a href="/office">The office</a> · <a href="/board">Company board</a> · <a href="/api/ledger.json">Public ledger</a> · Payments: ${mode === "pledge" ? "pledge mode, no card is charged" : mode === "test" ? "Stripe test mode" : "Stripe"}</div></div></footer>` : ""}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>window.toast=(m)=>{const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.classList.remove('show'),3400)};window.esc=(s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));</script>
-${scripts}<script src="/js/pip.js" defer></script></body></html>`;
+<script src="/js/magic.js" defer></script>${scripts}<script src="/js/pip.js" defer></script></body></html>`;
 }

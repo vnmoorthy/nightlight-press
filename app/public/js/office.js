@@ -25,7 +25,7 @@ const hudTop = $(".hud-top"); const syncHud = () => hudTop && document.documentE
 syncHud(); if (hudTop && "ResizeObserver" in window) new ResizeObserver(syncHud).observe(hudTop); addEventListener("resize", syncHud);
 const FR = 47; let aspect = innerWidth / innerHeight;
 const camera = new THREE.OrthographicCamera(-FR * aspect / 2, FR * aspect / 2, FR / 2, -FR / 2, 0.1, 500);
-camera.position.set(44, 50, 60); const fitZoom = () => Math.max(0.5, Math.min(1.05, (innerWidth - (innerWidth > 900 ? 340 : 0)) / 1150)); camera.zoom = fitZoom();
+camera.position.set(44, 50, 60); const fitZoom = () => Math.max(0.5, Math.min(1.05, innerWidth > 900 ? (innerWidth - 364) / 1340 : innerWidth / 1150)); /* keep every desk clear of the feed panel */ camera.zoom = fitZoom();
 function offset() { if (innerWidth > 900) camera.setViewOffset(innerWidth, innerHeight, 170, 10, innerWidth, innerHeight); else camera.clearViewOffset(); camera.updateProjectionMatrix(); }
 offset();
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -150,7 +150,7 @@ for (const [k, d] of Object.entries(DESKS)) makeDesk(k, d);
   const SL = label("📚 The free shelf<small>Marketing adds a book every night</small>", 5.6); SL.position.set(-2, 5.4, -D / 2 + 1.5); scene.add(SL);
   scene.add(box(4.5, 5.5, 0.4, frameM, DOOR.x, 2.75, D / 2 - 0.2)); scene.add(box(3.4, 4.6, 0.45, M(C.royal, { roughness: 0.6 }), DOOR.x, 2.3, D / 2 - 0.2));
   scene.add(mesh(new THREE.CircleGeometry(0.75, 28), new THREE.MeshBasicMaterial({ color: 0xffc764, toneMapped: false, fog: false }), DOOR.x, 3.4, D / 2 + 0.04, false)); scene.add(mesh(new THREE.SphereGeometry(0.16, 12, 8), M(C.sun, { metalness: 0.6, roughness: 0.3 }), DOOR.x - 1.2, 2.2, D / 2 + 0.1));
-  const DL = label("🚪 Front door<small>orders in, books out</small>", 6.2); DL.position.set(DOOR.x, 6.3, D / 2 - 0.4); scene.add(DL); })();
+  const DL = label("🚪 Front door<small>orders in, books out</small>", 6.2); DL.position.set(DOOR.x, 0.2, D / 2 + 2.2); /* below the door, so walkers' speech bubbles never sit on it */ scene.add(DL); })();
 // ---------- people ----------
 const SKIN = [0x8d5524, 0xc68642, 0xe0ac69, 0xf1c27d, 0xffdbac, 0x5c3a21], HAIR = [0x1f1a17, 0x3b2a20, 0x6b4a2b, 0xc9a26b, 0x2b2b3a, 0x8a3b2a];
 const people = {};
@@ -229,22 +229,28 @@ const KIND = {
 };
 const ACT = { "agent:author": "author", "code:editor": "editor", "agent:illustrator": "illustrator", "agent:narrator": "narrator", "agent:binder": "binder", "code:mailroom": "mailroom", "agent:storyteller-line": "storyteller", "agent:proofreader": "proofreader", "agent:frontdesk": "frontdesk", "agent:marketer": "marketer", "agent:film": "illustrator" };
 const name = (a) => STAFF[ACT[a] || String(a).replace(/^agent:/, "")]?.name || String(a).replace(/^agent:/, "");
-function feed(e, replay) { const f = KIND[e.kind]; if (!f) return; const [i, t] = f(e.detail || {}, e); const el = document.createElement("div"); el.className = `ev${replay ? " replay" : ""}`; el.innerHTML = `<i>${i}</i><div>${t}<small>${new Date(e.created_at).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", second: "2-digit" })}${replay ? " · replay" : ""}</small></div>`; const box = $("#events"); box.prepend(el); while (box.children.length > 60) box.lastChild.remove(); }
+// Told stories start with a placeholder hero ("the child who is talking") until the Author learns the name.
+const kidName = {}; const TOLD_RE = /the child who is talking('s)?/g;
+const unTold = (v, oid) => typeof v === "string" ? v.replace(TOLD_RE, (_, s) => (kidName[oid] ? kidName[oid] + (s || "") : s ? "the young storyteller's" : "a young storyteller")) : v;
+const nameFromTitle = (t) => { const m = /^([A-Z][a-z\u00C0-\u017F'-]{1,20})(?:'s|\u2019s| and | the |,)/.exec(String(t || "")); return m ? m[1] : null; };
+function learn(e) { const d = e.detail || {}; if (e.kind === "story" && d.title && !kidName[e.order_id]) { const n = nameFromTitle(d.title); if (n) kidName[e.order_id] = n; } if (e.kind === "commission" && d.hero && !TOLD_RE.test(d.hero) && !/storyteller/.test(d.hero)) kidName[e.order_id] = d.hero; TOLD_RE.lastIndex = 0; }
+const clean = (e) => { learn(e); const d = e.detail || {}; return { ...d, hero: unTold(d.hero, e.order_id) === "a young storyteller" && kidName[e.order_id] ? kidName[e.order_id] : unTold(d.hero, e.order_id), purpose: unTold(d.purpose, e.order_id) }; };
+function feed(e, replay) { const f = KIND[e.kind]; if (!f) return; const [i, t] = f(clean(e), e); const el = document.createElement("div"); el.className = `ev${replay ? " replay" : ""}`; el.innerHTML = `<i>${i}</i><div>${t}<small>${new Date(e.created_at).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", second: "2-digit" })}${replay ? " · replay" : ""}</small></div>`; const box = $("#events"); box.prepend(el); while (box.children.length > 60) box.lastChild.remove(); }
 function banner(t) { const b = $("#banner"); b.innerHTML = t; b.classList.add("show"); clearTimeout(window.__bn); window.__bn = setTimeout(() => b.classList.remove("show"), 4200); }
 const hero = {};
 function act(e) {
-  const d = e.detail || {};
+  const d = clean(e);
   switch (e.kind) {
     case "order": visitor(d.hero); break;
     case "payment": spark(DESKS.cashier.top, C.leaf); bubble(people.cashier, d.mode === "pledge" ? "Pledge noted" : `+$${(d.amount_cents / 100).toFixed(0)}`); if (anim.coins && anim.coins.children.length < 12) { const c = itemMesh("coin"); c.position.set(0, anim.coins.children.length * 0.11, 0); anim.coins.add(c); } break;
-    case "commission": hero[e.order_id] = d.hero; if (d.kind === "catalog") handoff("marketer", "author", "ticket", `A book about ${d.hero}`); else handoff("cashier", "author", "ticket", `Paid! Book for ${d.hero}`); break;
+    case "commission": hero[e.order_id] = clean(e).hero; if (d.kind === "catalog") handoff("marketer", "author", "ticket", `A book about ${d.hero}`); else handoff("cashier", "author", "ticket", `Paid! Book for ${d.hero}`); break;
     case "commission_shelf": bubble(people.marketer, `Tonight: ${d.hero}, ${d.occasion}`, 4000); break;
     case "agent_start": { const k = ACT[e.actor]; if (k && people[k]) bubble(people[k], d.purpose, 4000); if (k && screens[k]) screens[k].emissiveIntensity = 1.6; break; }
     case "story": if (!d.revised) handoff("author", "editor", "manuscript", `“${d.title}” is done!`); else bubble(people.author, "Revised!"); break;
     case "edit_check": if (d.pass) { handoff("editor", "illustrator", "manuscript", `Approved: ${d.words} words`); setTimeout(() => fly(DESKS.editor.top, DESKS.narrator.top, "manuscript"), 400); } else handoff("editor", "author", "manuscript", `Too long, try again`); break;
     case "paint": paintEasel(d.media); bubble(people.illustrator, d.page === "cover" ? "Painted the cover" : `Painted page ${d.page}`, 1800); fly(DESKS.illustrator.top, DESKS.binder.top, "painting"); break;
     case "narrate": bubble(people.narrator, `Recorded page ${d.page}`, 1500); if (anim.onair) anim.onair.emissiveIntensity = 2.5; fly(DESKS.narrator.top, DESKS.binder.top, "tape"); break;
-    case "bind": bubble(people.binder, `Bound in ${d.minutes_since_order} min!`, 3500); if (anim.stack && anim.stack.children.length < 8) { const b = itemMesh("book"); b.position.y = anim.stack.children.length * 0.32; anim.stack.add(b); } handoff("binder", "mailroom", "book", "Hot off the press"); banner(`📚 “${esc(hero[e.order_id] ? `${hero[e.order_id]}'s book` : "A new book")}” is bound`); break;
+    case "bind": bubble(people.binder, `Bound in ${d.minutes_since_order} min!`, 3500); if (anim.stack && anim.stack.children.length < 8) { const b = itemMesh("book"); b.position.y = anim.stack.children.length * 0.32; anim.stack.add(b); } handoff("binder", "mailroom", "book", "Hot off the press"); banner(`📚 “${esc((kidName[e.order_id] || hero[e.order_id]) && !/storyteller/.test(kidName[e.order_id] || hero[e.order_id]) ? `${kidName[e.order_id] || hero[e.order_id]}'s book` : "A new book")}” is bound`); break;
     case "deliver": toDoor("mailroom", "envelope", "Off it goes!"); break;
     case "sms": bubble(people.mailroom, "Texted the link", 2000); break;
     case "read_call": anim.ringing = Date.now() + 12000; bubble(people.storyteller, `Hello ${d.listener}! I'm an AI storyteller…`, 6000); break;
@@ -276,7 +282,7 @@ async function poll() {
     $("#kp").innerHTML = [["Books made", j.stats.books], ["Pages painted", j.stats.painted], [j.mode === "pledge" ? "Pledged" : "Revenue", `$${(((j.mode === "pledge" ? j.stats.pledged : j.stats.revenue) || 0) / 100).toFixed(0)}`], ["On the shelf", j.stats.shelf]].map(([k, v]) => `<div><b>${v}</b><span>${k}</span></div>`).join("");
     if (first) { for (let i = 0; i < Math.min(j.stats.shelf, 27); i++) shelfAdd(null); }
     setStaff(j.staff || {}); making(j.making || []);
-    for (const e of j.events) { since = Math.max(since, e.seq); if (e.kind === "commission") hero[e.order_id] = e.detail?.hero; feed(e); if (!first) act(e); else if (e.kind === "paint") paintEasel(e.detail?.media); }
+    for (const e of j.events) { since = Math.max(since, e.seq); if (e.kind === "commission") hero[e.order_id] = clean(e).hero; feed(e); if (!first) act(e); else if (e.kind === "paint") paintEasel(e.detail?.media); }
     if (j.clock) { const age = Math.round((Date.now() - new Date(j.clock.at)) / 1000); $("#clock").innerHTML = `<span class="dot"></span> Night Manager · woke the office ${age < 60 ? `${age}s` : `${Math.round(age / 60)}m`} ago`; if (lastClock && lastClock !== j.clock.at) { if (anim.bell) anim.bell.emissiveIntensity = 3; if (/mcp|naive/.test(j.clock.source)) bubble(people.clock, "Everyone up! Checking the queue", 2500); } lastClock = j.clock.at; }
     first = false;
   } catch (e) { console.warn(e); }
@@ -290,6 +296,7 @@ $("#replay").onclick = async () => {
   const last = [...all].reverse().find((e) => e.kind === "bind" && e.order_id);
   if (!last) { replaying = false; $("#replay").textContent = "Replay the last book"; return banner("No finished books yet. Make one!"); }
   const evs = all.filter((e) => e.order_id === last.order_id && KIND[e.kind] && !["read_call", "read_call_done"].includes(e.kind)).slice(0, 80);
+  for (const e of all) if (e.order_id === last.order_id) learn(e);
   banner("Replaying how the last book was made"); let k = 0;
   const step = () => { if (k >= evs.length) { replaying = false; $("#replay").textContent = "Replay the last book"; return; } const e = evs[k++]; feed({ ...e, created_at: new Date().toISOString() }, true); act(e); setTimeout(step, ["paint", "narrate"].includes(e.kind) ? 380 : 1500); };
   step();

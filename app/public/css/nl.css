@@ -493,3 +493,91 @@ footer a{color:#fff}
 .fan .bk{border:0;border-radius:16px}.fan .bk span{background:rgba(5,11,46,.78);color:#fff;border:1px solid rgba(255,255,255,.15);box-shadow:none}
 /* final pass: cool the bright top-right of the hero media toward night */
 @media (min-width:901px){.hc-slide:after{background:linear-gradient(90deg,rgba(5,11,46,.94) 0%,rgba(5,11,46,.72) 38%,rgba(5,11,46,.22) 72%,rgba(11,26,74,.28)),radial-gradient(60% 70% at 100% 0%,rgba(11,26,74,.45),transparent 70%),linear-gradient(0deg,var(--night0) 0%,rgba(5,11,46,0) 34%)}}
+
+/* ==========================================================================
+   STORYBOOK MAGIC · painted art, parallax hero, waves, spotlight (source order wins)
+   ========================================================================== */
+/* home hero: painted Fernhush Bay with parallax, live stars and Pip */
+.hc{height:min(88vh,820px);min-height:580px}
+.hc-scene{position:absolute;inset:0;overflow:hidden}
+.hc-layer{position:absolute}
+.hc-bg{inset:-34px}
+.hc-bg picture,.hc-bg img{display:block;width:100%;height:100%}
+.hc-bg img{object-fit:cover;object-position:62% 58%;animation:hcdrift 30s ease-in-out infinite alternate}
+@keyframes hcdrift{from{transform:scale(1.06)}to{transform:scale(1.12) translateX(-1.2%)}}
+.hc-stars{position:absolute;left:0;right:0;top:0;height:52%;z-index:1;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}
+.hc-pip{right:clamp(14px,7vw,120px);top:clamp(70px,13%,130px);width:clamp(120px,17vw,250px);z-index:2}
+.hc-pip-in{position:relative}
+.hc-pip img{width:100%;height:auto}
+.hc-hi{position:absolute;left:-38%;top:6%;background:var(--cream);color:var(--night1);font:700 15px/1 var(--display);padding:10px 14px;border-radius:16px 16px 4px 16px;box-shadow:0 10px 26px rgba(0,0,0,.4),0 0 24px rgba(255,211,110,.35);white-space:nowrap;animation:hchi 7s ease-in-out 1.8s infinite both}
+@keyframes hchi{0%{opacity:0;scale:.6}6%,40%{opacity:1;scale:1}48%,100%{opacity:0;scale:.85}}
+.hc-magic:after{background:linear-gradient(90deg,rgba(5,11,46,.9) 0%,rgba(5,11,46,.62) 34%,rgba(5,11,46,.08) 64%,transparent),linear-gradient(0deg,var(--night0) 0%,rgba(5,11,46,0) 30%),radial-gradient(60% 40% at 30% 0%,rgba(5,11,46,.35),transparent)}
+.hc-magic:after{z-index:1}
+.hc-magic .hc-copy{z-index:3}
+.hc-copy h1 .hl,.hc-copy h2 .hl{white-space:normal}
+.swoosh.gild{text-shadow:none}
+@media (max-width:760px){
+  .hc{height:auto;min-height:640px}
+  .hc-copy{bottom:96px}
+  .hc-bg img{object-position:72% 50%}
+  .hc-pip{top:74px;right:12px;width:116px}
+  .hc-hi{font-size:12.5px;padding:8px 10px;left:-62%;top:0}
+  .hc-magic:after{background:linear-gradient(0deg,var(--night0) 0%,rgba(5,11,46,.88) 48%,rgba(5,11,46,.25) 78%,rgba(5,11,46,.1))}
+}
+/* glowing wavy dividers */
+.wave{position:relative;height:64px;margin:-10px 0;pointer-events:none;z-index:2}
+.wave svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.wave path{fill:none;stroke-linecap:round}
+.wave .w1{stroke:var(--gold);stroke-width:2;opacity:.75;filter:drop-shadow(0 0 6px rgba(255,211,110,.85))}
+.wave .w2{stroke:var(--sky);stroke-width:1.2;opacity:.45;stroke-dasharray:2 10;filter:drop-shadow(0 0 5px rgba(111,195,255,.8))}
+.wave-star{position:absolute;left:50%;top:22px;width:16px;height:16px;margin-left:-8px;background:var(--cream);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);filter:drop-shadow(0 0 8px var(--gold));animation:wavestar 3.4s ease-in-out infinite}
+@keyframes wavestar{50%{scale:.6;rotate:45deg;opacity:.6}}
+/* section heads with painted art */
+.sec-head{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:40px;align-items:center}
+.books-art{justify-self:end;width:min(320px,100%);margin:-40px 0 -30px}
+.books-art img{width:100%;height:auto;filter:drop-shadow(0 0 30px rgba(255,211,110,.25))}
+.staff-head{grid-template-columns:minmax(0,1fr) minmax(0,1fr);margin-bottom:12px}
+.art-frame{position:relative;margin:0;border-radius:24px;overflow:hidden;aspect-ratio:3/2;background:var(--night2);box-shadow:0 0 0 1px rgba(255,211,110,.28),0 0 50px rgba(255,211,110,.16),0 0 110px rgba(61,123,255,.28),0 40px 80px -30px rgba(0,0,0,.9)}
+.art-frame img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s ease}
+.art-frame:hover img{transform:scale(1.04)}
+.art-frame figcaption{position:absolute;left:12px;bottom:12px;font:700 12.5px/1 var(--body);letter-spacing:.04em;color:#fff;background:rgba(5,11,46,.72);border:1px solid var(--glass-b);padding:8px 12px;border-radius:999px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+/* shelf-night painted behind the rails and the shelf header */
+.rails-night,.shelfhero{position:relative;isolation:isolate;overflow:hidden}
+.sec-art{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.sec-art picture,.sec-art img{width:100%;height:100%;display:block}
+.sec-art img{object-fit:cover;object-position:50% 40%;opacity:.55}
+.sec-art:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--night0) 0%,rgba(5,11,46,.45) 22%,rgba(5,11,46,.55) 70%,var(--night1) 100%)}
+.rails-night{padding:56px 0 40px}
+.shelfhero{padding:96px 0 60px}
+.shelfhero .sec-art img{opacity:.75}
+.shelfhero .sec-art:after{background:linear-gradient(90deg,rgba(5,11,46,.9),rgba(5,11,46,.35) 70%),linear-gradient(0deg,var(--night1),transparent 40%)}
+/* making-of: floating books in the corner */
+.mo{position:relative}
+.mo-art{position:absolute;right:max(10px,calc(50% - 640px));top:24px;width:clamp(120px,16vw,210px);pointer-events:none;opacity:.95;z-index:0}
+.mo-art img{width:100%;height:auto}
+.mo>.wrap{position:relative;z-index:1}
+.readycard{border:1px solid rgba(255,211,110,.5)!important;box-shadow:0 0 0 1px rgba(255,211,110,.3),0 0 60px rgba(255,211,110,.25)!important}
+/* reader: spotlight + starfield + page-turn */
+.stage>canvas.mg-starfield{position:absolute;inset:0;z-index:-1}
+.stage .spot{position:absolute;left:50%;top:-10%;width:min(1200px,140%);height:120%;transform:translateX(-50%);z-index:0;pointer-events:none;background:radial-gradient(50% 42% at 50% 46%,rgba(255,236,190,.16),rgba(255,211,110,.06) 45%,transparent 72%),conic-gradient(from 180deg at 50% -8%,transparent 160deg,rgba(255,236,190,.07) 172deg,rgba(255,236,190,.1) 180deg,rgba(255,236,190,.07) 188deg,transparent 200deg)}
+.spread.turn #pic,.spread.turn #vid{animation:pgturn .6s cubic-bezier(.2,.7,.2,1)}
+.spread.turn-b #pic,.spread.turn-b #vid{animation:pgturnb .6s cubic-bezier(.2,.7,.2,1)}
+.spread.turn #txt,.spread.turn-b #txt{animation:pgtext .7s ease}
+@keyframes pgturn{0%{opacity:.15;transform:perspective(1400px) rotateY(-14deg) translateX(30px);transform-origin:0 50%;filter:brightness(1.4)}100%{opacity:1;transform:none}}
+@keyframes pgturnb{0%{opacity:.15;transform:perspective(1400px) rotateY(14deg) translateX(-30px);transform-origin:100% 50%;filter:brightness(1.4)}100%{opacity:1;transform:none}}
+@keyframes pgtext{0%{opacity:0;filter:blur(3px)}100%{opacity:1;filter:none}}
+/* Pip badge: sit on the picture's top-left corner, never over the story text */
+#spread .pipbtn{top:12px;bottom:auto;left:12px;width:64px;height:72px}
+#spread .pipbtn .say{bottom:auto;top:6px;left:62px}
+#spread.fx .pipbtn{top:auto;bottom:10px;left:10px;width:52px;height:58px}
+#spread.fx .pipbtn .say{display:none}
+@media (max-width:600px){#spread .pipbtn{width:50px;height:56px;top:8px;left:8px}#spread .pipbtn .say{top:2px;left:48px;font-size:11.5px;padding:5px 8px}}
+/* /tell */
+.tell .sec-art img{opacity:.4}
+@media (max-width:920px){
+  .sec-head,.staff-head{grid-template-columns:1fr;gap:24px}
+  .books-art{justify-self:center;width:min(240px,70%);margin:0 auto -10px}
+  .mo-art{display:none}
+  .wave{height:44px}
+}
+@media (prefers-reduced-motion:reduce){.hc-bg img{animation:none}.hc-hi{animation:none;opacity:1}}

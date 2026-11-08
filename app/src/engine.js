@@ -16,6 +16,7 @@ import { renderBook } from "./picturebook.js";
 import { putMedia, getMedia } from "./media.js";
 
 const BASE = () => process.env.PUBLIC_BASE_URL || "http://localhost:3100";
+const TOLD_KID = "the child who is talking"; // placeholder hero for told stories until the Author learns the name
 const PAGES = () => Number(process.env.BOOK_PAGES || 10);
 const US = (p) => /^\+1[2-9]\d{9}$/.test(String(p || ""));
 const order = (oid) => one(`select * from orders where id=$1`, [oid]);
@@ -50,7 +51,7 @@ export async function startBook(oid) {
   await q(`insert into books(id, order_id, kind, hero_name, look, style, language, age, status, public, price_cents) values($1,$2,$3,$4,$5,$6,$7,$8,'writing',$9,$10)`, [bid, o.id, o.kind, o.child_name, o.look, o.style, o.language, o.child_age, o.kind === "catalog" || o.kind === "told", 0]);
   await q(`update orders set book_id=$2, status='making' where id=$1`, [o.id, bid]);
   await enqueue("write", { order_id: o.id, book_id: bid });
-  await ledger("commission", "code", { book: bid, hero: o.child_name, age: o.child_age, style: o.style, language: o.language, kind: o.kind, robot: !!o.robot, teller: o.teller_name || undefined }, o.id);
+  await ledger("commission", "code", { book: bid, hero: o.child_name === TOLD_KID ? "a young storyteller" : o.child_name, age: o.child_age, style: o.style, language: o.language, kind: o.kind, robot: !!o.robot, teller: o.teller_name || undefined }, o.id);
   return bid;
 }
 
@@ -61,7 +62,7 @@ H.write = async (job) => {
   const vars = { age: o.child_age || 5, language: LANG[o.language] || "English", name: o.child_name, pronoun: o.pronoun, look: o.look || "the illustrator may choose a friendly, simple look", favorites: o.favorites || "playing outside, stories, animals", occasion: o.occasion || "a cosy adventure before bedtime", pages: o.kind === "told" ? Number(process.env.TOLD_PAGES || 8) : PAGES(), max_words: maxWordsFor(o.child_age || 5), from: o.kind === "catalog" ? "Nightlight Press" : o.buyer_name || "someone who loves them", robot: o.robot ? ROBOT_STORY : "", world: WORLD_ON() ? WORLD : "", teller: o.teller_name || "a storyteller", told: String(o.told_text || "").slice(0, 8000) };
   let msg = fill(o.kind === "told" ? TELLER : AUTHOR, vars);
   if (p.feedback) msg += `\n\nYour previous draft failed the Editor's checks: ${p.feedback}. Fix exactly those problems and return the whole book again.\nPrevious draft: ${JSON.stringify(p.draft).slice(0, 12000)}`;
-  const r = await agentPhase(job, { agent: "author", purpose: p.feedback ? `rewrite ${o.child_name}'s book for the Editor` : `write ${o.child_name}'s book`, message: msg, schema: SCHEMAS.story, budget: 600_000, phase: p.round || 0 });
+  const r = await agentPhase(job, { agent: "author", purpose: o.child_name === TOLD_KID ? (p.feedback ? "rewrite the told story for the Editor" : "turn a told story into a book") : p.feedback ? `rewrite ${o.child_name}'s book for the Editor` : `write ${o.child_name}'s book`, message: msg, schema: SCHEMAS.story, budget: 600_000, phase: p.round || 0 });
   if (r.state !== "done") return "waiting";
   const story = r.output;
   if (o.kind === "told" && o.child_name === "the child who is talking" && story.hero_name) { const hn = String(story.hero_name).trim().split(/\s+/)[0].slice(0, 40); await q(`update orders set child_name=$2 where id=$1`, [o.id, hn]); await q(`update books set hero_name=$2 where id=$1`, [b.id, hn]); o.child_name = hn; b.hero_name = hn; }
@@ -130,11 +131,22 @@ H.narrate = async (job) => {
 async function maybeBind(bid, oid) {
   const s = await one(`select count(*)::int n, count(image_media_id)::int img, count(audio_media_id)::int aud from pages where book_id=$1`, [bid]);
   const b = await book(bid);
-  if (s.n && s.img === s.n && s.aud === s.n && b.cover_media_id && b.status === "illustrating" && !(await hasActive("bind", "book_id", bid))) { await q(`update books set status='binding' where id=$1`, [bid]); await enqueue("bind", { order_id: oid, book_id: bid }); }
+  if (!(s.n && s.img === s.n && s.aud === s.n && b.cover_media_id && b.status === "illustrating")) return;
+  // One atomic switch: of all the workers that finish a book's last page at the same moment, exactly one binds it.
+  const won = await one(`update books set status='binding' where id=$1 and status='illustrating' returning id`, [bid]);
+  if (won && !(await hasActive("bind", "book_id", bid))) await enqueue("bind", { order_id: oid, book_id: bid });
 }
 
+// A bind can outlive a short lease or be cut off by a dev-server restart. Never bind (and email) one book twice.
+const bindingNow = new Set();
 H.bind = async (job) => {
   const b = await book(job.book_id); const o = await order(job.order_id);
+  if (bindingNow.has(b.id)) throw new Retry("bind already running for this book", 20000);
+  if (b.status === "ready" && b.pdf_media_id && (await one(`select 1 as x from jobs where book_id=$1 and kind in ('deliver','market') and created_at >= $2 limit 1`, [b.id, job.created_at]))) return done(job, { skipped: "already bound" });
+  bindingNow.add(b.id);
+  try { return await bindBook(job, b, o); } finally { bindingNow.delete(b.id); }
+};
+async function bindBook(job, b, o) {
   const pages = await q(`select p.idx, p.text, m.bytes from pages p left join media m on m.id=p.image_media_id where p.book_id=$1 order by p.idx`, [b.id]);
   const cover = b.cover_media_id ? (await getMedia(b.cover_media_id))?.bytes : null;
   const pdf = await renderBook(b, pages, cover, { forName: o.kind === "custom" ? o.child_name : null, robot: !!o.robot, teller: o.kind === "told" ? o.teller_name : null });
@@ -147,9 +159,9 @@ H.bind = async (job) => {
   if (revised) await q(`delete from kv where k=$1`, [`revised:${b.id}`]);
   if (!revised) await queueFilm(b, o.id);
   if (o.kind === "catalog") { if (!revised) await enqueue("market", { order_id: o.id, book_id: b.id }); }
-  else await enqueue("deliver", { order_id: o.id, book_id: b.id, payload: { revised: !!revised } });
+  else if (!(await hasActive("deliver", "book_id", b.id))) await enqueue("deliver", { order_id: o.id, book_id: b.id, payload: { revised: !!revised } });
   return done(job, { minutes: mins });
-};
+}
 
 H.deliver = async (job) => {
   const b = await book(job.book_id); const o = await order(job.order_id); const p = job.payload || {};
@@ -167,7 +179,7 @@ H.deliver = async (job) => {
   if (US(o.buyer_phone)) { try { await monid.sendSms(o.buyer_phone, `Nightlight Press: ${o.child_name}'s book "${b.title}" is ready: ${link}`); await ledger("sms", "code:mailroom", { to_last4: o.buyer_phone.slice(-4) }, o.id); } catch (e) { await ledger("sms_failed", "code:mailroom", { error: String(e.message).slice(0, 120) }, o.id); } }
   await q(`update orders set status='delivered' where id=$1`, [o.id]);
   if (o.read_to_phone && !p.revised && !(await hasActive("read_call", "book_id", b.id))) await enqueue("read_call", { order_id: o.id, book_id: b.id });
-  await enqueue("proof", { order_id: o.id, book_id: b.id, delayMs: 5000 });
+  if (!(await hasActive("proof", "book_id", b.id))) await enqueue("proof", { order_id: o.id, book_id: b.id, delayMs: 5000 });
   return done(job, {});
 };
 
@@ -192,6 +204,8 @@ H.read_call = async (job) => {
 H.proof = async (job) => {
   const b = await book(job.book_id); const p = job.payload || {};
   if (!p.task) {
+    // A real phone cannot open a localhost link, so a local proof would always "fail". Say so plainly instead.
+    if (/^https?:\/\/(localhost|127\.|\[::1\]|0\.0\.0\.0)/i.test(BASE())) { await ledger("proof_skipped", "code", { book: b.id, reason: "the book link is on localhost, which a real phone cannot open" }, job.order_id); return done(job, { skipped: "localhost" }); }
     let dev = null; try { dev = await mr.readyDevice(); } catch (e) { if (e instanceof Retry) throw e; }
     if (!dev) { if (!(await kvGet("mobilerun_warned"))) { await ledger("proof_skipped", "code", { reason: "no Mobilerun phone connected yet" }, job.order_id); await kvSet("mobilerun_warned", true); } return done(job, { skipped: true }); }
     const schema = { type: "object", properties: { title_seen: { type: "string" }, picture_visible: { type: "boolean" } }, required: ["title_seen", "picture_visible"] };

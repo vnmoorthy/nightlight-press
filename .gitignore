@@ -24,3 +24,8 @@ deck/build/shots/
 
 # private talk notes, never published
 docs/PITCH.md
+!.env.example
+!app/.env.example
+assets/blender/pip/frames/
+assets/blender/pip/test/
+deck/~$*

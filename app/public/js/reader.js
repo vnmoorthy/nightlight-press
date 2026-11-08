@@ -15,7 +15,7 @@
     dots.innerHTML = slides().map((_, i) => `<i class="${i === at ? "on" : ""}"></i>`).join("");
     const nx = slides()[at + 1]; if (nx?.image_media_id) { const im = new Image(); im.src = `/api/media/${nx.image_media_id}`; }
   }
-  function go(i, keepPlaying) { at = Math.max(0, Math.min(slides().length - 1, i)); render(); if (playing && keepPlaying) play(); else stop(); }
+  function go(i, keepPlaying) { const was = at; at = Math.max(0, Math.min(slides().length - 1, i)); if (at !== was) { spread.classList.remove("turn", "turn-b"); void spread.offsetWidth; spread.classList.add(at > was ? "turn" : "turn-b"); } render(); if (at !== was && at === slides().length - 1 && at > 0 && window.Magic) setTimeout(() => Magic.burst(spread, { count: 90, power: 1.3 }), 350); if (playing && keepPlaying) play(); else stop(); }
   function stop() { playing = false; aud.pause(); $("#readBtn").textContent = "▶ Read to me"; }
   function play() {
     playing = true; $("#readBtn").textContent = "❚❚ Pause";
