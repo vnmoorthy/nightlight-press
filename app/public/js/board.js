@@ -1,0 +1,20 @@
+(() => {
+  const $ = (s) => document.querySelector(s); const usd = (n) => `$${Number(n || 0).toFixed(2)}`; const ago = (t) => { const s = Math.round((Date.now() - new Date(t)) / 1000); return s < 60 ? `${s}s ago` : s < 3600 ? `${Math.round(s / 60)}m ago` : `${Math.round(s / 3600)}h ago`; };
+  const table = (cols, rows) => `<table><thead><tr>${cols.map((c) => `<th>${c}</th>`).join("")}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((x) => `<td>${x}</td>`).join("")}</tr>`).join("") || `<tr><td colspan="${cols.length}" class="muted">Nothing yet.</td></tr>`}</tbody></table>`;
+  async function load() {
+    fetch("/api/pulse", { method: "POST" }).catch(() => {});
+    const j = await (await fetch("/api/board")).json(); const s = j.stats;
+    $("#kpis").innerHTML = [["Books made", s.ready], ["Orders", s.orders], [j.mode === "pledge" ? "Pledged (no card taken)" : "Revenue", `$${((j.mode === "pledge" ? s.pledged : s.revenue) / 100).toFixed(0)}`], ["Median time to book", s.median_seconds ? `${Math.round(s.median_seconds / 6) / 10}m` : "–"], ["Pages painted", s.painted], ["Shelf books", s.shelf]].map(([k, v]) => `<div class="kpi"><b>${v}</b><span>${k}</span></div>`).join("");
+    const c = j.costs; const price = 19; const unit = c.per_book_usd || 0;
+    $("#econ").innerHTML = [["Price", usd(price)], ["Agents (Naïve), per book", usd(c.agents_usd / Math.max(1, s.ready))], ["Illustrations (Monid), per book", usd(c.images_usd / Math.max(1, s.ready))], ["Phone reading calls, total", usd(c.calls_usd)], ["Stripe fee", usd(price * 0.029 + 0.3)], ["Gross margin per book", `<b class="ok">${usd(price - unit - (price * 0.029 + 0.3))}</b>`], ["Payments", j.mode === "pledge" ? "pledge mode, nothing charged" : `Stripe ${j.mode}`], ["Monid wallet", j.monid ? usd(j.monid.balance ?? j.monid.available ?? j.monid.amount) : "–"]].map(([k, v]) => `<div class="row"><span>${k}</span><b>${v}</b></div>`).join("");
+    const iv = j.interventions.length; const runs = j.agents.reduce((a, r) => a + r.runs, 0);
+    $("#autonomy").innerHTML = [["Agent runs", runs], ["Ledger entries", j.chain.length ?? j.ledger.length], ["Human interventions", `<b class="${iv ? "bad" : "ok"}">${iv}</b>`], ["Waiting for a person", j.clearances.length], ["Night Manager last woke the office", j.clock ? `${ago(j.clock.at)} (${esc(j.clock.source)})` : "never"], ["Subscribers", s.subscribers]].map(([k, v]) => `<div class="row"><span>${k}</span><b>${v}</b></div>`).join("");
+    $("#agents").innerHTML = table(["Desk", "Runs", "Running", "Spend", "Last job"], j.agents.map((a) => [esc(a.agent), a.runs, a.running, usd(a.cost / 1e6), esc(a.last_purpose || "")]));
+    $("#jobs").innerHTML = table(["#", "Job", "State", "Polls"], j.jobs.map((x) => [x.id, esc(x.kind), esc(x.status), x.polls])) + (j.failed.length ? `<h4 style="margin:14px 0 6px">Failed</h4>` + table(["#", "Job", "Error"], j.failed.map((x) => [x.id, esc(x.kind), `<span class="small bad">${esc(x.error)}</span>`])) : "");
+    $("#interventions").innerHTML = iv ? j.interventions.map((x) => `<div class="row"><span>${esc(x.who)}: ${esc(x.what)} <span class="muted small">${esc(x.why || "")}</span></span><span class="small muted">${ago(x.created_at)}</span></div>`).join("") : `<p class="ok">None. The company ran by itself.</p>`;
+    $("#clear").innerHTML = j.clearances.length ? j.clearances.map((x) => `<div class="row"><span>${esc(x.detail?.reason || "")}</span><span class="small muted">${ago(x.created_at)}</span></div>`).join("") : `<p class="muted small">Nothing waiting.</p>`;
+    $("#chain").textContent = j.chain.ok ? `✓ chain verified, ${j.chain.length} entries` : `✗ chain broken at #${j.chain.at}`; $("#chain").className = `tag ${j.chain.ok ? "ok" : "bad"}`;
+    $("#ledger").innerHTML = table(["#", "When", "What", "Who", "Detail", "Hash"], j.ledger.map((e) => [e.seq, ago(e.created_at), esc(e.kind), esc(e.actor), `<span class="small">${esc(JSON.stringify(e.detail)).slice(0, 160)}</span>`, esc(String(e.hash).slice(0, 12))]));
+  }
+  load(); setInterval(load, 5000);
+})();
