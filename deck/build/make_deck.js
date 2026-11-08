@@ -1,4 +1,4 @@
-// Nightlight Press pitch deck generator (10 slides, LAYOUT_WIDE, "Daybreak storybook" theme).
+// Nightlight Press pitch deck generator (10 slides, LAYOUT_WIDE, "Magic Hour" theme: navy, soft glows, stars, gold accents).
 //
 //   node make_deck.js <out.pptx> [theme.json]
 //
@@ -27,18 +27,19 @@ const REPO_URL = "https://github.com/vnmoorthy/nightlight-press";
 const REPO_SHORT = "github.com/vnmoorthy/nightlight-press";
 
 // ---------------------------------------------------------------- theme
+// Magic Hour: the same palette as the website (app/public/css/nl.css), the README art and docs/.
 const HEX = {
-  ink: "22223B", muted: "6B6A80", white: "FFFFFF", paper: "FFF8EC", paper2: "FFF1DA",
-  tomato: "FF6B4A", sun: "FFC233", sky: "4DA8DA", leaf: "3BB273", lilac: "B8A1FF",
+  n0: "050B2E", ink: "0B1A4A", n2: "13296B", royal: "1F3FA6", glow: "3D7BFF", sky: "6FC3FF",
+  gold: "FFD36E", amber: "FFB13B", pink: "FF6FAE", cream: "FFF7E8", text: "EAF0FF", muted: "A9B6E0", white: "FFFFFF",
 };
 const THEME = {
-  name: "Nightlight Daybreak",
-  headFontFace: "Bookman Old Style",
-  bodyFontFace: "Calibri",
+  name: "Nightlight Magic Hour",
+  headFontFace: "Fredoka",
+  bodyFontFace: "Nunito",
   colors: {
-    dk1: HEX.ink, lt1: HEX.white, dk2: HEX.muted, lt2: HEX.paper,
-    accent1: HEX.tomato, accent2: HEX.sun, accent3: HEX.sky, accent4: HEX.leaf, accent5: HEX.lilac, accent6: HEX.paper2,
-    hlink: HEX.tomato, folHlink: HEX.lilac,
+    dk1: HEX.ink, lt1: HEX.white, dk2: HEX.n0, lt2: HEX.cream,
+    accent1: HEX.gold, accent2: HEX.amber, accent3: HEX.sky, accent4: HEX.glow, accent5: HEX.pink, accent6: HEX.royal,
+    hlink: HEX.gold, folHlink: HEX.sky,
   },
 };
 
@@ -50,15 +51,19 @@ pres.subject = "A children's picture-book publisher with no employees";
 pres.author = "Nightlight Press";
 pres.company = "Nightlight Press";
 
-const C = pres.SchemeColor;
-const INK = C.text1, MUTED = C.text2, WHITE = C.background1, PAPER = C.background2;
-const TOMATO = C.accent1, SUN = C.accent2, SKY = C.accent3, LEAF = C.accent4, LILAC = C.accent5, PAPER2 = C.accent6;
-const HEAD = "+mj-lt"; // theme heading font (Bookman Old Style) for non-title text
+// Everything sits on deep navy, so colours are plain hex: TEXT is the light body text, INK the navy
+// used for fills and for icons and labels on gold, amber, sky and pink.
+const INK = HEX.ink, TEXT = HEX.text, MUTED = HEX.muted, WHITE = HEX.white, PAPER = HEX.cream, DEEP = HEX.n0;
+const TOMATO = HEX.gold, SUN = HEX.amber, SKY = HEX.sky, LEAF = HEX.glow, LILAC = HEX.pink, PAPER2 = HEX.n2;
+const HEAD = "+mj-lt"; // theme heading font (Fredoka) for non-title text
 const SH = pres.shapes;
 const W = 13.333, H = 7.5;
 
 // fresh option objects every call (pptxgenjs mutates them)
-const cutShadow = (o = 3) => ({ type: "outer", color: HEX.ink, opacity: 0.16, blur: 2, offset: o, angle: 90 });
+const cutShadow = (o = 3) => ({ type: "outer", color: HEX.n0, opacity: 0.45, blur: 8, offset: o, angle: 90 });
+// frosted glass: white at 6% with a 13% white border (the website's .glass)
+const GLASS = () => ({ color: WHITE, transparency: 94 });
+const GLASS_LINE = () => ({ color: WHITE, transparency: 87, width: 1 });
 
 // ---------------------------------------------------------------- assets
 function fileOk(rel, minBytes) {
@@ -121,7 +126,7 @@ async function framedImage(slide, cands, box, opts = {}) {
   const pad = opts.pad ?? 0.1;
   slide.addShape(SH.ROUNDED_RECTANGLE, {
     x: box.x - pad, y: box.y - pad, w: box.w + 2 * pad, h: box.h + 2 * pad, rectRadius: 0.14,
-    fill: { color: opts.frame || WHITE }, line: { type: "none" }, shadow: cutShadow(4), rotate: opts.rotate || 0,
+    fill: opts.frame ? { color: opts.frame } : { color: WHITE, transparency: 86 }, line: GLASS_LINE(), shadow: cutShadow(4), rotate: opts.rotate || 0,
     objectName: (opts.name || "img") + "-frame",
   });
   const p = firstImage(cands);
@@ -143,7 +148,7 @@ async function framedVideoOr(slide, videoCands, imageCands, box, opts = {}) {
   const pad = opts.pad ?? 0.1;
   slide.addShape(SH.ROUNDED_RECTANGLE, {
     x: x - pad, y: y - pad, w: w + 2 * pad, h: h + 2 * pad, rectRadius: 0.14,
-    fill: { color: opts.frame || WHITE }, line: { type: "none" }, shadow: cutShadow(4), objectName: (opts.name || "video") + "-frame",
+    fill: opts.frame ? { color: opts.frame } : { color: WHITE, transparency: 86 }, line: GLASS_LINE(), shadow: cutShadow(4), objectName: (opts.name || "video") + "-frame",
   });
   const posterImg = firstImage(opts.poster || []);
   const cover = posterImg
@@ -161,14 +166,18 @@ function iconDot(slide, data, x, y, d, fill, name) {
   const m = d * 0.24;
   slide.addImage({ data, x: x + m, y: y + m, w: d - 2 * m, h: d - 2 * m, altText: "", objectName: name ? name + "-icon" : undefined });
 }
-function card(slide, x, y, w, h, name, fill = WHITE) {
-  slide.addShape(SH.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.16, fill: { color: fill }, line: { type: "none" }, shadow: cutShadow(3), objectName: name });
+// frosted glass card; pass PAPER2 for the brighter "band" variant with a gold edge
+function card(slide, x, y, w, h, name, fill = null) {
+  const band = fill === PAPER2;
+  slide.addShape(SH.ROUNDED_RECTANGLE, {
+    x, y, w, h, rectRadius: 0.2,
+    fill: band ? { color: WHITE, transparency: 90 } : GLASS(),
+    line: band ? { color: HEX.gold, transparency: 55, width: 1 } : GLASS_LINE(),
+    objectName: name,
+  });
 }
 
 // ---------------------------------------------------------------- layouts
-const blob = (x, y, w, h, color, transparency = 0) => ({
-  text: { text: "", options: { shape: SH.OVAL, x, y, w, h, fill: { color, transparency }, line: { type: "none" } } },
-});
 const kicker = (color) => ({
   placeholder: {
     options: { name: "kicker", type: "body", x: 0.6, y: 0.32, w: 8.5, h: 0.32, fontSize: 12, bold: true, color, charSpacing: 2, margin: 0, valign: "top" },
@@ -176,53 +185,87 @@ const kicker = (color) => ({
   },
 });
 
-pres.defineSlideMaster({
-  title: "NL_TITLE",
-  background: { color: PAPER },
-  objects: [
-    blob(-1.2, 6.15, 6.4, 2.6, LEAF),
-    blob(3.9, 6.45, 6.8, 2.4, SKY),
-    blob(9.2, 6.05, 5.6, 2.8, SUN),
-    blob(2.2, 6.75, 3.6, 1.6, LILAC),
-    kicker(TOMATO),
-    { placeholder: { options: { name: "title", type: "title", align: "left", x: 0.6, y: 0.85, w: 5.9, h: 2.9, fontSize: 36, bold: true, color: INK, valign: "top", margin: 0, lineSpacingMultiple: 0.95 }, text: "" } },
-    { placeholder: { options: { name: "body", type: "body", x: 0.6, y: 3.95, w: 5.6, h: 1.1, fontSize: 16, color: MUTED, valign: "top", margin: 0 }, text: "" } },
-  ],
-});
-pres.defineSlideMaster({
-  title: "NL_CONTENT",
-  background: { color: PAPER },
-  objects: [
-    blob(11.75, -1.05, 2.4, 2.4, SUN),
-    blob(11.25, 0.95, 0.42, 0.42, LILAC),
-    blob(10.7, 6.95, 3.9, 1.7, LEAF),
-    blob(12.15, 6.7, 2.2, 1.6, TOMATO),
-    { text: { text: "Nightlight Press", options: { x: 0.6, y: 7.0, w: 3, h: 0.3, fontSize: 10, color: MUTED, margin: 0, fontFace: HEAD } } },
-    kicker(TOMATO),
-    { placeholder: { options: { name: "title", type: "title", align: "left", x: 0.6, y: 0.66, w: 10.4, h: 0.72, fontSize: 32, bold: true, color: INK, valign: "top", margin: 0 }, text: "" } },
-  ],
-  slideNumber: { x: 12.45, y: 7.02, w: 0.5, h: 0.3, fontSize: 11, bold: true, color: WHITE, align: "center" },
-});
-pres.defineSlideMaster({
-  title: "NL_NIGHT",
-  background: { color: INK },
-  objects: [
-    blob(11.75, -1.05, 2.4, 2.4, SUN),
-    blob(11.45, -0.85, 2.0, 2.0, INK), // crescent bite
-    blob(9.7, 0.42, 0.09, 0.09, SUN), blob(10.9, 1.05, 0.07, 0.07, PAPER), blob(12.55, 1.7, 0.1, 0.1, SUN), blob(8.6, 0.25, 0.06, 0.06, PAPER),
-    blob(-1.2, 6.85, 6.2, 2.0, LILAC, 72),
-    blob(3.9, 7.05, 7.0, 2.0, SKY, 78),
-    blob(9.6, 6.8, 5.2, 2.2, LEAF, 74),
-    { text: { text: "Nightlight Press", options: { x: 0.6, y: 7.0, w: 3, h: 0.3, fontSize: 10, color: PAPER, margin: 0, fontFace: HEAD } } },
-    kicker(SUN),
-    { placeholder: { options: { name: "title", type: "title", align: "left", x: 0.6, y: 0.66, w: 10.4, h: 0.72, fontSize: 32, bold: true, color: PAPER, valign: "top", margin: 0 }, text: "" } },
-  ],
-  slideNumber: { x: 12.45, y: 7.02, w: 0.5, h: 0.3, fontSize: 11, bold: true, color: PAPER, align: "center" },
-});
+// The logo from app/src/views/layout.js: a gold star above an open book in a navy circle.
+const LOGO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none"><defs><radialGradient id="nlg" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#1F3FA6"/><stop offset="1" stop-color="#0B1A4A"/></radialGradient></defs><circle cx="16" cy="16" r="15" fill="url(#nlg)" stroke="#FFD36E" stroke-opacity=".55" stroke-width="1"/><circle cx="16" cy="11.2" r="5.6" fill="#FFD36E" opacity=".22"/><path d="M16 6.1l1.35 2.85 3.1.38-2.28 2.13.6 3.07L16 13.05l-2.77 1.48.6-3.07-2.28-2.13 3.1-.38z" fill="#FFD36E"/><path d="M5.8 18.4c3.4-1.7 7-1.6 10.2.5v7.1c-3.2-2-6.8-2.1-10.2-.5z" fill="#FFF7E8"/><path d="M26.2 18.4c-3.4-1.7-7-1.6-10.2.5v7.1c3.2-2 6.8-2.1 10.2-.5z" fill="#EAF0FF"/><path d="M16 18.9v7.1" stroke="#FFB13B" stroke-width="1" stroke-linecap="round"/></svg>`;
+async function svgPng(svg, w, h) {
+  const buf = await sharp(Buffer.from(svg)).resize(w, h).png().toBuffer();
+  return "image/png;base64," + buf.toString("base64");
+}
+// deep navy, soft blue radial glows and a sparse starfield (the website's body background)
+function skySvg(glows, stars, base) {
+  let seed = stars.seed;
+  const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  let dots = "";
+  for (let i = 0; i < stars.n; i++) {
+    const x = rnd() * 1920, y = rnd() * 1080 * stars.band, r = 0.8 + rnd() * 1.8, gold = rnd() < 0.3;
+    dots += `<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${r.toFixed(1)}" fill="${gold ? "#FFD36E" : "#FFF7E8"}" opacity="${(0.25 + rnd() * 0.55).toFixed(2)}"/>`;
+  }
+  const defs = glows.map((g, i) => `<radialGradient id="g${i}" cx="${g.cx}" cy="${g.cy}" r="${g.r}"><stop offset="0" stop-color="${g.c}" stop-opacity="${g.o}"/><stop offset="1" stop-color="${g.c}" stop-opacity="0"/></radialGradient>`).join("");
+  const rects = glows.map((g, i) => `<rect width="1920" height="1080" fill="url(#g${i})"/>`).join("");
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"><defs>${defs}<linearGradient id="v" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${base[0]}"/><stop offset="1" stop-color="${base[1]}"/></linearGradient></defs><rect width="1920" height="1080" fill="url(#v)"/>${rects}${dots}</svg>`;
+}
+// gold -> amber gradient pill (the website's .btn)
+const pillSvg = (w, h) => `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><defs><linearGradient id="p" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFD36E"/><stop offset="1" stop-color="#FFB13B"/></linearGradient></defs><rect width="${w}" height="${h}" rx="${h / 2}" fill="url(#p)"/></svg>`;
+let LOGO = null, PILL = null;
+
+async function defineMasters() {
+  LOGO = await svgPng(LOGO_SVG, 256, 256);
+  PILL = await svgPng(pillSvg(840, 170), 840, 170);
+  const bgTitle = await svgPng(skySvg([
+    { cx: "22%", cy: "18%", r: "55%", c: "#3D7BFF", o: 0.32 },
+    { cx: "82%", cy: "70%", r: "60%", c: "#1F3FA6", o: 0.55 },
+    { cx: "50%", cy: "105%", r: "50%", c: "#FF6FAE", o: 0.10 },
+  ], { n: 70, band: 0.75, seed: 7 }, ["#0B1A4A", "#050B2E"]), 1920, 1080);
+  const bgContent = await svgPng(skySvg([
+    { cx: "88%", cy: "0%", r: "45%", c: "#3D7BFF", o: 0.28 },
+    { cx: "8%", cy: "100%", r: "55%", c: "#1F3FA6", o: 0.45 },
+  ], { n: 34, band: 0.35, seed: 11 }, ["#0B1A4A", "#081440"]), 1920, 1080);
+  const bgNight = await svgPng(skySvg([
+    { cx: "85%", cy: "8%", r: "40%", c: "#FFD36E", o: 0.16 },
+    { cx: "15%", cy: "95%", r: "60%", c: "#3D7BFF", o: 0.30 },
+    { cx: "70%", cy: "100%", r: "50%", c: "#FF6FAE", o: 0.10 },
+  ], { n: 90, band: 0.9, seed: 3 }, ["#050B2E", "#0B1A4A"]), 1920, 1080);
+  const brand = (color) => [
+    { image: { data: LOGO, x: 0.6, y: 6.98, w: 0.3, h: 0.3 } },
+    { text: { text: "Nightlight Press", options: { x: 0.98, y: 6.98, w: 3, h: 0.3, fontSize: 11, bold: true, color, margin: 0, valign: "middle", fontFace: HEAD } } },
+  ];
+
+  pres.defineSlideMaster({
+    title: "NL_TITLE",
+    background: { data: bgTitle },
+    objects: [
+      kicker(TOMATO),
+      { placeholder: { options: { name: "title", type: "title", align: "left", x: 0.6, y: 0.85, w: 5.9, h: 2.9, fontSize: 38, bold: true, color: TEXT, valign: "top", margin: 0, lineSpacingMultiple: 0.95 }, text: "" } },
+      { placeholder: { options: { name: "body", type: "body", x: 0.6, y: 3.95, w: 5.6, h: 1.1, fontSize: 16, color: MUTED, valign: "top", margin: 0 }, text: "" } },
+      ...brand(PAPER),
+    ],
+  });
+  pres.defineSlideMaster({
+    title: "NL_CONTENT",
+    background: { data: bgContent },
+    objects: [
+      ...brand(MUTED),
+      kicker(TOMATO),
+      { placeholder: { options: { name: "title", type: "title", align: "left", x: 0.6, y: 0.66, w: 10.4, h: 0.72, fontSize: 32, bold: true, color: TEXT, valign: "top", margin: 0 }, text: "" } },
+    ],
+    slideNumber: { x: 12.45, y: 7.02, w: 0.5, h: 0.3, fontSize: 11, bold: true, color: MUTED, align: "center" },
+  });
+  pres.defineSlideMaster({
+    title: "NL_NIGHT",
+    background: { data: bgNight },
+    objects: [
+      ...brand(PAPER),
+      kicker(TOMATO),
+      { placeholder: { options: { name: "title", type: "title", align: "left", x: 0.6, y: 0.66, w: 10.4, h: 0.72, fontSize: 32, bold: true, color: PAPER, valign: "top", margin: 0 }, text: "" } },
+    ],
+    slideNumber: { x: 12.45, y: 7.02, w: 0.5, h: 0.3, fontSize: 11, bold: true, color: MUTED, align: "center" },
+  });
+}
 
 // ---------------------------------------------------------------- slides
 async function build() {
   const report = [];
+  await defineMasters();
 
   // 1 ── title / hook
   pres.addSection({ title: "Hook" });
@@ -234,16 +277,16 @@ async function build() {
       { text: "Made by a company with no employees.", options: { color: TOMATO } },
     ], { placeholder: "title" });
     s.addText("$19. Ten painted pages and a painted cover, read aloud on the web and bound as a print-ready PDF, in the inbox in under two minutes.", { placeholder: "body" });
-    s.addShape(SH.OVAL, { x: 11.35, y: 0.35, w: 1.9, h: 1.9, fill: { color: SUN }, line: { type: "none" }, objectName: "anim-1-0" });
     const media = await framedVideoOr(s,
       ["blender/office_flythrough.mp4"],
       ["blender/hero_still.jpg", "blender/hero_still.png", "hero.jpg"],
       { x: 6.95, y: 1.05, w: 5.75, h: 3.02 }, { name: "hero", label: "assets/blender/office_flythrough.mp4", position: "centre" });
     report.push(["slide 1 hero", media.kind, media.path]);
+    s.addImage({ data: LOGO, x: 12.12, y: 0.5, w: 1.0, h: 1.0, altText: "Nightlight Press logo", objectName: "anim-1-1" });
     s.addText("Cinematic render scripted by OpenAI GPT-6 Astra, rendered in Blender 5.2 EEVEE", {
       x: 6.95, y: 4.3, w: 5.75, h: 0.3, fontSize: 10, italic: true, color: MUTED, margin: 0, isTextBox: true, objectName: "anim-2-0",
     });
-    s.addImage({ data: await icon("FaGlobe", HEX.tomato), x: 0.6, y: 5.27, w: 0.28, h: 0.28, altText: "", objectName: "anim-2-1" });
+    s.addImage({ data: await icon("FaGlobe", HEX.gold), x: 0.6, y: 5.27, w: 0.28, h: 0.28, altText: "", objectName: "anim-2-1" });
     s.addText(LIVE_SHORT, {
       x: 0.98, y: 5.2, w: 5.4, h: 0.42, fontSize: 16, bold: true, color: TOMATO, margin: 0, valign: "middle", isTextBox: true,
       hyperlink: { url: LIVE_URL, tooltip: "Open the live company" }, objectName: "anim-2-2",
@@ -278,8 +321,8 @@ async function build() {
     for (let i = 0; i < rows.length; i++) {
       const [ic, col, head, body] = rows[i];
       const y = 1.78 + i * 1.6;
-      iconDot(s, await icon(ic), 6.45, y + 0.05, 0.72, col, `anim-${2 + i}-0`);
-      s.addText(head, { x: 7.4, y, w: 5.3, h: 0.42, fontSize: 20, bold: true, color: INK, fontFace: HEAD, margin: 0, isTextBox: true, objectName: `anim-${2 + i}-1` });
+      iconDot(s, await icon(ic, col === LEAF ? HEX.white : HEX.ink), 6.45, y + 0.05, 0.72, col, `anim-${2 + i}-0`);
+      s.addText(head, { x: 7.4, y, w: 5.3, h: 0.42, fontSize: 20, bold: true, color: TEXT, fontFace: HEAD, margin: 0, isTextBox: true, objectName: `anim-${2 + i}-1` });
       s.addText(body, { x: 7.4, y: y + 0.46, w: 5.3, h: 0.95, fontSize: 14, color: MUTED, margin: 0, valign: "top", isTextBox: true, objectName: `anim-${2 + i}-2` });
     }
     s.addNotes([
@@ -307,8 +350,8 @@ async function build() {
       const p = await framedImage(s, cands, { x: x + 0.18, y: 1.93, w: 3.49, h: 2.18 }, { name: `anim-${1 + i}-1`, pad: 0, frame: PAPER2, label });
       report.push([`slide 3 screen ${i + 1}`, p ? "image" : "pending", p]);
       s.addShape(SH.OVAL, { x: x - 0.22, y: 1.52, w: 0.62, h: 0.62, fill: { color: col }, line: { color: WHITE, width: 2 }, objectName: `anim-${1 + i}-2` });
-      s.addText(String(i + 1), { x: x - 0.22, y: 1.52, w: 0.62, h: 0.62, fontSize: 20, bold: true, color: i === 0 ? WHITE : INK, fontFace: HEAD, align: "center", valign: "middle", margin: 0, isTextBox: true, objectName: `anim-${1 + i}-3` });
-      s.addText(head, { x: x + 0.22, y: 4.35, w: 3.45, h: 0.45, fontSize: 19, bold: true, color: INK, fontFace: HEAD, margin: 0, isTextBox: true, objectName: `anim-${1 + i}-4` });
+      s.addText(String(i + 1), { x: x - 0.22, y: 1.52, w: 0.62, h: 0.62, fontSize: 20, bold: true, color: i === 2 ? WHITE : INK, fontFace: HEAD, align: "center", valign: "middle", margin: 0, isTextBox: true, objectName: `anim-${1 + i}-3` });
+      s.addText(head, { x: x + 0.22, y: 4.35, w: 3.45, h: 0.45, fontSize: 19, bold: true, color: TEXT, fontFace: HEAD, margin: 0, isTextBox: true, objectName: `anim-${1 + i}-4` });
       s.addText(body, { x: x + 0.22, y: 4.85, w: 3.45, h: 0.85, fontSize: 15, color: MUTED, margin: 0, valign: "top", isTextBox: true, objectName: `anim-${1 + i}-5` });
     }
     card(s, 0.6, 6.05, 12.15, 0.66, "anim-4-0", PAPER2);
@@ -316,7 +359,7 @@ async function build() {
     s.addText([
       { text: "Measured locally: ", options: { bold: true } },
       { text: "order \u2192 bound book in 1.6 min, in the inbox at 102 s. A revision request is re-emailed in 46 s." },
-    ], { x: 1.4, y: 6.08, w: 11.2, h: 0.6, fontSize: 14, color: INK, margin: 0, valign: "middle", isTextBox: true, objectName: "anim-4-2" });
+    ], { x: 1.4, y: 6.08, w: 11.2, h: 0.6, fontSize: 14, color: TEXT, margin: 0, valign: "middle", isTextBox: true, objectName: "anim-4-2" });
     s.addNotes([
       "The product is three screens. One: the order form. A parent types the child's name, age, what they look like, what they love and the language. It is $19, one time, through Stripe Checkout; the hosted instance runs in an honest pledge mode until the founder adds a Stripe key.",
       "Two: the making-of page. While the parent waits, the order page shows each desk working: the Author writing, the Editor checking, the Illustrator painting, the Narrator recording, the Binder binding. Locally the book is bound in 1.6 minutes and emailed at 102 seconds.",
@@ -345,8 +388,8 @@ async function build() {
     for (let i = 0; i < specs.length; i++) {
       const [ic, col, txt] = specs[i];
       const y = 3.2 + i * 0.66;
-      iconDot(s, await icon(ic, col === SUN || col === LILAC ? HEX.ink : HEX.white), 7.65, y, 0.48, col, `anim-${3 + i}-0`);
-      s.addText(txt, { x: 8.3, y, w: 4.45, h: 0.48, fontSize: 15, color: INK, margin: 0, valign: "middle", isTextBox: true, objectName: `anim-${3 + i}-1` });
+      iconDot(s, await icon(ic, col === LEAF ? HEX.white : HEX.ink), 7.65, y, 0.48, col, `anim-${3 + i}-0`);
+      s.addText(txt, { x: 8.3, y, w: 4.45, h: 0.48, fontSize: 15, color: TEXT, margin: 0, valign: "middle", isTextBox: true, objectName: `anim-${3 + i}-1` });
     }
     s.addNotes([
       "This is the book itself: 'Maya's Little Brave Hello', a finished order that went through the engine with no human touching it.",
@@ -362,12 +405,12 @@ async function build() {
     const s = pres.addSlide({ masterName: "NL_CONTENT", sectionTitle: "Company" });
     s.addText("THE STAFF", { placeholder: "kicker" });
     s.addText("Twelve desks. Nobody on payroll.", { placeholder: "title" });
-    const KIND = { agent: [LILAC, HEX.ink, "Agent"], model: [SUN, HEX.ink, "Model"], code: [SKY, HEX.white, "Code"] };
+    const KIND = { agent: [LILAC, HEX.ink, "Agent"], model: [SUN, HEX.ink, "Model"], code: [SKY, HEX.ink, "Code"] };
     // legend
     let lx = 0.6;
     for (const k of ["agent", "model", "code"]) {
       s.addShape(SH.OVAL, { x: lx, y: 1.5, w: 0.22, h: 0.22, fill: { color: KIND[k][0] }, line: { type: "none" } });
-      s.addText(KIND[k][2], { x: lx + 0.3, y: 1.45, w: 0.8, h: 0.32, fontSize: 12, bold: true, color: INK, margin: 0, valign: "middle", isTextBox: true });
+      s.addText(KIND[k][2], { x: lx + 0.3, y: 1.45, w: 0.8, h: 0.32, fontSize: 12, bold: true, color: TEXT, margin: 0, valign: "middle", isTextBox: true });
       lx += 1.15;
     }
     s.addText("Models write, code decides.", { x: 4.15, y: 1.45, w: 4, h: 0.32, fontSize: 12, italic: true, color: MUTED, margin: 0, valign: "middle", isTextBox: true });
@@ -393,13 +436,13 @@ async function build() {
       card(s, x, y, 2.85, 1.42, `anim-${step}-${sub}`);
       iconDot(s, await icon(ic, KIND[kind][1]), x + 0.15, y + 0.15, 0.5, KIND[kind][0], `anim-${step}-${sub + 1}`);
       s.addText([
-        { text: name, options: { fontSize: 15, bold: true, color: INK, fontFace: HEAD, breakLine: true } },
+        { text: name, options: { fontSize: 15, bold: true, color: TEXT, fontFace: HEAD, breakLine: true } },
         { text: tag, options: { fontSize: 10, bold: true, color: MUTED, charSpacing: 1 } },
       ], { x: x + 0.76, y: y + 0.12, w: 2.0, h: 0.58, margin: 0, valign: "middle", isTextBox: true, objectName: `anim-${step}-${sub + 2}` });
-      s.addText(job, { x: x + 0.15, y: y + 0.76, w: 2.58, h: 0.6, fontSize: 12, color: INK, margin: 0, valign: "top", isTextBox: true, objectName: `anim-${step}-${sub + 2}b` });
+      s.addText(job, { x: x + 0.15, y: y + 0.76, w: 2.58, h: 0.6, fontSize: 12, color: TEXT, margin: 0, valign: "top", isTextBox: true, objectName: `anim-${step}-${sub + 2}b` });
     }
     s.addNotes([
-      "The staff: twelve desks, nobody on payroll. Purple desks are agents, yellow are models, blue are plain code. Our rule is 'models write, code decides': agents and models produce words, pictures and audio; deterministic code checks them and moves the order along.",
+      "The staff: twelve desks, nobody on payroll. Pink desks are agents, amber desks are models, blue desks are plain code. Our rule is 'models write, code decides': agents and models produce words, pictures and audio; deterministic code checks them and moves the order along.",
       "Author is a Naive agent that writes in the child's language, sixteen languages. Editor is code: word limits by age, the child's name on the pages, banned words and brands, reading grade, and it can send a draft back once. Illustrator paints with Monid's gpt-image-2.5-sunburst. Narrator uses Naive speech with OpenAI TTS as a fallback; in our local run 19 of 25 page narrations came from Naive speech.",
       "Binder is code with PDFKit. Mailroom emails the PDF through AgentMail and texts US numbers through Monid SMS. The Storyteller Line is a Monid phone line that says it is an AI, needs consent and makes at most three calls per book. Front Desk is a Naive agent fed by the AgentMail inbound webhook and the box on the reader page.",
       "Proofreader uses Mobilerun to open each finished book on a real phone. Marketing is a Naive agent that commissions a free shelf book every 12 hours and emails subscribers; Instagram posting through Mobilerun is opt-in. Cashier is Stripe Checkout, in honest pledge mode on the hosted instance until a key is added. The Night Manager is a Naive scheduled agent that calls the app's MCP tick tool every five minutes.",
@@ -412,7 +455,7 @@ async function build() {
     s.addText("THE OFFICE", { placeholder: "kicker" });
     s.addText("Watch the company work", { placeholder: "title" });
     const media = await framedVideoOr(s, ["office.mp4", "screens/office.mp4"], ["screens/office.jpg"],
-      { x: 0.7, y: 1.7, w: 7.85, h: 4.9 }, { name: "office", frame: PAPER, label: "office floor (assets/office.mp4)", dark: true, poster: ["screens/office.jpg"] });
+      { x: 0.7, y: 1.7, w: 7.85, h: 4.9 }, { name: "office", label: "office floor (assets/office.mp4)", dark: true, poster: ["screens/office.jpg"] });
     report.push(["slide 6 office", media.kind, media.path]);
     const pts = [
       ["FaLightbulb", "Desks light up", "Each desk is a real worker. When its job runs, the desk lights up."],
@@ -450,9 +493,9 @@ async function build() {
       const [ic, col, head, body] = clocks[i];
       const y = 1.86 + i * 0.98;
       card(s, 0.6, y, 3.95, 0.84, `anim-1-${i * 3}`);
-      iconDot(s, await icon(ic, col === SKY || col === LEAF ? HEX.white : HEX.ink), 0.72, y + 0.14, 0.56, col, `anim-1-${i * 3 + 1}`);
+      iconDot(s, await icon(ic, col === LEAF ? HEX.white : HEX.ink), 0.72, y + 0.14, 0.56, col, `anim-1-${i * 3 + 1}`);
       s.addText([
-        { text: head, options: { fontSize: 14, bold: true, color: INK, breakLine: true } },
+        { text: head, options: { fontSize: 14, bold: true, color: TEXT, breakLine: true } },
         { text: body, options: { fontSize: 11, color: MUTED } },
       ], { x: 1.4, y: y + 0.08, w: 3.1, h: 0.68, margin: 0, valign: "middle", isTextBox: true, objectName: `anim-1-${i * 3 + 2}` });
       // arrow into tick
@@ -470,10 +513,10 @@ async function build() {
     });
     s.addShape(SH.OVAL, { x: tickC.x - tickC.r, y: tickC.y - tickC.r, w: 2 * tickC.r, h: 2 * tickC.r, fill: { color: TOMATO }, line: { type: "none" }, shadow: cutShadow(3), objectName: "anim-3-1" });
     s.addText([
-      { text: "tick()", options: { fontSize: 22, bold: true, color: WHITE, fontFace: HEAD, breakLine: true } },
-      { text: "each step < 7 s", options: { fontSize: 11, color: WHITE } },
+      { text: "tick()", options: { fontSize: 22, bold: true, color: INK, fontFace: HEAD, breakLine: true } },
+      { text: "each step < 7 s", options: { fontSize: 11, color: INK } },
     ], { x: tickC.x - tickC.r, y: tickC.y - tickC.r, w: 2 * tickC.r, h: 2 * tickC.r, align: "center", valign: "middle", margin: 0, isTextBox: true, objectName: "anim-3-2" });
-    s.addText([{ text: "re-invokes itself", options: { breakLine: true } }, { text: "while work is due" }], { x: 4.85, y: tickC.y + 1.2, w: 1.9, h: 0.45, fontSize: 11, italic: true, color: INK, align: "center", margin: 0, isTextBox: true, objectName: "anim-3-3" });
+    s.addText([{ text: "re-invokes itself", options: { breakLine: true } }, { text: "while work is due" }], { x: 4.85, y: tickC.y + 1.2, w: 1.9, h: 0.45, fontSize: 11, italic: true, color: TEXT, align: "center", margin: 0, isTextBox: true, objectName: "anim-3-3" });
     // what tick drives
     const sinks = [
       ["FaDatabase", SKY, "Postgres job queue", "Leases with FOR UPDATE SKIP LOCKED; every step under 7 s, so it fits serverless. Agent calls are resumable phases."],
@@ -488,9 +531,9 @@ async function build() {
         flipV: y + 0.58 < tickC.y, line: { color: MUTED, width: 1.5, endArrowType: "triangle" }, objectName: `anim-4-${i * 4}`,
       });
       card(s, 7.6, y, 5.1, 1.16, `anim-4-${i * 4 + 1}`);
-      iconDot(s, await icon(ic === "FaHandPaper" ? "FaHand" : ic, col === LILAC ? HEX.ink : HEX.white), 7.75, y + 0.14, 0.56, col, `anim-4-${i * 4 + 2}`);
+      iconDot(s, await icon(ic === "FaHandPaper" ? "FaHand" : ic, col === LEAF ? HEX.white : HEX.ink), 7.75, y + 0.14, 0.56, col, `anim-4-${i * 4 + 2}`);
       s.addText([
-        { text: head, options: { fontSize: 15, bold: true, color: INK, fontFace: HEAD, breakLine: true } },
+        { text: head, options: { fontSize: 15, bold: true, color: TEXT, fontFace: HEAD, breakLine: true } },
         { text: body, options: { fontSize: 12, color: MUTED } },
       ], { x: 8.45, y: y + 0.08, w: 4.15, h: 1.0, margin: 0, valign: "middle", isTextBox: true, objectName: `anim-4-${i * 4 + 3}` });
     }
@@ -498,8 +541,8 @@ async function build() {
     card(s, 0.6, 5.85, 12.1, 0.82, "anim-5-0", PAPER2);
     iconDot(s, await icon("FaArrowsRotate", HEX.ink), 0.75, 5.98, 0.56, SUN, "anim-5-1");
     s.addText([
-      { text: "Self-continuation: ", options: { bold: true, color: INK } },
-      { text: "after each tick the app calls itself again while work is due, under one Postgres lease with a depth cap.", options: { color: INK } },
+      { text: "Self-continuation: ", options: { bold: true, color: TEXT } },
+      { text: "after each tick the app calls itself again while work is due, under one Postgres lease with a depth cap.", options: { color: TEXT } },
     ], { x: 1.45, y: 5.9, w: 7.9, h: 0.72, fontSize: 14, margin: 0, valign: "middle", isTextBox: true, objectName: "anim-5-2" });
     s.addText("Models write, code decides.", { x: 9.4, y: 5.9, w: 3.15, h: 0.72, fontSize: 16, bold: true, italic: true, color: TOMATO, fontFace: HEAD, align: "right", margin: 0, valign: "middle", isTextBox: true, objectName: "anim-5-3" });
     s.addNotes([
@@ -516,19 +559,19 @@ async function build() {
     const s = pres.addSlide({ masterName: "NL_CONTENT", sectionTitle: "Business" });
     s.addText("UNIT ECONOMICS", { placeholder: "kicker" });
     s.addText("$19 a book, about 94% gross margin", { placeholder: "title" });
-    const hdr = (t, align = "left") => ({ text: t, options: { bold: true, color: PAPER, fill: { color: INK }, align, fontSize: 14 } });
-    const cell = (t, o = {}) => ({ text: t, options: { color: INK, fill: { color: WHITE }, fontSize: 16, ...o } });
+    const hdr = (t, align = "left") => ({ text: t, options: { bold: true, color: PAPER, fill: { color: DEEP }, align, fontSize: 14 } });
+    const cell = (t, o = {}) => ({ text: t, options: { color: TEXT, fill: { color: PAPER2 }, fontSize: 16, ...o } });
     const rows = [
       [hdr("Per book"), hdr("Amount", "right")],
       [cell("Price, one time"), cell("$19.00", { align: "right", bold: true })],
       [cell("Paintings (11 × ~$0.011, Monid)"), cell("$0.12", { align: "right" })],
       [cell("Agent runs (Naïve)"), cell("< $0.01", { align: "right" })],
       [cell("Stripe fee"), cell("$0.85", { align: "right" })],
-      [cell("Gross margin", { bold: true, fill: { color: SUN } }), cell("≈ 94%", { align: "right", bold: true, fill: { color: SUN }, fontSize: 18 })],
+      [cell("Gross margin", { bold: true, color: INK, fill: { color: TOMATO } }), cell("≈ 94%", { align: "right", bold: true, color: INK, fill: { color: TOMATO }, fontSize: 18 })],
     ];
     s.addTable(rows, {
       x: 0.6, y: 1.8, w: 6.7, colW: [4.9, 1.8], rowH: [0.55, 0.7, 0.7, 0.7, 0.7, 0.8],
-      border: { type: "solid", color: HEX.paper2, pt: 1 }, valign: "middle", margin: [0.06, 0.18, 0.06, 0.18],
+      border: { type: "solid", color: HEX.royal, pt: 1 }, valign: "middle", margin: [0.06, 0.18, 0.06, 0.18],
       objectName: "anim-1-0",
     });
     s.addText("Measured locally on the same code the hosted app runs.", { x: 0.6, y: 6.15, w: 6.7, h: 0.3, fontSize: 11, italic: true, color: MUTED, margin: 0, isTextBox: true, objectName: "anim-1-1" });
@@ -541,9 +584,9 @@ async function build() {
       const y = 1.8 + i * 2.2;
       card(s, 7.85, y, 4.85, 1.95, `anim-${2 + i}-0`);
       s.addShape(SH.OVAL, { x: 8.1, y: y + 0.25, w: 0.9, h: 0.9, fill: { color: col }, line: { type: "none" }, objectName: `anim-${2 + i}-1` });
-      s.addText(big, { x: 9.2, y: y + 0.18, w: 3.3, h: 1.0, fontSize: 48, bold: true, color: INK, fontFace: HEAD, margin: 0, valign: "middle", isTextBox: true, objectName: `anim-${2 + i}-2` });
+      s.addText(big, { x: 9.2, y: y + 0.18, w: 3.3, h: 1.0, fontSize: 48, bold: true, color: TEXT, fontFace: HEAD, margin: 0, valign: "middle", isTextBox: true, objectName: `anim-${2 + i}-2` });
       s.addText([
-        { text: l1, options: { bold: true, color: INK, fontSize: 14, breakLine: true } },
+        { text: l1, options: { bold: true, color: TEXT, fontSize: 14, breakLine: true } },
         { text: l2, options: { color: MUTED, fontSize: 12 } },
       ], { x: 8.1, y: y + 1.27, w: 4.45, h: 0.6, margin: 0, valign: "top", isTextBox: true, objectName: `anim-${2 + i}-3` });
     }
@@ -560,9 +603,9 @@ async function build() {
     s.addText("BUILT ON", { placeholder: "kicker" });
     s.addText("Each sponsor does a real job", { placeholder: "title" });
     const sp = [
-      ["Naïve", TOMATO, "FaBuilding", HEX.white, "Runs the company: four agents, the 5-minute schedule, the hosted Hono app with managed Postgres, the MCP endpoint, webhooks, speech, vault and identity."],
+      ["Naïve", TOMATO, "FaBuilding", HEX.ink, "Runs the company: four agents, the 5-minute schedule, the hosted Hono app with managed Postgres, the MCP endpoint, webhooks, speech, vault and identity."],
       ["Mobilerun", SUN, "FaMobileScreen", HEX.ink, "The Proofreader. On the founder’s iPhone 16 at 7:48 AM it opened the live site in Safari and read the headline back exactly, in 3 steps."],
-      ["AgentMail", SKY, "FaEnvelopeOpenText", HEX.white, "The Mailroom sends the PDF; the message.received webhook hands replies to the Front Desk, so revisions need no human."],
+      ["AgentMail", SKY, "FaEnvelopeOpenText", HEX.ink, "The Mailroom sends the PDF; the message.received webhook hands replies to the Front Desk, so revisions need no human."],
       ["Monid", LEAF, "FaPalette", HEX.white, "Paints every page with gpt-image-2.5-sunburst, texts US parents, and runs the Storyteller phone line."],
     ];
     for (let i = 0; i < sp.length; i++) {
@@ -570,19 +613,19 @@ async function build() {
       const y = 1.72 + i * 1.27;
       card(s, 0.6, y, 8.55, 1.12, `anim-${1 + i}-0`);
       iconDot(s, await icon(ic, icHex), 0.78, y + 0.2, 0.72, col, `anim-${1 + i}-1`);
-      s.addText(name, { x: 1.7, y: y + 0.1, w: 1.9, h: 0.92, fontSize: 19, bold: true, color: INK, fontFace: HEAD, margin: 0, valign: "middle", isTextBox: true, objectName: `anim-${1 + i}-2` });
-      s.addText(body, { x: 3.6, y: y + 0.08, w: 5.4, h: 0.96, fontSize: 13, color: INK, margin: 0, valign: "middle", isTextBox: true, objectName: `anim-${1 + i}-3` });
+      s.addText(name, { x: 1.7, y: y + 0.1, w: 1.9, h: 0.92, fontSize: 19, bold: true, color: TEXT, fontFace: HEAD, margin: 0, valign: "middle", isTextBox: true, objectName: `anim-${1 + i}-2` });
+      s.addText(body, { x: 3.6, y: y + 0.08, w: 5.4, h: 0.96, fontSize: 13, color: TEXT, margin: 0, valign: "middle", isTextBox: true, objectName: `anim-${1 + i}-3` });
     }
     // the phone
     const ph = { x: 10.0, y: 1.55, w: 2.42, h: 5.25 };
-    s.addShape(SH.ROUNDED_RECTANGLE, { x: ph.x - 0.12, y: ph.y - 0.12, w: ph.w + 0.24, h: ph.h + 0.24, rectRadius: 0.32, fill: { color: INK }, line: { type: "none" }, shadow: cutShadow(5), objectName: "anim-5-0" });
+    s.addShape(SH.ROUNDED_RECTANGLE, { x: ph.x - 0.12, y: ph.y - 0.12, w: ph.w + 0.24, h: ph.h + 0.24, rectRadius: 0.32, fill: { color: DEEP }, line: GLASS_LINE(), shadow: cutShadow(5), objectName: "anim-5-0" });
     const proof = firstImage(["mobilerun/iphone-proof-4.png", "mobilerun/iphone-proof-3.png", "mobilerun/iphone-proof-2.png", "mobilerun/iphone-proof-1.png"]);
     if (proof) {
       s.addImage({ data: await cropTo(proof, ph.w, ph.h, "top"), x: ph.x, y: ph.y, w: ph.w, h: ph.h, altText: "Mobilerun opened the live site in Safari on an iPhone 16", objectName: "anim-5-1" });
     } else pending(s, { ...ph, name: "anim-5-1" }, "iPhone proof (assets/mobilerun/)", true);
     report.push(["slide 9 iphone", proof ? "image" : "pending", proof]);
     s.addShape(SH.OVAL, { x: 9.12, y: 0.95, w: 1.0, h: 1.0, fill: { color: TOMATO }, line: { color: WHITE, width: 2 }, rotate: -12, objectName: "anim-6-0" });
-    s.addText("real iPhone 16", { x: 9.12, y: 0.95, w: 1.0, h: 1.0, fontSize: 11, bold: true, color: WHITE, align: "center", valign: "middle", margin: 0.05, rotate: -12, isTextBox: true, objectName: "anim-6-1" });
+    s.addText("real iPhone 16", { x: 9.12, y: 0.95, w: 1.0, h: 1.0, fontSize: 11, bold: true, color: INK, align: "center", valign: "middle", margin: 0.05, rotate: -12, isTextBox: true, objectName: "anim-6-1" });
     s.addNotes([
       "Each sponsor does one concrete job; none is a logo on a slide.",
       "Naive runs the company: the Author, Front Desk, Marketing and Night Manager agents, the five-minute schedule, the hosted Hono app with managed Postgres, the MCP endpoint, the webhooks, speech, vault and identity.",
@@ -601,22 +644,23 @@ async function build() {
     s.addText("Twelve desks, four clocks, one public ledger and no employees. Your child’s book tonight, for $19.", {
       x: 0.6, y: 1.65, w: 5.6, h: 1.0, fontSize: 18, color: PAPER, margin: 0, valign: "top", isTextBox: true, objectName: "anim-1-0",
     });
+    s.addImage({ data: PILL, x: 0.6, y: 3.0, w: 4.2, h: 0.85, altText: "", objectName: "anim-2-0" });
     s.addText("Order one now", {
-      shape: SH.ROUNDED_RECTANGLE, rectRadius: 0.4, x: 0.6, y: 3.0, w: 4.2, h: 0.85, fill: { color: TOMATO }, line: { type: "none" },
-      fontSize: 24, bold: true, color: WHITE, fontFace: HEAD, align: "center", valign: "middle", isTextBox: true, shadow: cutShadow(4), objectName: "anim-2-0",
+      x: 0.6, y: 3.0, w: 4.2, h: 0.85, fontSize: 24, bold: true, color: INK, fontFace: HEAD, align: "center", valign: "middle", margin: 0, isTextBox: true,
+      hyperlink: { url: LIVE_URL, tooltip: "Open the live company" }, objectName: "anim-2-1",
     });
     const links = [["FaGlobe", "Live", LIVE_SHORT, LIVE_URL], ["FaGithub", "Code", REPO_SHORT, REPO_URL]];
     for (let i = 0; i < links.length; i++) {
       const [ic, lab, txt, url] = links[i];
       const y = 4.25 + i * 0.62;
-      s.addImage({ data: await icon(ic, HEX.sun), x: 0.6, y: y + 0.07, w: 0.32, h: 0.32, altText: "", objectName: `anim-3-${i * 2}` });
+      s.addImage({ data: await icon(ic, HEX.gold), x: 0.6, y: y + 0.07, w: 0.32, h: 0.32, altText: "", objectName: `anim-3-${i * 2}` });
       s.addText([
         { text: lab + "   ", options: { bold: true, color: SUN } },
         { text: txt, options: { color: PAPER, hyperlink: { url, tooltip: url } } },
       ], { x: 1.05, y, w: 5.6, h: 0.46, fontSize: 16, margin: 0, valign: "middle", isTextBox: true, objectName: `anim-3-${i * 2 + 1}` });
     }
     const media = await framedVideoOr(s, ["blender/book_open.mp4"], ["book/page-10.jpg", "book/collage.jpg", "blender/hero_still.jpg"],
-      { x: 7.0, y: 1.75, w: 5.6, h: 4.33 }, { name: "book", frame: PAPER, label: "assets/blender/book_open.mp4", dark: true, position: "centre" });
+      { x: 7.0, y: 1.75, w: 5.6, h: 4.33 }, { name: "book", label: "assets/blender/book_open.mp4", dark: true, position: "centre" });
     report.push(["slide 10 book", media.kind, media.path]);
     s.addNotes([
       "Close. Nightlight Press runs while we sleep: twelve desks, four clocks, one public ledger, no employees. The Night Manager will tick again in the next five minutes whether or not anyone is watching.",
