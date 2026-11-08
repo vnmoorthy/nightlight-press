@@ -58,12 +58,14 @@ const H = {};
 H.write = async (job) => {
   const o = await order(job.order_id); const b = await book(job.book_id);
   const p = job.payload || {};
-  const vars = { age: o.child_age || 5, language: LANG[o.language] || "English", name: o.child_name, pronoun: o.pronoun, look: o.look || "the illustrator may choose a friendly, simple look", favorites: o.favorites || "playing outside, stories, animals", occasion: o.occasion || "a cosy adventure before bedtime", pages: PAGES(), max_words: maxWordsFor(o.child_age || 5), from: o.kind === "catalog" ? "Nightlight Press" : o.buyer_name || "someone who loves them", robot: o.robot ? ROBOT_STORY : "", world: WORLD_ON() ? WORLD : "", teller: o.teller_name || "a storyteller", told: String(o.told_text || "").slice(0, 8000) };
+  const vars = { age: o.child_age || 5, language: LANG[o.language] || "English", name: o.child_name, pronoun: o.pronoun, look: o.look || "the illustrator may choose a friendly, simple look", favorites: o.favorites || "playing outside, stories, animals", occasion: o.occasion || "a cosy adventure before bedtime", pages: o.kind === "told" ? Number(process.env.TOLD_PAGES || 8) : PAGES(), max_words: maxWordsFor(o.child_age || 5), from: o.kind === "catalog" ? "Nightlight Press" : o.buyer_name || "someone who loves them", robot: o.robot ? ROBOT_STORY : "", world: WORLD_ON() ? WORLD : "", teller: o.teller_name || "a storyteller", told: String(o.told_text || "").slice(0, 8000) };
   let msg = fill(o.kind === "told" ? TELLER : AUTHOR, vars);
   if (p.feedback) msg += `\n\nYour previous draft failed the Editor's checks: ${p.feedback}. Fix exactly those problems and return the whole book again.\nPrevious draft: ${JSON.stringify(p.draft).slice(0, 12000)}`;
   const r = await agentPhase(job, { agent: "author", purpose: p.feedback ? `rewrite ${o.child_name}'s book for the Editor` : `write ${o.child_name}'s book`, message: msg, schema: SCHEMAS.story, budget: 600_000, phase: p.round || 0 });
   if (r.state !== "done") return "waiting";
-  const story = r.output; const check = checkStory(story, { name: o.child_name, age: o.child_age || 5, language: o.language });
+  const story = r.output;
+  if (o.kind === "told" && o.child_name === "the child who is talking" && story.hero_name) { const hn = String(story.hero_name).trim().split(/\s+/)[0].slice(0, 40); await q(`update orders set child_name=$2 where id=$1`, [o.id, hn]); await q(`update books set hero_name=$2 where id=$1`, [b.id, hn]); o.child_name = hn; b.hero_name = hn; }
+  const check = checkStory(story, { name: o.child_name, age: o.child_age || 5, language: o.language });
   const facts = Array.isArray(story.robot_facts) ? story.robot_facts : []; if (facts.length < 3 || facts.some((f) => String(f).split(/\s+/).length > 26)) { check.pass = false; check.issues.push("the Learn about robots page needs three facts of at most 25 words each"); }
   if (o.robot) { const sales = story.pages.filter((pg) => /\b(buy|buying|bought|price|prices|sale|store|shop|shopping)\b|\$\d/i.test(pg.text)).length; if (sales) { check.pass = false; check.issues.push(`${sales} page(s) mention buying, shops or prices; a robot friend must never sell anything`); } }
   await ledger("edit_check", "code:editor", { book: b.id, pass: check.pass, issues: check.issues, words: check.words, reading_grade: check.reading_grade, round: (p.round || 0) + 1 }, o.id);

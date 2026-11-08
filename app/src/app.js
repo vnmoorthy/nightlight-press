@@ -63,18 +63,18 @@ app.post("/api/tell", async (c) => {
   const told = String(b.story || "").replace(/\s+/g, " ").trim().slice(0, 8000);
   const hero = String(b.hero || "").trim().slice(0, 40);
   const teller = String(b.teller || "").trim().slice(0, 60) || "a storyteller";
-  if (told.split(" ").length < 25) return c.json({ error: "Tell a little more: at least a few sentences." }, 400);
-  if (!hero) return c.json({ error: "Who is the story about? Add the hero's name." }, 400);
+  if (told.split(" ").length < 12) return c.json({ error: "Tell a little more: a sentence or two about the hero and the story." }, 400);
+  if (!b.consent) return c.json({ error: "A grown-up needs to tick the permission box first." }, 400);
   const recent = await one(`select count(*) filter (where created_at > now() - interval '60 seconds')::int m, count(*) filter (where created_at > now() - interval '1 day')::int d from orders where kind='told'`);
   if (recent.m >= 1) return c.json({ error: "The Author is already writing a told story. Try again in a minute." }, 429);
   if (recent.d >= Number(process.env.TOLD_PER_DAY || 40)) return c.json({ error: "We've written today's told stories. Come back tomorrow." }, 429);
   const email = String(b.email || "").trim().toLowerCase();
-  const o = { id: id("ord"), child_name: hero, child_age: Math.max(1, Math.min(12, Number(b.age) || 5)), pronoun: ["he", "she", "they"].includes(b.pronoun) ? b.pronoun : "they",
+  const o = { id: id("ord"), child_name: hero || "the child who is talking", child_age: Math.max(1, Math.min(12, Number(b.age) || 5)), pronoun: ["he", "she", "they"].includes(b.pronoun) ? b.pronoun : "they",
     look: String(b.look || "").trim().slice(0, 240), language: LANG[b.language] ? b.language : "en", style: STYLES[b.style] ? b.style : "storybook", robot: !!b.robot };
   await q(`insert into orders(id, kind, buyer_email, child_name, child_age, pronoun, look, occasion, language, style, status, paid_mode, amount_cents, source, told_text, teller_name, robot) values($1,'told',$2,$3,$4,$5,$6,$7,$8,$9,'paid','house',0,$10,$11,$12,$13)`,
     [o.id, /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ? email : null, o.child_name, o.child_age, o.pronoun, o.look, "a story told out loud by " + teller, o.language, o.style, String(b.source || "tell").slice(0, 20), told, teller, o.robot]);
-  await ledger("told", "code", { teller, hero, words: told.split(" ").length, robot: o.robot, language: o.language, style: o.style }, o.id);
-  await engine.startBook(o.id);
+  await ledger("told", "code", { teller, hero: hero || "a child (named in the story)", shared: !!b.share, words: told.split(" ").length, robot: o.robot, language: o.language, style: o.style }, o.id);
+  const bid = await engine.startBook(o.id); if (!b.share) await q(`update books set public=false where id=$1`, [bid]);
   await engine.tick({ budgetMs: 2500, source: "tell" }).catch(() => {});
   await engine.chainPulse(0).catch(() => {});
   return c.json({ id: o.id, url: `/order/${o.id}` });

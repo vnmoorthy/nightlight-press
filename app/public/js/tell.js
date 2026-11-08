@@ -36,10 +36,10 @@
   form.onsubmit = async (e) => {
     e.preventDefault(); if (listening) stop();
     const story = (box.innerText || "").trim();
-    if (story.split(/\s+/).length < 25) { err.textContent = "Tell a little more: at least a few sentences."; return; }
-    if (!form.hero.value.trim()) { err.textContent = "Who is the story about? Add the hero's name."; form.hero.focus(); return; }
+    if (story.split(/\s+/).length < 12) { err.textContent = "Tell a little more: a sentence or two about the hero and the story."; return; }
+    if (!form.consent.checked) { err.textContent = "A grown-up needs to tick the permission box first."; return; }
     go.disabled = true; go.innerHTML = '<span class="spin"></span> Sending your story to the Author…';
-    const d = Object.fromEntries(new FormData(form).entries()); d.robot = !!form.robot.checked; d.story = story; d.source = "tell";
+    const d = Object.fromEntries(new FormData(form).entries()); d.robot = !!form.robot.checked; d.consent = !!form.consent.checked; d.share = !!form.share.checked; d.story = story; d.source = "tell";
     try { const r = await fetch("/api/tell", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(d) }); const j = await r.json(); if (!r.ok) throw new Error(j.error || "Something went wrong."); location.href = j.url; }
     catch (x) { err.textContent = x.message; go.disabled = false; go.textContent = "Make it a book"; }
   };
