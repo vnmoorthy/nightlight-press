@@ -1,0 +1,24 @@
+{
+  "name": "nightlight-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "migrate": "node src/migrate.js",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.0",
+    "@usenaive-sdk/managed-agents": "^0.12.3",
+    "hono": "^4.6.0",
+    "pdfkit": "^0.15.0",
+    "pg": "^8.13.0",
+    "sharp": "^0.34.5",
+    "stripe": "^17.0.0",
+    "three": "^0.171.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}
