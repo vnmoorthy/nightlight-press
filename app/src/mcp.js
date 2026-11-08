@@ -6,6 +6,7 @@ const TOOLS = [
   { name: "board_summary", description: "Books made, on the shelf, revenue, ledger integrity.", inputSchema: { type: "object", properties: {} } },
   { name: "commission_shelf_book", description: "Ask the Marketing desk to commission a new public book for the shelf.", inputSchema: { type: "object", properties: {} } },
   { name: "recent_books", description: "The latest books and their status.", inputSchema: { type: "object", properties: {} } },
+  { name: "office_now", description: "What every desk in the office is doing right now, plus the latest finished work. Use it to report the office inside Naïve.", inputSchema: { type: "object", properties: {} } },
   { name: "note", description: "Write a note on the public company ledger.", inputSchema: { type: "object", properties: { agent: { type: "string" }, text: { type: "string" } }, required: ["text"] } },
 ];
 async function call(name, a = {}) {
@@ -13,6 +14,14 @@ async function call(name, a = {}) {
   if (name === "board_summary") return { ...(await one(`select count(*) filter (where status='ready')::int books, count(*) filter (where status='ready' and public)::int shelf from books`)), ...(await one(`select coalesce(sum(captured_cents) filter (where kind='custom' and paid_mode in ('live','test')),0)::int revenue_cents, coalesce(sum(amount_cents) filter (where kind='custom' and paid_mode='pledge'),0)::int pledged_cents, count(*) filter (where kind='custom')::int orders from orders`)), ledger: await verifyChain() };
   if (name === "commission_shelf_book") { await enqueue("commission", {}); return { ok: true }; }
   if (name === "recent_books") return q(`select id, title, status, kind, created_at from books order by created_at desc limit 20`);
+  if (name === "office_now") {
+    const DESK = { write: "Author", revise: "Author", paint: "Illustrator", narrate: "Narrator", bind: "Binder", deliver: "Mailroom", read_call: "Storyteller Line", proof: "Proofreader", frontdesk: "Front Desk", commission: "Marketing", market: "Marketing" };
+    const jobs = await q(`select j.kind, o.child_name from jobs j left join orders o on o.id=j.order_id where j.status in ('queued','waiting') order by j.id limit 200`);
+    const working = {}; for (const j of jobs) { const d = DESK[j.kind]; if (!d) continue; const k = `${d}: ${j.kind} for ${j.child_name || "the shelf"}`; working[k] = (working[k] || 0) + 1; }
+    const recent = await q(`select kind, actor, detail->>'title' title, detail->>'page' page, created_at from ledger order by seq desc limit 8`);
+    const today = await one(`select count(*) filter (where status='ready' and ready_at > now() - interval '1 day')::int books_today, count(*) filter (where status <> 'ready')::int in_production from books`);
+    return { at: new Date().toISOString(), working: Object.entries(working).map(([k, n]) => (n > 1 ? `${k} (${n})` : k)), ...today, recent: recent.map((r) => `${r.kind} by ${r.actor}${r.title ? ` "${r.title}"` : ""}${r.page ? ` page ${r.page}` : ""}`) };
+  }
   if (name === "note") { await ledger("note", `agent:${String(a.agent || "agent").slice(0, 30)}`, { text: String(a.text).slice(0, 2000) }); return { ok: true }; }
   throw new Error(`unknown tool ${name}`);
 }
@@ -29,3 +38,4 @@ export async function mcpHandler(c) {
     return c.json({ jsonrpc: "2.0", id: req.id ?? null, error: { code: -32601, message: `method not found: ${req.method}` } });
   } catch (e) { return c.json({ jsonrpc: "2.0", id: req.id ?? null, result: { isError: true, content: [{ type: "text", text: String(e.message) }] } }); }
 }
+export { call as mcpCall }; // for local tests
