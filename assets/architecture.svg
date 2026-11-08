@@ -1,0 +1,226 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1040" viewBox="0 0 1600 1040">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c9c2e6"/></marker>
+<pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#ffffff" stroke-opacity=".035"/></pattern>
+<style>.t{font:600 16px Inter,Helvetica,Arial,sans-serif;fill:#fff}.s{font:400 12.5px Inter,Helvetica,Arial,sans-serif;fill:#c9c2e6}.tag{font:600 11px Inter,Helvetica,Arial,sans-serif;letter-spacing:.06em}.lbl{font:500 11.5px Inter,Helvetica,Arial,sans-serif;fill:#e9e4ff}.h{font:600 13px Inter,Helvetica,Arial,sans-serif;fill:#f3d58c;letter-spacing:.14em}</style></defs>
+<rect width="1600" height="1040" fill="#141A33"/><rect width="1600" height="1040" fill="url(#grid)"/>
+<text x="40" y="58" style="font:600 34px Georgia,serif;fill:#fff7e6">Nightlight Press · how the company runs</text>
+<text x="40" y="88" style="font:italic 17px Georgia,serif;fill:#f3d58c">Agents write, paint and talk. Deterministic code decides when, whether and how much. Every step is a short job; every consequence is a ledger line.</text>
+<text x="40" y="134" class="h">OUTSIDE</text>
+<g><rect x="40" y="148" width="230" height="74" rx="14" fill="#1d2547" stroke="#FDF8EF" stroke-width="2"/>
+<rect x="40" y="148" width="6" height="74" rx="3" fill="#FDF8EF"/>
+<text x="56" y="174" class="t">👪 Parent</text>
+<text x="56" y="194" class="s">orders on the web, $19</text>
+<text x="56" y="211" class="s">watches the making-of live</text>
+</g>
+<g><rect x="40" y="240" width="230" height="74" rx="14" fill="#1d2547" stroke="#E8B44A" stroke-width="2"/>
+<rect x="40" y="240" width="6" height="74" rx="3" fill="#E8B44A"/>
+<text x="56" y="266" class="t">✉️ Family email reply</text>
+<text x="56" y="286" class="s">&quot;her dog is Biscuit, not Cookie&quot;</text>
+<text x="56" y="303" class="s">→ AgentMail inbox</text>
+<text x="258" y="304" class="tag" text-anchor="end" fill="#E8B44A">AGENTMAIL</text>
+</g>
+<g><rect x="40" y="332" width="230" height="74" rx="14" fill="#1d2547" stroke="#F08A6C" stroke-width="2"/>
+<rect x="40" y="332" width="6" height="74" rx="3" fill="#F08A6C"/>
+<text x="56" y="358" class="t">☎️ Grandma&#x27;s phone</text>
+<text x="56" y="378" class="s">called by the Storyteller Line,</text>
+<text x="56" y="395" class="s">disclosed as AI, with consent</text>
+<text x="258" y="396" class="tag" text-anchor="end" fill="#F08A6C">MONID</text>
+</g>
+<g><rect x="40" y="424" width="230" height="74" rx="14" fill="#1d2547" stroke="#E8B44A" stroke-width="2"/>
+<rect x="40" y="424" width="6" height="74" rx="3" fill="#E8B44A"/>
+<text x="56" y="450" class="t">📬 Subscribers</text>
+<text x="56" y="470" class="s">get the free shelf book</text>
+<text x="56" y="487" class="s">each night</text>
+<text x="258" y="488" class="tag" text-anchor="end" fill="#E8B44A">AGENTMAIL</text>
+</g>
+<g><rect x="40" y="516" width="230" height="74" rx="14" fill="#1d2547" stroke="#7BD3B0" stroke-width="2"/>
+<rect x="40" y="516" width="6" height="74" rx="3" fill="#7BD3B0"/>
+<text x="56" y="542" class="t">📱 Real Android phone</text>
+<text x="56" y="562" class="s">proofreads books, posts</text>
+<text x="56" y="579" class="s">the shelf book to Instagram</text>
+<text x="258" y="580" class="tag" text-anchor="end" fill="#7BD3B0">MOBILERUN</text>
+</g>
+<g><rect x="40" y="608" width="230" height="74" rx="14" fill="#1d2547" stroke="#9FC3FF" stroke-width="2"/>
+<rect x="40" y="608" width="6" height="74" rx="3" fill="#9FC3FF"/>
+<text x="56" y="634" class="t">💳 Stripe</text>
+<text x="56" y="654" class="s">Checkout for $19 a book;</text>
+<text x="56" y="671" class="s">pledge mode without a key</text>
+<text x="258" y="672" class="tag" text-anchor="end" fill="#9FC3FF">STRIPE</text>
+</g>
+<rect x="300" y="118" width="1262" height="652" rx="22" fill="none" stroke="#B9A7FF" stroke-opacity=".55" stroke-width="2" stroke-dasharray="2 0"/>
+<text x="324" y="146" class="h">NAÏVE · HOSTED APP "nightlight-press" · HONO ON SERVERLESS · MANAGED POSTGRES · /mcp</text>
+<rect x="324" y="160" width="58.4" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="353.2" y="180" text-anchor="middle" class="lbl">Shop</text>
+<rect x="392.4" y="160" width="149.6" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="467.2" y="180" text-anchor="middle" class="lbl">Making-of (live)</text>
+<rect x="552.0" y="160" width="172.4" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="638.2" y="180" text-anchor="middle" class="lbl">Reader + Read to me</text>
+<rect x="734.4" y="160" width="104.0" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="786.4" y="180" text-anchor="middle" class="lbl">Free shelf</text>
+<rect x="848.4" y="160" width="157.2" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="927.0" y="180" text-anchor="middle" class="lbl">Office (3D, live)</text>
+<rect x="1015.5999999999999" y="160" width="126.8" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="1079.0" y="180" text-anchor="middle" class="lbl">Company board</text>
+<rect x="1152.3999999999999" y="160" width="126.8" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="1215.8" y="180" text-anchor="middle" class="lbl">Public ledger</text>
+<rect x="1289.1999999999998" y="160" width="104.0" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="1341.1999999999998" y="180" text-anchor="middle" class="lbl">/mcp tools</text>
+<g><rect x="324" y="210" width="270" height="92" rx="14" fill="#1d2547" stroke="#9FC3FF" stroke-width="2"/>
+<rect x="324" y="210" width="6" height="92" rx="3" fill="#9FC3FF"/>
+<text x="340" y="236" class="t">💳 Cashier</text>
+<text x="340" y="256" class="s">code · Stripe Checkout or pledge</text>
+<text x="340" y="273" class="s">money never touches a model</text>
+<text x="582" y="292" class="tag" text-anchor="end" fill="#9FC3FF">CODE</text>
+</g>
+<g><rect x="616" y="210" width="440" height="92" rx="14" fill="#1d2547" stroke="#FDF8EF" stroke-width="2"/>
+<rect x="616" y="210" width="6" height="92" rx="3" fill="#FDF8EF"/>
+<text x="632" y="236" class="t">🗂️ Job queue</text>
+<text x="632" y="256" class="s">Postgres · leases · FOR UPDATE SKIP LOCKED</text>
+<text x="632" y="273" class="s">write → paint ×11 / narrate ×10 → bind → deliver</text>
+<text x="632" y="290" class="s">every step finishes in &lt; 7 s, then parks</text>
+<text x="1044" y="292" class="tag" text-anchor="end" fill="#FDF8EF">CODE</text>
+</g>
+<g><rect x="1078" y="210" width="462" height="92" rx="14" fill="#1d2547" stroke="#FDF8EF" stroke-width="2"/>
+<rect x="1078" y="210" width="6" height="92" rx="3" fill="#FDF8EF"/>
+<text x="1094" y="236" class="t">🔗 Hash-chained ledger</text>
+<text x="1094" y="256" class="s">sha256(canonical JSON of each entry + prev hash)</text>
+<text x="1094" y="273" class="s">every agent action, payment and human intervention</text>
+<text x="1094" y="290" class="s">→ /board verifies the chain on every load</text>
+<text x="1528" y="292" class="tag" text-anchor="end" fill="#FDF8EF">CODE</text>
+</g>
+<text x="324" y="336" class="h">THE PRODUCTION LINE · ONE BOOK IN ABOUT TWO MINUTES</text>
+<g><rect x="324.0" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#B9A7FF" stroke-width="2"/>
+<rect x="324.0" y="350" width="6" height="104" rx="3" fill="#B9A7FF"/>
+<text x="340.0" y="376" class="t">✒️ Author</text>
+<text x="340.0" y="396" class="s">writes the story</text>
+<text x="340.0" y="413" class="s">in 16 languages</text>
+<text x="452.0" y="444" class="tag" text-anchor="end" fill="#B9A7FF">NAÏVE AGENT</text>
+</g>
+<path d="M465.0,402 L476.5,402" fill="none" stroke="#e9e4ff" stroke-width="1.8"  marker-end="url(#ah)"/>
+<g><rect x="478.5" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#FDF8EF" stroke-width="2"/>
+<rect x="478.5" y="350" width="6" height="104" rx="3" fill="#FDF8EF"/>
+<text x="494.5" y="376" class="t">🔎 Editor</text>
+<text x="494.5" y="396" class="s">counts words, grade,</text>
+<text x="494.5" y="413" class="s">names, brands</text>
+<text x="606.5" y="444" class="tag" text-anchor="end" fill="#FDF8EF">CODE</text>
+</g>
+<path d="M619.5,402 L631.0,402" fill="none" stroke="#e9e4ff" stroke-width="1.8"  marker-end="url(#ah)"/>
+<g><rect x="633.0" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#F08A6C" stroke-width="2"/>
+<rect x="633.0" y="350" width="6" height="104" rx="3" fill="#F08A6C"/>
+<text x="649.0" y="376" class="t">🎨 Illustrator</text>
+<text x="649.0" y="396" class="s">cover + 10 pages</text>
+<text x="649.0" y="413" class="s">~$0.011 each</text>
+<text x="761.0" y="444" class="tag" text-anchor="end" fill="#F08A6C">MONID</text>
+</g>
+<path d="M774.0,402 L785.5,402" fill="none" stroke="#e9e4ff" stroke-width="1.8"  marker-end="url(#ah)"/>
+<g><rect x="787.5" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#B9A7FF" stroke-width="2"/>
+<rect x="787.5" y="350" width="6" height="104" rx="3" fill="#B9A7FF"/>
+<text x="803.5" y="376" class="t">🎙️ Narrator</text>
+<text x="803.5" y="396" class="s">read-aloud audio</text>
+<text x="803.5" y="413" class="s">per page</text>
+<text x="915.5" y="444" class="tag" text-anchor="end" fill="#B9A7FF">NAÏVE SPEECH</text>
+</g>
+<path d="M928.5,402 L940.0,402" fill="none" stroke="#e9e4ff" stroke-width="1.8"  marker-end="url(#ah)"/>
+<g><rect x="942.0" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#FDF8EF" stroke-width="2"/>
+<rect x="942.0" y="350" width="6" height="104" rx="3" fill="#FDF8EF"/>
+<text x="958.0" y="376" class="t">📚 Binder</text>
+<text x="958.0" y="396" class="s">print-ready</text>
+<text x="958.0" y="413" class="s">11×8.5 PDF</text>
+<text x="1070.0" y="444" class="tag" text-anchor="end" fill="#FDF8EF">PDFKIT</text>
+</g>
+<path d="M1083.0,402 L1094.5,402" fill="none" stroke="#e9e4ff" stroke-width="1.8"  marker-end="url(#ah)"/>
+<g><rect x="1096.5" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#E8B44A" stroke-width="2"/>
+<rect x="1096.5" y="350" width="6" height="104" rx="3" fill="#E8B44A"/>
+<text x="1112.5" y="376" class="t">✉️ Mailroom</text>
+<text x="1112.5" y="396" class="s">email + PDF,</text>
+<text x="1112.5" y="413" class="s">text the link</text>
+<text x="1224.5" y="444" class="tag" text-anchor="end" fill="#E8B44A">AGENTMAIL</text>
+</g>
+<path d="M1237.5,402 L1249.0,402" fill="none" stroke="#e9e4ff" stroke-width="1.8"  marker-end="url(#ah)"/>
+<g><rect x="1251.0" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#F08A6C" stroke-width="2"/>
+<rect x="1251.0" y="350" width="6" height="104" rx="3" fill="#F08A6C"/>
+<text x="1267.0" y="376" class="t">☎️ Storyteller</text>
+<text x="1267.0" y="396" class="s">phones Grandma,</text>
+<text x="1267.0" y="413" class="s">reads it aloud</text>
+<text x="1379.0" y="444" class="tag" text-anchor="end" fill="#F08A6C">MONID PHONE</text>
+</g>
+<path d="M1392.0,402 L1403.5,402" fill="none" stroke="#e9e4ff" stroke-width="1.8"  marker-end="url(#ah)"/>
+<g><rect x="1405.5" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#7BD3B0" stroke-width="2"/>
+<rect x="1405.5" y="350" width="6" height="104" rx="3" fill="#7BD3B0"/>
+<text x="1421.5" y="376" class="t">📱 Proofreader</text>
+<text x="1421.5" y="396" class="s">opens it on a</text>
+<text x="1421.5" y="413" class="s">real phone</text>
+<text x="1533.5" y="444" class="tag" text-anchor="end" fill="#7BD3B0">MOBILERUN</text>
+</g>
+<path d="M518.5,456 C508.5,490 384,490 374,458" fill="none" stroke="#F08A6C" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#ah)"/>
+<text x="364" y="502" class="lbl">too long? rewrite (1 round)</text>
+<g><rect x="324" y="520" width="300" height="108" rx="14" fill="#1d2547" stroke="#B9A7FF" stroke-width="2"/>
+<rect x="324" y="520" width="6" height="108" rx="3" fill="#B9A7FF"/>
+<text x="340" y="546" class="t">💬 Front Desk</text>
+<text x="340" y="566" class="s">Naïve agent · reads every reply</text>
+<text x="340" y="583" class="s">answers, routes changes back:</text>
+<text x="340" y="600" class="s">text → Author, art → Illustrator</text>
+<text x="612" y="618" class="tag" text-anchor="end" fill="#B9A7FF">NAÏVE AGENT</text>
+</g>
+<g><rect x="646" y="520" width="330" height="108" rx="14" fill="#1d2547" stroke="#B9A7FF" stroke-width="2"/>
+<rect x="646" y="520" width="6" height="108" rx="3" fill="#B9A7FF"/>
+<text x="662" y="546" class="t">📣 Marketing</text>
+<text x="662" y="566" class="s">Naïve agent · commissions a free</text>
+<text x="662" y="583" class="s">shelf book every night, captions it,</text>
+<text x="662" y="600" class="s">newsletter + Instagram</text>
+<text x="964" y="618" class="tag" text-anchor="end" fill="#B9A7FF">NAÏVE AGENT</text>
+</g>
+<g><rect x="998" y="520" width="542" height="108" rx="14" fill="#1d2547" stroke="#B9A7FF" stroke-width="2"/>
+<rect x="998" y="520" width="6" height="108" rx="3" fill="#B9A7FF"/>
+<text x="1014" y="546" class="t">🧠 Agents are sessions, not daemons</text>
+<text x="1014" y="566" class="s">each desk = one Naïve session with an output_schema,</text>
+<text x="1014" y="583" class="s">started in one step and collected in a later one (resumable phases).</text>
+<text x="1014" y="600" class="s">Code validates the JSON, retries, and decides what happens next.</text>
+<text x="1528" y="618" class="tag" text-anchor="end" fill="#B9A7FF">MODELS WRITE · CODE DECIDES</text>
+</g>
+<g><rect x="324" y="648" width="1216" height="100" rx="14" fill="#1d2547" stroke="#E8B44A" stroke-width="2"/>
+<rect x="324" y="648" width="6" height="100" rx="3" fill="#E8B44A"/>
+<text x="340" y="674" class="t">📈 What makes it a company, not a demo</text>
+<text x="340" y="694" class="s">$19 a book; cost per book ≈ $0.12 in paintings + ~$0.01 in agent time → &gt;90% gross margin. Free changes forever.</text>
+<text x="340" y="711" class="s">Families talk to it by email; it answers. It phones people. It markets itself nightly. It keeps books. Humans are logged as interventions.</text>
+<text x="340" y="728" class="s">The goal on the board is zero interventions.</text>
+<text x="1528" y="738" class="tag" text-anchor="end" fill="#E8B44A">UNIT ECONOMICS</text>
+</g>
+<path d="M272,185 C300,185 300,175 322,175" fill="none" stroke="#FDF8EF" stroke-width="1.8"  marker-end="url(#ah)"/>
+<path d="M272,277 C296,277 300,574 322,574" fill="none" stroke="#E8B44A" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#ah)"/>
+<text x="276" y="300" class="lbl">webhook</text>
+<path d="M324,420 C290,420 290,369 272,369" fill="none" stroke="#F08A6C" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#ah)"/>
+<path d="M646,600 C300,640 300,461 272,461" fill="none" stroke="#E8B44A" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#ah)"/>
+<path d="M820,628 C820,700 300,560 272,553" fill="none" stroke="#7BD3B0" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#ah)"/>
+<path d="M272,645 C300,645 300,256 322,256" fill="none" stroke="#9FC3FF" stroke-width="1.8"  marker-end="url(#ah)"/>
+<text x="40" y="808" class="h">FOUR CLOCKS WAKE THE OFFICE · ALL CALL THE SAME tick()</text>
+<g><rect x="40" y="822" width="282" height="92" rx="14" fill="#1d2547" stroke="#B9A7FF" stroke-width="2"/>
+<rect x="40" y="822" width="6" height="92" rx="3" fill="#B9A7FF"/>
+<text x="56" y="848" class="t">🌙 Night Manager</text>
+<text x="56" y="868" class="s">Naïve scheduled agent, every 5 min,</text>
+<text x="56" y="885" class="s">calls the app&#x27;s MCP tool tick</text>
+<text x="310" y="904" class="tag" text-anchor="end" fill="#B9A7FF">NAÏVE SCHEDULE</text>
+</g>
+<g><rect x="340" y="822" width="282" height="92" rx="14" fill="#1d2547" stroke="#B9A7FF" stroke-width="2"/>
+<rect x="340" y="822" width="6" height="92" rx="3" fill="#B9A7FF"/>
+<text x="356" y="848" class="t">⚡ session.idle webhook</text>
+<text x="356" y="868" class="s">Naïve tells the app the moment</text>
+<text x="356" y="885" class="s">an agent session finishes</text>
+<text x="610" y="904" class="tag" text-anchor="end" fill="#B9A7FF">NAÏVE WEBHOOK</text>
+</g>
+<g><rect x="640" y="822" width="282" height="92" rx="14" fill="#1d2547" stroke="#E8B44A" stroke-width="2"/>
+<rect x="640" y="822" width="6" height="92" rx="3" fill="#E8B44A"/>
+<text x="656" y="848" class="t">✉️ message.received</text>
+<text x="656" y="868" class="s">a family email arrives →</text>
+<text x="656" y="885" class="s">Front Desk job + tick</text>
+<text x="910" y="904" class="tag" text-anchor="end" fill="#E8B44A">AGENTMAIL WEBHOOK</text>
+</g>
+<g><rect x="940" y="822" width="282" height="92" rx="14" fill="#1d2547" stroke="#FDF8EF" stroke-width="2"/>
+<rect x="940" y="822" width="6" height="92" rx="3" fill="#FDF8EF"/>
+<text x="956" y="848" class="t">💓 Page pulse</text>
+<text x="956" y="868" class="s">open pages nudge the queue</text>
+<text x="956" y="885" class="s">(rate-limited, idempotent)</text>
+<text x="1210" y="904" class="tag" text-anchor="end" fill="#FDF8EF">CODE</text>
+</g>
+<path d="M1240,868 C1300,868 1300,300 1062,300" fill="none" stroke="#c9c2e6" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#ah)"/>
+<text x="1250" y="856" class="lbl">claim → run one short step → park</text>
+<text x="1262" y="808" class="h">WHO DOES WHAT</text>
+<rect x="1262" y="816" width="12" height="12" rx="3" fill="#B9A7FF"/><text x="1282" y="826" class="lbl">Naïve · agents, speech, schedules, hosting</text>
+<rect x="1262" y="835" width="12" height="12" rx="3" fill="#F08A6C"/><text x="1282" y="845" class="lbl">Monid · paintings, phone calls, SMS</text>
+<rect x="1262" y="854" width="12" height="12" rx="3" fill="#E8B44A"/><text x="1282" y="864" class="lbl">AgentMail · inbox, mail out, webhooks</text>
+<rect x="1262" y="873" width="12" height="12" rx="3" fill="#7BD3B0"/><text x="1282" y="883" class="lbl">Mobilerun · a real Android phone</text>
+<rect x="1262" y="892" width="12" height="12" rx="3" fill="#FDF8EF"/><text x="1282" y="902" class="lbl">Code · money, checks, queue, ledger</text>
+<text x="40" y="1002" style="font:400 13px Inter,Helvetica,Arial,sans-serif;fill:#8f88b8">Live: nightlight-press-z5ept2z3by3j.vercel.app · Board: /board · Office: /office · Ledger: /api/ledger.json</text>
+</svg>
