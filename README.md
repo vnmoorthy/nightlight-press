@@ -73,6 +73,19 @@ These timings were measured on a local run of the same code that is deployed.
 
 <p align="center"><img src="assets/screens/landing-mobile.jpg" alt="The shop on a phone" width="30%">&nbsp;&nbsp;<img src="assets/screens/office.jpg" alt="The 3D office" width="66%"></p>
 
+## Tell a story out loud, get a book
+
+Open [`/tell`](https://nightlight-press-z5ept2z3by3j.vercel.app/tell), press the microphone and tell any story: a bedtime tale, something that happened today, a story from when you were small. Your words appear on screen as you speak (browser speech recognition, or a recording transcribed on the server). Press **Make it a book** and the same line goes to work: the Author adapts *your* plot, characters and phrases rather than inventing a new story, the Editor checks it, the Illustrator paints it and the Narrator reads it. Told books go on the free shelf.
+
+Measured locally: a 120-word spoken story about a girl who rescues the moon became *The Moon's Cookie Hill*. Every plot beat was kept in order, including the teller's own line "like a big round cookie". The manuscript took about 30 seconds and all ten paintings about a minute.
+
+<p align="center">
+  <img src="assets/book/told-story-pip.jpg" alt="Three painted pages from The Moon's Cookie Hill, with the hero Anya and Pip the robot" width="96%">
+  <br><sub>Pages 3, 6 and 9 of <i>The Moon's Cookie Hill</i>, told out loud and made by the line, with Pip the robot friend opted in.</sub>
+</p>
+
+**Pip the PlayRobot, opt-in and disclosed.** Families (or a teller) can tick *Add Pip the PlayRobot as a friend*. Pip is a kind robot sidekick, drawn identically on every page from one fixed description. The book's colophon credits the character, and the Editor rejects any page that mentions buying, shops or prices. A recurring, disclosed character is how a toy brand can live in children's stories without advertising to children.
+
 ## The staff
 
 There are 12 desks and no employees. Models write, paint and talk. Code decides when, whether and how much.
