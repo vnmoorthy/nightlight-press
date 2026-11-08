@@ -21,3 +21,6 @@ deck/build/qa/
 assets/blender/renders/
 assets/blender/frames/
 deck/build/shots/
+
+# private talk notes, never published
+docs/PITCH.md
