@@ -193,15 +193,15 @@ H.proof = async (job) => {
     let dev = null; try { dev = await mr.readyDevice(); } catch (e) { if (e instanceof Retry) throw e; }
     if (!dev) { if (!(await kvGet("mobilerun_warned"))) { await ledger("proof_skipped", "code", { reason: "no Mobilerun phone connected yet" }, job.order_id); await kvSet("mobilerun_warned", true); } return done(job, { skipped: true }); }
     const schema = { type: "object", properties: { title_seen: { type: "string" }, picture_visible: { type: "boolean" } }, required: ["title_seen", "picture_visible"] };
-    const t = await mr.runTask(dev, `Open the web browser (Safari on an iPhone, Chrome on Android) and go to ${BASE()}/book/${b.id} . Wait for the book to load. Report the book's title exactly as shown, and whether a picture is visible on the page. Then tap the arrow to turn one page and confirm the next picture appears. Do not tap anything else.`, schema);
+    const t = await mr.runTask(dev, `Open the web browser (Safari on an iPhone, Chrome on Android). Tap the address bar, clear it, type exactly ${BASE()}/book/${b.id} and press Go, even if another page is already open. Wait for the book to load. Report the book's title exactly as shown, and whether a picture is visible on the page. Then tap the arrow to turn one page and confirm the next picture appears. Do not tap anything else.`, schema);
     await ledger("agent_start", "agent:proofreader", { purpose: `open "${b.title}" on a real phone`, task: t.id }, job.order_id);
     return park(job, { ms: 9000, payload: { task: t.id, at: Date.now() } });
   }
   const s = await mr.taskStatus(p.task);
   if (!["completed", "failed", "cancelled"].includes(String(s.status))) { if (Date.now() - p.at > 7 * 60_000) { await mr.stopTask(p.task); return done(job, { timeout: true }); } return park(job, { ms: 6000 }); }
   let shot = null; try { const sh = await mr.taskShots(p.task); const u = (sh.urls || []).slice(-1)[0]; if (u) { const r = await fetch(u); if (r.ok) shot = await putMedia({ order_id: job.order_id, kind: "proof", mime: r.headers.get("content-type") || "image/png", bytes: Buffer.from(await r.arrayBuffer()), meta: { book: b.id } }); } } catch { /* optional */ }
-  const out = s.output || s.structured_output || {}; const ok = !!s.succeeded && String(out.title_seen || "").toLowerCase().includes(String(b.title).toLowerCase().slice(0, 18));
-  await ledger("proof", "agent:proofreader", { book: b.id, ok, screenshot: !!shot, steps: s.steps }, job.order_id);
+  const out = s.output || s.structured_output || {}; const norm = (t) => String(t || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim(); const ok = !!s.succeeded && norm(out.title_seen).includes(norm(b.title).slice(0, 16));
+  await ledger("proof", "agent:proofreader", { book: b.id, ok, title_seen: String(out.title_seen || "").slice(0, 120), screenshot: !!shot, steps: s.steps }, job.order_id);
   return done(job, { ok });
 };
 
