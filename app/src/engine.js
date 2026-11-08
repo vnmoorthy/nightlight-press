@@ -64,6 +64,7 @@ H.write = async (job) => {
   const r = await agentPhase(job, { agent: "author", purpose: p.feedback ? `rewrite ${o.child_name}'s book for the Editor` : `write ${o.child_name}'s book`, message: msg, schema: SCHEMAS.story, budget: 600_000, phase: p.round || 0 });
   if (r.state !== "done") return "waiting";
   const story = r.output; const check = checkStory(story, { name: o.child_name, age: o.child_age || 5, language: o.language });
+  const facts = Array.isArray(story.robot_facts) ? story.robot_facts : []; if (facts.length < 3 || facts.some((f) => String(f).split(/\s+/).length > 26)) { check.pass = false; check.issues.push("the Learn about robots page needs three facts of at most 25 words each"); }
   if (o.robot) { const sales = story.pages.filter((pg) => /\b(buy|buying|bought|price|prices|sale|store|shop|shopping)\b|\$\d/i.test(pg.text)).length; if (sales) { check.pass = false; check.issues.push(`${sales} page(s) mention buying, shops or prices; a robot friend must never sell anything`); } }
   await ledger("edit_check", "code:editor", { book: b.id, pass: check.pass, issues: check.issues, words: check.words, reading_grade: check.reading_grade, round: (p.round || 0) + 1 }, o.id);
   if (!check.pass && (p.round || 0) < 1) { const np = { ...r.payload, round: (p.round || 0) + 1, feedback: check.issues.join("; "), draft: story }; await park(job, { ms: 200, payload: np }); return "rewrite"; }
@@ -142,6 +143,7 @@ H.bind = async (job) => {
   await q(`update orders set status='ready' where id=$1`, [o.id]);
   const revised = await kvGet(`revised:${b.id}`);
   if (revised) await q(`delete from kv where k=$1`, [`revised:${b.id}`]);
+  if (!revised) await queueFilm(b, o.id);
   if (o.kind === "catalog") { if (!revised) await enqueue("market", { order_id: o.id, book_id: b.id }); }
   else await enqueue("deliver", { order_id: o.id, book_id: b.id, payload: { revised: !!revised } });
   return done(job, { minutes: mins });
@@ -286,6 +288,37 @@ export async function tick({ budgetMs = 6500, source = "timer" } = {}) {
     catch (e) { const r = await fail(job, e); did.push(`${job.kind}#${job.id}:${r}`); if (r === "failed") await ledger("job_failed", "code", { job: job.id, kind: job.kind, error: String(e.message).slice(0, 200) }, job.order_id); }
   }
   return { ran: did.length, did, ms: Date.now() - t0, source };
+}
+
+// ---------- the Film desk: animate the cover and two key pages ----------
+const FILM_ON = () => process.env.FILM !== "0" && /^https:\/\//.test(BASE());
+H.film = async (job) => {
+  const b = await book(job.book_id); const p = job.payload || {};
+  const pg = job.page_id ? await one(`select * from pages where id=$1`, [job.page_id]) : null;
+  const imageId = pg ? pg.image_media_id : b.cover_media_id; if (!imageId) return done(job, { skipped: "no picture" });
+  if (!p.run) {
+    const prompt = `Gentle storybook animation of this painted picture-book ${pg ? "page" : "cover"}: the characters move softly and naturally${pg?.scene ? ` (${String(pg.scene).slice(0, 300)})` : ""}, friendly robots blink and roll, leaves and light shimmer, a slow camera push-in. Keep the painting style and every character exactly as painted. No text.`;
+    const run = await monid.startRun("kling", process.env.FILM_ENDPOINT || "/v1/video/kling-2.5-turbo-i2v", { body: { prompt, media: [{ type: "first_frame", url: `${BASE()}/api/media/${imageId}` }], duration: 5, resolution: "720p" }, maxCost: 0.35 });
+    if (run.status === "BLOCKED") throw new Error(`film blocked: ${run.reason || ""}`);
+    await ledger("agent_start", "agent:film", { purpose: `animate ${pg ? `page ${pg.idx}` : "the cover"} of "${b.title}"`, run: run.runId }, job.order_id);
+    return park(job, { ms: 20000, payload: { run: run.runId, at: Date.now() } });
+  }
+  const run = await monid.getRun(p.run);
+  if (!monid.TERMINAL.has(run.status)) { if (Date.now() - p.at > 9 * 60_000) return done(job, { timeout: true }); return park(job, { ms: 15000 }); }
+  const url = monid.findUrl(monid.out(run)); if (!url) return done(job, { failed: run.status });
+  const res = await fetch(url); if (!res.ok) throw new Retry(`video download ${res.status}`, 6000);
+  const bytes = Buffer.from(await res.arrayBuffer());
+  const mid = await putMedia({ order_id: job.order_id, kind: "video", mime: "video/mp4", bytes, meta: { book: b.id, page: pg?.idx || 0, cost_usd: run?.cost?.value ?? null } });
+  if (pg) await q(`update pages set video_media_id=$2 where id=$1`, [pg.id, mid]); else await q(`update books set cover_video_media_id=$2 where id=$1`, [b.id, mid]);
+  await ledger("film", "agent:film", { book: b.id, page: pg ? pg.idx : "cover", bytes: bytes.length, cost_usd: run?.cost?.value ?? null }, job.order_id);
+  return done(job, { media: mid });
+};
+async function queueFilm(b, oid) {
+  if (!FILM_ON() || (await hasActive("film", "book_id", b.id))) return;
+  const ps = await q(`select id, idx from pages where book_id=$1 order by idx`, [b.id]);
+  const picks = [ps[Math.floor(ps.length / 2)], ps[ps.length - 1]].filter(Boolean);
+  await enqueue("film", { order_id: oid, book_id: b.id });
+  for (const x of picks) await enqueue("film", { order_id: oid, book_id: b.id, page_id: x.id });
 }
 
 // ---------- self-continuation ----------

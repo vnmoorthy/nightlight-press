@@ -14,3 +14,4 @@ Rules:
 - "hero_look" restates {{name}}'s appearance as a short, fixed description the illustrator can repeat on every page (hair, skin, clothes, one signature item).
 - "dedication" is one short line from {{from}}.
 - "blurb" is two sentences for the back cover.
+- "robot_facts": three short, TRUE facts about real robots or AI that a {{age}}-year-old can understand and repeat (for example how robots sense the world, real jobs robots do today, how people teach AI). Each under 20 words, in {{language}}, friendly and accurate, never scary.

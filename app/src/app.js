@@ -92,7 +92,7 @@ app.post("/api/transcribe", async (c) => {
 });
 app.post("/api/subscribe", async (c) => { const b = await c.req.json().catch(() => ({})); const e = String(b.email || "").trim().toLowerCase(); if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)) return c.json({ error: "Add a valid email." }, 400); await q(`insert into subscribers(email, source) values($1,'web') on conflict do nothing`, [e]); return c.json({ ok: true }); });
 
-const STAGE = { write: ["author", "Writing the story"], paint: ["illustrator", "Painting"], narrate: ["narrator", "Recording the read-aloud"], bind: ["binder", "Binding the book"], deliver: ["mailroom", "Sending it to you"], read_call: ["storyteller", "Phoning someone to read it aloud"], revise: ["author", "Making your changes"], frontdesk: ["frontdesk", "Reading your message"], proof: ["proofreader", "Checking it on a real phone"] };
+const STAGE = { write: ["author", "Writing the story"], paint: ["illustrator", "Painting"], narrate: ["narrator", "Recording the read-aloud"], bind: ["binder", "Binding the book"], deliver: ["mailroom", "Sending it to you"], read_call: ["storyteller", "Phoning someone to read it aloud"], revise: ["author", "Making your changes"], frontdesk: ["frontdesk", "Reading your message"], proof: ["proofreader", "Checking it on a real phone"], film: ["illustrator", "Animating pages into short films"] };
 app.get("/api/order/:id", async (c) => {
   const o = await one(`select * from orders where id=$1`, [c.req.param("id")]); if (!o) return c.json({ error: "not found" }, 404);
   const b = o.book_id ? await one(`select id, title, status, cover_media_id, checks, look, blurb, dedication, ready_at from books where id=$1`, [o.book_id]) : null;
@@ -110,8 +110,8 @@ app.get("/api/book/:id", async (c) => {
     const m = await getMedia(b.pdf_media_id);
     return new Response(m.bytes, { headers: { "Content-Type": "application/pdf", "Content-Disposition": `inline; filename="${(b.title || "book").replace(/[^\w ]+/g, "").trim().replace(/\s+/g, "_")}.pdf"` } });
   }
-  const b = await one(`select id, title, dedication, blurb, hero_name, style, status, cover_media_id, pdf_media_id, public, kind, checks, order_id from books where id=$1`, [raw]); if (!b) return c.json({ error: "not found" }, 404);
-  const pages = await q(`select idx, text, image_media_id, audio_media_id from pages where book_id=$1 order by idx`, [b.id]);
+  const b = await one(`select id, title, dedication, blurb, hero_name, style, status, cover_media_id, cover_video_media_id, pdf_media_id, public, kind, checks, order_id, story->'robot_facts' as robot_facts from books where id=$1`, [raw]); if (!b) return c.json({ error: "not found" }, 404);
+  const pages = await q(`select idx, text, image_media_id, audio_media_id, video_media_id from pages where book_id=$1 order by idx`, [b.id]);
   return c.json({ book: b, pages });
 });
 app.post("/api/book/:id/message", async (c) => {
@@ -155,7 +155,7 @@ app.get("/api/board", async (c) => {
   const agentUsd = ag.reduce((a, r) => a + Number(r.cost || 0), 0) / 1e6; const books = Math.max(1, bk.ready);
   return c.json({ mode: pay.mode(), stats: { ...s, ...bk, ...pg, median_seconds: t?.med ? Math.round(Number(t.med)) : null, subscribers: (await one(`select count(*)::int n from subscribers`)).n }, costs: { images_usd: Number(img.usd), calls_usd: Number(calls.usd), agents_usd: agentUsd, per_book_usd: (Number(img.usd) + agentUsd) / books }, agents: ag, interventions, clearances, jobs, failed, ledger: ledgerRows, chain: await verifyChain(), clock: await kvGet("clock"), monid: await monid.balance().catch(() => null) });
 });
-const DESK = { write: "author", revise: "author", paint: "illustrator", narrate: "narrator", bind: "binder", deliver: "mailroom", read_call: "storyteller", proof: "proofreader", frontdesk: "frontdesk", commission: "marketer", market: "marketer" };
+const DESK = { write: "author", revise: "author", paint: "illustrator", narrate: "narrator", bind: "binder", deliver: "mailroom", read_call: "storyteller", proof: "proofreader", frontdesk: "frontdesk", commission: "marketer", market: "marketer", film: "illustrator" };
 app.get("/api/office", async (c) => {
   const since = Number(c.req.query("since") || 0);
   const jobs = await q(`select j.kind, j.order_id, j.page_id, o.child_name, o.kind as okind from jobs j left join orders o on o.id=j.order_id where j.status in ('queued','waiting') and j.next_run_at < now() + interval '2 minutes' order by j.id`);

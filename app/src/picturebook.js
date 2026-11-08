@@ -115,6 +115,23 @@ export function renderBook(b, pages, coverBytes, { forName, robot = false, telle
       });
     }
 
+    // ---- Learn about robots: three true facts the Author wrote for this reader ----
+    const facts = (b.story && Array.isArray(b.story.robot_facts) ? b.story.robot_facts : []).slice(0, 3);
+    if (facts.length) {
+      doc.addPage(); bg(SKY_L);
+      noBreak(() => {
+        doc.fillColor(INK).font("Display").fontSize(34).text("Learn about robots", 60, 70, { width: W - 120, align: "center" });
+        doc.font("Italic").fontSize(14).fillColor(INK2).text("Three true things to wonder about together", 60, 116, { width: W - 120, align: "center" });
+        facts.forEach((f, i) => {
+          const y = 175 + i * 128; const cx = 118;
+          doc.save(); doc.circle(cx, y + 30, 30).fill([TOMATO, SUN, LEAF][i % 3]); doc.restore();
+          // a tiny robot face in each badge
+          doc.save(); doc.roundedRect(cx - 15, y + 17, 30, 24, 6).fill("#FFFFFF"); doc.circle(cx - 6, y + 29, 3.2).fill(INK); doc.circle(cx + 6, y + 29, 3.2).fill(INK); doc.moveTo(cx, y + 17).lineTo(cx, y + 9).lineWidth(2).stroke(INK); doc.circle(cx, y + 8, 3).fill(SUN); doc.restore();
+          doc.fillColor(INK).font("Body").fontSize(21).text(String(f), 170, y + 8, { width: W - 250, lineGap: 3 });
+        });
+      });
+    }
+
     // ---- The End, over paper-cut hills, with the colophon and the mark ----
     doc.addPage(); bg(PAPER2);
     paperLayer(548, 11, 560, 0.7, SKY_L, 1, SKY, 0.5);
