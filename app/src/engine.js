@@ -337,7 +337,7 @@ export async function chainPulse(depth = 0) {
   if (!(await dueCount())) return false;
   const lease = await one(`insert into kv(k, v, updated_at) values('chain', '0', now()) on conflict (k) do update set updated_at=now() where $1::int > 0 or kv.updated_at < now() - interval '15 seconds' returning k`, [depth]);
   if (!lease) return false;
-  try { await fetch(`${base}/api/pulse`, { method: "POST", headers: { "x-chain-depth": String(depth + 1) }, signal: AbortSignal.timeout(1500) }); } catch { /* the next invocation runs on its own */ }
+  try { await fetch(`${base}/api/pulse`, { method: "POST", headers: { "x-chain-depth": String(depth + 1) }, signal: AbortSignal.timeout(8000) }); } catch { /* the Night Manager and webhooks will pick it up */ }
   return true;
 }
 export { enqueue };

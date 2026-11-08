@@ -12,6 +12,7 @@ import { boardPage, officePage, adminPage } from "./views/company.js";
 import { tellPage } from "./views/tell.js";
 
 export const app = new Hono();
+let _wu; async function hostWaitUntil() { if (_wu !== undefined) return _wu; try { const m = await import("@vercel/functions"); _wu = process.env.VERCEL && typeof m.waitUntil === "function" ? m.waitUntil : null; } catch { _wu = null; } return _wu; }
 const BASE = () => process.env.PUBLIC_BASE_URL || "http://localhost:3100";
 const isAdmin = (c) => process.env.ADMIN_TOKEN && (c.req.query("token") === process.env.ADMIN_TOKEN || c.req.header("x-admin-token") === process.env.ADMIN_TOKEN);
 const e164 = (s) => { const d = String(s || "").replace(/[^\d+]/g, ""); if (!d) return ""; if (d.startsWith("+")) return "+" + d.slice(1).replace(/\D/g, ""); const n = d.replace(/\D/g, ""); if (n.length === 10) return "+1" + n; if (n.length === 11 && n.startsWith("1")) return "+" + n; return "+" + n; };
@@ -179,8 +180,10 @@ app.post("/api/pulse", async (c) => {
   const clock = await kvGet("clock"); const age = clock ? Date.now() - new Date(clock.at).getTime() : 1e12;
   const depth = Number(c.req.header("x-chain-depth") || 0);
   if (age < Number(process.env.PULSE_MIN_MS || 1500) && !depth) return c.json({ skipped: true, age });
-  const r = await engine.tick({ budgetMs: Number(process.env.TICK_BUDGET_MS || 6500), source: depth ? "self-chain" : "pulse" });
-  return c.json({ ...r, chained: await engine.chainPulse(depth) });
+  const run = () => withDb(async () => { const r = await engine.tick({ budgetMs: Number(process.env.TICK_BUDGET_MS || 6500), source: depth ? "self-chain" : "pulse" }); return { ...r, chained: await engine.chainPulse(depth) }; });
+  const wu = depth ? await hostWaitUntil() : null;
+  if (wu) { wu(run().catch((e) => console.error("[chain]", e.message))); return c.json({ accepted: true, depth }, 202); }
+  return c.json(await run());
 });
 app.post("/api/webhooks/naive", async (c) => {
   const raw = await c.req.text();
