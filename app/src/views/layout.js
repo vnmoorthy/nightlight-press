@@ -29,5 +29,5 @@ ${body}
 ${nav ? `<footer><div class="wrap"><div>${LOGO.replace("<svg", '<svg style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"')}Nightlight Press. A US children's publisher with no employees: agents on Naïve, art and phone calls through Monid, letters through AgentMail, phones through Mobilerun.</div><div><a href="/office">The office</a> · <a href="/board">Company board</a> · <a href="/api/ledger.json">Public ledger</a> · Payments: ${mode === "pledge" ? "pledge mode, no card is charged" : mode === "test" ? "Stripe test mode" : "Stripe"}</div></div></footer>` : ""}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>window.toast=(m)=>{const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.classList.remove('show'),3400)};window.esc=(s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));</script>
-${scripts}</body></html>`;
+${scripts}<script src="/js/pip.js" defer></script></body></html>`;
 }

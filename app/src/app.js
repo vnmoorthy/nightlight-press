@@ -110,7 +110,8 @@ app.get("/api/book/:id", async (c) => {
     const m = await getMedia(b.pdf_media_id);
     return new Response(m.bytes, { headers: { "Content-Type": "application/pdf", "Content-Disposition": `inline; filename="${(b.title || "book").replace(/[^\w ]+/g, "").trim().replace(/\s+/g, "_")}.pdf"` } });
   }
-  const b = await one(`select id, title, dedication, blurb, hero_name, style, status, cover_media_id, cover_video_media_id, pdf_media_id, public, kind, checks, order_id, story->'robot_facts' as robot_facts from books where id=$1`, [raw]); if (!b) return c.json({ error: "not found" }, 404);
+  const b = await one(`select id, title, dedication, blurb, hero_name, style, status, cover_media_id, cover_video_media_id, pdf_media_id, public, kind, checks, order_id, story->'robot_facts' as robot_facts, (select robot from orders where id=books.order_id) as robot from books where id=$1`, [raw]);
+  if (b) b.toy_url = process.env.PLAYROBOT_TOY_URL || "https://vnmoorthy.github.io/nightlight-press/playrobot/#pip"; if (!b) return c.json({ error: "not found" }, 404);
   const pages = await q(`select idx, text, image_media_id, audio_media_id, video_media_id from pages where book_id=$1 order by idx`, [b.id]);
   return c.json({ book: b, pages });
 });
