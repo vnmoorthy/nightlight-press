@@ -9,7 +9,7 @@ import * as nv from "./naive.js";
 import * as monid from "./monid.js";
 import * as mail from "./agentmail.js";
 import * as mr from "./mobilerun.js";
-import { AUTHOR, FRONTDESK, MARKETER, fill, SCHEMAS, LANG, STYLES } from "./prompts.js";
+import { AUTHOR, FRONTDESK, MARKETER, TELLER, ROBOT_LOOK, ROBOT_STORY, fill, SCHEMAS, LANG, STYLES } from "./prompts.js";
 import { checkStory, maxWordsFor } from "./editor.js";
 import { renderBook } from "./picturebook.js";
 import { putMedia, getMedia } from "./media.js";
@@ -46,10 +46,10 @@ export async function startBook(oid) {
   const o = await order(oid); if (!o) return null;
   if (o.book_id) return o.book_id;
   const bid = id("bk");
-  await q(`insert into books(id, order_id, kind, hero_name, look, style, language, age, status, public, price_cents) values($1,$2,$3,$4,$5,$6,$7,$8,'writing',$9,$10)`, [bid, o.id, o.kind, o.child_name, o.look, o.style, o.language, o.child_age, o.kind === "catalog", o.kind === "catalog" ? 499 : 0]);
+  await q(`insert into books(id, order_id, kind, hero_name, look, style, language, age, status, public, price_cents) values($1,$2,$3,$4,$5,$6,$7,$8,'writing',$9,$10)`, [bid, o.id, o.kind, o.child_name, o.look, o.style, o.language, o.child_age, o.kind === "catalog" || o.kind === "told", 0]);
   await q(`update orders set book_id=$2, status='making' where id=$1`, [o.id, bid]);
   await enqueue("write", { order_id: o.id, book_id: bid });
-  await ledger("commission", "code", { book: bid, hero: o.child_name, age: o.child_age, style: o.style, language: o.language, kind: o.kind }, o.id);
+  await ledger("commission", "code", { book: bid, hero: o.child_name, age: o.child_age, style: o.style, language: o.language, kind: o.kind, robot: !!o.robot, teller: o.teller_name || undefined }, o.id);
   return bid;
 }
 
@@ -57,12 +57,13 @@ const H = {};
 H.write = async (job) => {
   const o = await order(job.order_id); const b = await book(job.book_id);
   const p = job.payload || {};
-  const vars = { age: o.child_age || 5, language: LANG[o.language] || "English", name: o.child_name, pronoun: o.pronoun, look: o.look || "the illustrator may choose a friendly, simple look", favorites: o.favorites || "playing outside, stories, animals", occasion: o.occasion || "a cosy adventure before bedtime", pages: PAGES(), max_words: maxWordsFor(o.child_age || 5), from: o.kind === "catalog" ? "Nightlight Press" : o.buyer_name || "someone who loves them" };
-  let msg = fill(AUTHOR, vars);
+  const vars = { age: o.child_age || 5, language: LANG[o.language] || "English", name: o.child_name, pronoun: o.pronoun, look: o.look || "the illustrator may choose a friendly, simple look", favorites: o.favorites || "playing outside, stories, animals", occasion: o.occasion || "a cosy adventure before bedtime", pages: PAGES(), max_words: maxWordsFor(o.child_age || 5), from: o.kind === "catalog" ? "Nightlight Press" : o.buyer_name || "someone who loves them", robot: o.robot ? ROBOT_STORY : "", teller: o.teller_name || "a storyteller", told: String(o.told_text || "").slice(0, 8000) };
+  let msg = fill(o.kind === "told" ? TELLER : AUTHOR, vars);
   if (p.feedback) msg += `\n\nYour previous draft failed the Editor's checks: ${p.feedback}. Fix exactly those problems and return the whole book again.\nPrevious draft: ${JSON.stringify(p.draft).slice(0, 12000)}`;
   const r = await agentPhase(job, { agent: "author", purpose: p.feedback ? `rewrite ${o.child_name}'s book for the Editor` : `write ${o.child_name}'s book`, message: msg, schema: SCHEMAS.story, budget: 600_000, phase: p.round || 0 });
   if (r.state !== "done") return "waiting";
   const story = r.output; const check = checkStory(story, { name: o.child_name, age: o.child_age || 5, language: o.language });
+  if (o.robot) { const sales = story.pages.filter((pg) => /\b(buy|buying|bought|price|prices|sale|store|shop|shopping)\b|\$\d/i.test(pg.text)).length; if (sales) { check.pass = false; check.issues.push(`${sales} page(s) mention buying, shops or prices; a robot friend must never sell anything`); } }
   await ledger("edit_check", "code:editor", { book: b.id, pass: check.pass, issues: check.issues, words: check.words, reading_grade: check.reading_grade, round: (p.round || 0) + 1 }, o.id);
   if (!check.pass && (p.round || 0) < 1) { const np = { ...r.payload, round: (p.round || 0) + 1, feedback: check.issues.join("; "), draft: story }; await park(job, { ms: 200, payload: np }); return "rewrite"; }
   await q(`update books set title=$2, dedication=$3, look=$4, blurb=$5, story=$6, checks=$7, status='illustrating' where id=$1`, [b.id, story.title, story.dedication, story.hero_look || o.look, story.blurb, JSON.stringify(story), JSON.stringify(check)]);
@@ -75,15 +76,16 @@ H.write = async (job) => {
   return done(job, { title: story.title });
 };
 
-function artPrompt(b, scene, { cover = false } = {}) {
+function artPrompt(b, scene, { cover = false, robot = false } = {}) {
   const style = STYLES[b.style] || STYLES.watercolor;
-  return `${style}. ${cover ? `The front cover of a children's picture book called "${b.title}": the hero in a joyful, inviting moment that sums up the story, with calm empty space in the top third for the title` : `A page from a children's picture book. ${scene}`}. The hero, ${b.hero_name}, appears exactly as described: ${b.look}. Keep the hero's face, hair, skin tone, clothes and signature item identical to every other page of this book. Safe, gentle and joyful for young children. Absolutely no text, letters, numbers, words, captions or logos anywhere in the image.`;
+  return `${style}. ${cover ? `The front cover of a children's picture book called "${b.title}": the hero in a joyful, inviting moment that sums up the story, with calm empty space in the top third for the title` : `A page from a children's picture book. ${scene}`}. The hero, ${b.hero_name}, appears exactly as described: ${b.look}. Keep the hero's face, hair, skin tone, clothes and signature item identical to every other page of this book.${robot ? ` The hero's robot friend Pip appears beside them, drawn identically on every page: ${ROBOT_LOOK}.` : ""} Safe, gentle and joyful for young children. Absolutely no text, letters, numbers, words, captions or logos anywhere in the image.`;
 }
 H.paint = async (job) => {
   const b = await book(job.book_id); const p = job.payload || {};
   const pg = job.page_id ? await one(`select * from pages where id=$1`, [job.page_id]) : null;
   if (!p.run) {
-    const prompt = artPrompt(b, pg?.scene || "", { cover: !!p.cover });
+    const ord = await order(job.order_id);
+    const prompt = artPrompt(b, pg?.scene || "", { cover: !!p.cover, robot: !!ord?.robot });
     if (pg) await q(`update pages set prompt=$2 where id=$1`, [pg.id, prompt]);
     const run = await monid.startRun("openai", process.env.IMAGE_ENDPOINT || "/v1/image/gpt-image-2.5-sunburst", { body: { prompt, size: "1536x1024", quality: process.env.IMAGE_QUALITY || "medium" }, maxCost: 0.3 });
     if (run.status === "BLOCKED") throw new Error(`illustrator blocked: ${run.reason || ""}`);
@@ -131,7 +133,7 @@ H.bind = async (job) => {
   const b = await book(job.book_id); const o = await order(job.order_id);
   const pages = await q(`select p.idx, p.text, m.bytes from pages p left join media m on m.id=p.image_media_id where p.book_id=$1 order by p.idx`, [b.id]);
   const cover = b.cover_media_id ? (await getMedia(b.cover_media_id))?.bytes : null;
-  const pdf = await renderBook(b, pages, cover, { forName: o.kind === "catalog" ? null : o.child_name });
+  const pdf = await renderBook(b, pages, cover, { forName: o.kind === "custom" ? o.child_name : null, robot: !!o.robot, teller: o.kind === "told" ? o.teller_name : null });
   const mid = await putMedia({ order_id: o.id, kind: "book", mime: "application/pdf", bytes: pdf, meta: { book: b.id, pages: pages.length } });
   await q(`update books set pdf_media_id=$2, status='ready', ready_at=now() where id=$1`, [b.id, mid]);
   const mins = Math.round((Date.now() - new Date(o.created_at).getTime()) / 6000) / 10;

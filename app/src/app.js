@@ -9,6 +9,7 @@ import { putMedia, getMedia, mediaRedirectUrl } from "./media.js";
 import { LANG, STYLES } from "./prompts.js";
 import { landingPage, orderPage, readerPage, shelfPage } from "./views/pages.js";
 import { boardPage, officePage, adminPage } from "./views/company.js";
+import { tellPage } from "./views/tell.js";
 
 export const app = new Hono();
 const BASE = () => process.env.PUBLIC_BASE_URL || "http://localhost:3100";
@@ -16,6 +17,7 @@ const isAdmin = (c) => process.env.ADMIN_TOKEN && (c.req.query("token") === proc
 const e164 = (s) => { const d = String(s || "").replace(/[^\d+]/g, ""); if (!d) return ""; if (d.startsWith("+")) return "+" + d.slice(1).replace(/\D/g, ""); const n = d.replace(/\D/g, ""); if (n.length === 10) return "+1" + n; if (n.length === 11 && n.startsWith("1")) return "+" + n; return "+" + n; };
 const first = (s) => String(s || "").trim().split(/\s+/)[0] || "";
 app.use("*", async (c, next) => withDb(async () => { await migrate(); await next(); }));
+app.use("/api/*", async (c, next) => { await next(); if (c.req.method === "GET") { c.header("Access-Control-Allow-Origin", "*"); } });
 app.onError((err, c) => { console.error("[nightlight]", err); return c.json({ error: String(err.message || err) }, 500); });
 
 // ---------- pages ----------
@@ -30,6 +32,7 @@ app.get("/order/:id", async (c) => {
 app.get("/book/:id", async (c) => { const b = await one(`select * from books where id=$1`, [c.req.param("id")]); if (!b) return c.notFound(); return c.html(readerPage({ b, mode: pay.mode() })); });
 app.get("/shelf", async (c) => c.html(shelfPage({ books: await shelfBooks(48), mode: pay.mode() })));
 app.get("/office", (c) => c.html(officePage({ mode: pay.mode() })));
+app.get("/tell", (c) => c.html(tellPage({ mode: pay.mode() })));
 app.get("/board", (c) => c.html(boardPage({ mode: pay.mode() })));
 app.get("/admin", (c) => isAdmin(c) ? c.html(adminPage({ token: c.req.query("token") })) : c.text("Not found", 404));
 app.get("/healthz", (c) => c.json({ ok: true, mode: pay.mode(), base: BASE(), configured: { company_key: !!process.env.COMPANY_NAIVE_KEY, agents: !!(process.env.NAIVE_AGENT_AUTHOR && process.env.NAIVE_AGENT_FRONTDESK && process.env.NAIVE_AGENT_MARKETER), agentmail_webhook: !!process.env.AGENTMAIL_WEBHOOK_SECRET && process.env.AGENTMAIL_WEBHOOK_SECRET !== "none", naive_webhook: !!process.env.NAIVE_WEBHOOK_SECRET && process.env.NAIVE_WEBHOOK_SECRET !== "none", phone_line: !!process.env.MONID_NUMBER_ID, mobilerun_device: !!process.env.MOBILERUN_DEVICE_ID && process.env.MOBILERUN_DEVICE_ID !== "none" } }));
@@ -41,18 +44,51 @@ app.post("/api/orders", async (c) => {
   const o = { id: id("ord"), buyer_name: String(b.buyer_name || "").trim().slice(0, 80), buyer_email: String(b.buyer_email || "").trim().toLowerCase().slice(0, 200), buyer_phone: e164(b.buyer_phone),
     child_name: String(b.child_name || "").trim().slice(0, 40), child_age: Math.max(1, Math.min(12, Number(b.child_age) || 5)), pronoun: ["he", "she", "they"].includes(b.pronoun) ? b.pronoun : "they",
     look: String(b.look || "").trim().slice(0, 240), favorites: String(b.favorites || "").trim().slice(0, 300), occasion: String(b.occasion || "").trim().slice(0, 240),
-    language: LANG[b.language] ? b.language : "en", style: STYLES[b.style] ? b.style : "watercolor", read_to_name: String(b.read_to_name || "").trim().slice(0, 60), read_to_phone: e164(b.read_to_phone) };
+    language: LANG[b.language] ? b.language : "en", style: STYLES[b.style] ? b.style : "watercolor", read_to_name: String(b.read_to_name || "").trim().slice(0, 60), read_to_phone: e164(b.read_to_phone), robot: !!b.robot };
   const errs = [];
   if (!o.child_name) errs.push("the child's first name"); if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(o.buyer_email)) errs.push("your email");
   if (o.read_to_phone && !b.read_consent) errs.push("the consent box for the read-aloud call");
   if (errs.length) return c.json({ error: `Please add ${errs.join(", ")}.` }, 400);
-  await q(`insert into orders(id,buyer_name,buyer_email,buyer_phone,child_name,child_age,pronoun,look,favorites,occasion,language,style,read_to_name,read_to_phone,amount_cents,source,template_book_id) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)`,
-    [o.id, o.buyer_name, o.buyer_email, o.buyer_phone || null, o.child_name, o.child_age, o.pronoun, o.look, o.favorites, o.occasion, o.language, o.style, o.read_to_name || null, o.read_to_phone || null, pay.PRICE_CENTS, String(b.source || "web").slice(0, 20), b.from || null]);
+  await q(`insert into orders(id,buyer_name,buyer_email,buyer_phone,child_name,child_age,pronoun,look,favorites,occasion,language,style,read_to_name,read_to_phone,amount_cents,source,template_book_id,robot) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)`,
+    [o.id, o.buyer_name, o.buyer_email, o.buyer_phone || null, o.child_name, o.child_age, o.pronoun, o.look, o.favorites, o.occasion, o.language, o.style, o.read_to_name || null, o.read_to_phone || null, pay.PRICE_CENTS, String(b.source || "web").slice(0, 20), b.from || null, o.robot]);
   await ledger("order", "code", { hero: o.child_name, age: o.child_age, style: o.style, language: o.language, read_aloud: !!o.read_to_phone, price_cents: pay.PRICE_CENTS }, o.id);
   if (b.subscribe) await q(`insert into subscribers(email, source) values($1,'order') on conflict do nothing`, [o.buyer_email]);
   const r = await pay.startCheckout({ ...o, amount_cents: pay.PRICE_CENTS }, BASE());
   if (r.paid) { await engine.startBook(o.id); await engine.tick({ budgetMs: 2500, source: "order" }).catch(() => {}); await engine.chainPulse(0).catch(() => {}); }
   return c.json({ id: o.id, url: r.url });
+});
+// A story told out loud (on stage, at bedtime) becomes a public picture book. Free, so it is rate-limited.
+app.post("/api/tell", async (c) => {
+  const b = await c.req.json().catch(() => ({}));
+  const told = String(b.story || "").replace(/\s+/g, " ").trim().slice(0, 8000);
+  const hero = String(b.hero || "").trim().slice(0, 40);
+  const teller = String(b.teller || "").trim().slice(0, 60) || "a storyteller";
+  if (told.split(" ").length < 25) return c.json({ error: "Tell a little more: at least a few sentences." }, 400);
+  if (!hero) return c.json({ error: "Who is the story about? Add the hero's name." }, 400);
+  const recent = await one(`select count(*) filter (where created_at > now() - interval '60 seconds')::int m, count(*) filter (where created_at > now() - interval '1 day')::int d from orders where kind='told'`);
+  if (recent.m >= 1) return c.json({ error: "The Author is already writing a told story. Try again in a minute." }, 429);
+  if (recent.d >= Number(process.env.TOLD_PER_DAY || 40)) return c.json({ error: "We've written today's told stories. Come back tomorrow." }, 429);
+  const email = String(b.email || "").trim().toLowerCase();
+  const o = { id: id("ord"), child_name: hero, child_age: Math.max(1, Math.min(12, Number(b.age) || 5)), pronoun: ["he", "she", "they"].includes(b.pronoun) ? b.pronoun : "they",
+    look: String(b.look || "").trim().slice(0, 240), language: LANG[b.language] ? b.language : "en", style: STYLES[b.style] ? b.style : "storybook", robot: !!b.robot };
+  await q(`insert into orders(id, kind, buyer_email, child_name, child_age, pronoun, look, occasion, language, style, status, paid_mode, amount_cents, source, told_text, teller_name, robot) values($1,'told',$2,$3,$4,$5,$6,$7,$8,$9,'paid','house',0,$10,$11,$12,$13)`,
+    [o.id, /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ? email : null, o.child_name, o.child_age, o.pronoun, o.look, "a story told out loud by " + teller, o.language, o.style, String(b.source || "tell").slice(0, 20), told, teller, o.robot]);
+  await ledger("told", "code", { teller, hero, words: told.split(" ").length, robot: o.robot, language: o.language, style: o.style }, o.id);
+  await engine.startBook(o.id);
+  await engine.tick({ budgetMs: 2500, source: "tell" }).catch(() => {});
+  await engine.chainPulse(0).catch(() => {});
+  return c.json({ id: o.id, url: `/order/${o.id}` });
+});
+// Speech to text for browsers without live speech recognition: the recording is transcribed once and discarded.
+app.post("/api/transcribe", async (c) => {
+  const buf = Buffer.from(await c.req.arrayBuffer());
+  if (buf.length < 2000) return c.json({ error: "That recording is empty." }, 400);
+  if (buf.length > 4_000_000) return c.json({ error: "That recording is too long; keep it under three minutes." }, 400);
+  const fd = new FormData(); fd.append("model", process.env.OPENAI_TRANSCRIBE_MODEL || "gpt-4o-mini-transcribe"); fd.append("file", new Blob([buf], { type: c.req.header("content-type") || "audio/webm" }), "story.webm");
+  const r = await fetch("https://api.openai.com/v1/audio/transcriptions", { method: "POST", headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` }, body: fd });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) return c.json({ error: "Couldn't hear that. Try again, or type the story." }, 502);
+  return c.json({ text: String(j.text || "").trim() });
 });
 app.post("/api/subscribe", async (c) => { const b = await c.req.json().catch(() => ({})); const e = String(b.email || "").trim().toLowerCase(); if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)) return c.json({ error: "Add a valid email." }, 400); await q(`insert into subscribers(email, source) values($1,'web') on conflict do nothing`, [e]); return c.json({ ok: true }); });
 

@@ -78,7 +78,7 @@ export default defineProject({
       deploy_dir: "./app/dist",
       mcp: "/mcp",
       required: true,
-      migrations: ["./app/migrations/001_init.sql"],
+      migrations: ["./app/migrations/001_init.sql", "./app/migrations/002_told.sql"],
       env: {
         COMPANY_NAIVE_KEY: { from_env: "NL_COMPANY_KEY" },
         MONID_API_KEY: { from_env: "MONID_API_KEY" },
