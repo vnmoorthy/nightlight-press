@@ -16,6 +16,7 @@ Rules:
 - "hero_look" restates the hero's appearance as a short, fixed description the illustrator can repeat on every page (and, if there is a robot friend, the robot's fixed look too).
 - "dedication" is one short line crediting the teller, for example "From a story told by {{teller}}".
 - "blurb" is two sentences for the back cover.
+- "cast" lists every other character who appears on more than one page (a grandparent, a friend, a pet, a robot neighbour; not the hero, not Pip), each with "name" and a short fixed "look" (age, skin tone, hair, clothes, one signature detail; for a person with a bionic part, describe it exactly) so the illustrator draws them the same on every page. Use an empty list if there are none.
 - "robot_facts": three short, TRUE facts about real robots or AI that a {{age}}-year-old can understand and repeat (for example how robots sense the world, real jobs robots do today, how people teach AI). Each under 20 words, in {{language}}, friendly and accurate, never scary.
 - "title" is a short, warm picture-book title based on their story.
 - "hero_name" is the hero's first name exactly as used in the pages.

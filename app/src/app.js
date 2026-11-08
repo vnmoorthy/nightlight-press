@@ -84,7 +84,7 @@ app.post("/api/transcribe", async (c) => {
   const buf = Buffer.from(await c.req.arrayBuffer());
   if (buf.length < 2000) return c.json({ error: "That recording is empty." }, 400);
   if (buf.length > 4_000_000) return c.json({ error: "That recording is too long; keep it under three minutes." }, 400);
-  const fd = new FormData(); fd.append("model", process.env.OPENAI_TRANSCRIBE_MODEL || "gpt-4o-mini-transcribe"); fd.append("file", new Blob([buf], { type: c.req.header("content-type") || "audio/webm" }), "story.webm");
+  const fd = new FormData(); fd.append("model", process.env.OPENAI_TRANSCRIBE_MODEL || "gpt-4o-mini-transcribe"); const ct = String(c.req.header("content-type") || "audio/webm").split(";")[0].trim(); const ext = { "audio/webm": "webm", "audio/ogg": "ogg", "audio/mpeg": "mp3", "audio/mp3": "mp3", "audio/mp4": "m4a", "audio/x-m4a": "m4a", "audio/wav": "wav", "audio/x-wav": "wav", "audio/aac": "aac" }[ct] || "webm"; fd.append("file", new Blob([buf], { type: ct }), `story.${ext}`);
   const r = await fetch("https://api.openai.com/v1/audio/transcriptions", { method: "POST", headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` }, body: fd });
   const j = await r.json().catch(() => ({}));
   if (!r.ok) return c.json({ error: "Couldn't hear that. Try again, or type the story." }, 502);
