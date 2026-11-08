@@ -12,7 +12,7 @@ writeFileSync("dist/vercel.json", JSON.stringify({
     { source: "/mcp", destination: "/api/app?__path=/mcp" },
     { source: "/", destination: "/api/app?__path=/" },
     { source: "/api/(.*)", destination: "/api/app?__path=/api/$1" },
-    { source: "/((?!css/|js/|vendor/|img/).*)", destination: "/api/app?__path=/$1" },
+    { source: "/((?!css/|js/|vendor/|img/|media/).*)", destination: "/api/app?__path=/$1" },
   ],
 }, null, 2));
 writeFileSync("dist/package.json", JSON.stringify({ name: "nightlight-app", private: true, type: "module", engines: { node: ">=20" }, dependencies: deps }, null, 2));

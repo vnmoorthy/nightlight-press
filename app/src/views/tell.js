@@ -5,32 +5,39 @@ const SW = { watercolor: "linear-gradient(135deg,#f6d6c2,#b9d4e8 55%,#e8dcb5)", 
 export function tellPage({ mode }) {
   const body = `
 <style>
-.tell{background:linear-gradient(180deg,#dceffa 0%,#fff1da 55%,#fff8ec 100%);min-height:calc(100vh - 64px);padding:48px 0 90px;position:relative;overflow:hidden}
-.tell .sunb{position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,#ffd766 0 55%,rgba(255,194,51,.25) 56% 70%,transparent 71%);pointer-events:none}
+.tell{min-height:calc(100vh - 64px);padding:56px 0 90px;position:relative;overflow:hidden}
+.tell .sunb{position:absolute;left:50%;top:-220px;width:1100px;height:700px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(255,224,160,.22),rgba(61,123,255,.16) 55%,transparent 100%);pointer-events:none}
 .tell .wrap{position:relative}
-.tell h1{font-size:clamp(40px,6vw,76px);color:#22223b}
-.tell h1 em{font-style:normal;color:#ff6b4a}
-.tell .lead{font-size:clamp(18px,2vw,22px);color:#3a3a5c;max-width:760px;margin:14px 0 0}
+.tell h1{font-size:clamp(40px,6vw,76px);color:#fff;line-height:1.02}
+.tell h1 em{font-style:normal;color:var(--gold);text-shadow:0 0 30px rgba(255,211,110,.45)}
+.tell .lead{font-size:clamp(18px,2vw,22px);color:var(--text);max-width:760px;margin:16px 0 0}
 .tgrid{display:grid;grid-template-columns:1.35fr .9fr;gap:28px;margin-top:34px;align-items:start}
-.stagecard{background:#fff;border-radius:28px;box-shadow:0 2px 0 #eadfcb,0 22px 60px rgba(34,34,59,.12);padding:28px}
-.microw{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-.mic{width:96px;height:96px;border-radius:50%;border:0;background:#ff6b4a;color:#fff;font-size:40px;cursor:pointer;box-shadow:0 6px 0 #e04e2e,0 16px 40px rgba(255,107,74,.35);transition:transform .15s;flex:none}
-.mic:active{transform:translateY(3px);box-shadow:0 3px 0 #e04e2e}
-.mic.on{animation:pulse 1.4s infinite}@keyframes pulse{0%{box-shadow:0 6px 0 #e04e2e,0 0 0 0 rgba(255,107,74,.55)}70%{box-shadow:0 6px 0 #e04e2e,0 0 0 26px rgba(255,107,74,0)}100%{box-shadow:0 6px 0 #e04e2e,0 0 0 0 rgba(255,107,74,0)}}
-.micstate b{display:block;font:600 22px Fredoka,system-ui;color:#22223b}.micstate span{color:#6b6a80}
-.transcript{margin-top:22px;min-height:260px;max-height:46vh;overflow:auto;border-radius:20px;background:#fff8ec;border:2px dashed #eadfcb;padding:22px 24px;font:clamp(20px,2.1vw,26px)/1.55 Literata,Georgia,serif;color:#22223b;outline:none}
-.transcript:empty:before{content:attr(data-ph);color:#a8a3b8}
-.transcript .interim{color:#9a95ad}
-.tcount{display:flex;justify-content:space-between;margin-top:10px;color:#6b6a80;font-size:14px}
+.stagecard{background:var(--glass);border:1px solid var(--glass-b);border-radius:22px;box-shadow:0 30px 70px -30px rgba(0,0,0,.85);padding:28px;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.tell section.stagecard{background:radial-gradient(80% 70% at 18% 0%,rgba(255,211,110,.12),transparent 60%),var(--glass)}
+.microw{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.mic{width:104px;height:104px;border-radius:50%;border:0;background:radial-gradient(circle at 35% 30%,#FFF0C2,var(--gold) 45%,var(--amber));color:var(--night1);font-size:42px;cursor:pointer;box-shadow:0 0 0 8px rgba(255,211,110,.14),0 0 50px rgba(255,211,110,.55);transition:transform .15s,box-shadow .2s;flex:none}
+.mic:hover{transform:scale(1.05);box-shadow:0 0 0 10px rgba(255,211,110,.2),0 0 70px rgba(255,211,110,.75)}
+.mic:active{transform:scale(.97)}
+.mic.on{animation:pulse 1.4s infinite}@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,211,110,.6),0 0 50px rgba(255,211,110,.55)}70%{box-shadow:0 0 0 30px rgba(255,211,110,0),0 0 70px rgba(255,211,110,.7)}100%{box-shadow:0 0 0 0 rgba(255,211,110,0),0 0 50px rgba(255,211,110,.55)}}
+.micstate b{display:block;font:600 22px Fredoka,system-ui;color:#fff}.micstate span{color:var(--muted)}
+.transcript{margin-top:22px;min-height:260px;max-height:46vh;overflow:auto;border-radius:18px;background:rgba(11,22,64,.75);border:1px solid var(--glass-b);padding:22px 24px;font:clamp(20px,2.1vw,26px)/1.55 Literata,Georgia,serif;color:var(--cream);outline:none;box-shadow:inset 0 0 40px rgba(61,123,255,.12)}
+.transcript:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(255,211,110,.18),inset 0 0 40px rgba(61,123,255,.12)}
+.transcript:empty:before{content:attr(data-ph);color:#7F8DBD}
+.transcript .interim{color:#8FA0D6}
+.tcount{display:flex;justify-content:space-between;margin-top:10px;color:var(--muted);font-size:14px}
 .side .field label{font-weight:700}
-.robot{display:flex;gap:14px;align-items:center;background:#eaf6fd;border:2px solid #cfe7f6;border-radius:18px;padding:14px;margin:6px 0 14px;cursor:pointer}
-.robot input{width:22px;height:22px;accent-color:#4da8da;flex:none}
-.robot svg{width:54px;height:54px;flex:none}
-.robot small{display:block;color:#6b6a80}
+.robot{display:flex;gap:14px;align-items:center;background:rgba(111,195,255,.08);border:1px solid rgba(111,195,255,.3);border-radius:18px;padding:14px;margin:6px 0 14px;cursor:pointer;color:var(--text);transition:box-shadow .2s,transform .2s}
+.robot:hover{transform:translateY(-2px);box-shadow:0 0 0 2px rgba(255,255,255,.6),0 14px 40px rgba(61,123,255,.3)}
+.robot:has(input:checked){border-color:var(--gold);box-shadow:0 0 26px rgba(255,211,110,.3)}
+.robot input{width:22px;height:22px;accent-color:var(--amber);flex:none}
+.robot svg{width:54px;height:54px;flex:none;filter:drop-shadow(0 0 10px rgba(111,195,255,.5))}
+.robot b{color:#fff}
+.robot small{display:block;color:var(--muted)}
 .go{width:100%;font-size:19px;padding:18px 24px}
-.tswatch{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.tswatch label{border-radius:14px;padding:6px;text-align:center;font-size:12px;cursor:pointer;background:#fff;box-shadow:inset 0 0 0 2px #eadfcb}.tswatch input{display:none}.tswatch .sw{height:40px;border-radius:9px;margin-bottom:4px}.tswatch label:has(input:checked){box-shadow:inset 0 0 0 3px #ff6b4a}
-.how3{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.how3 span{background:#fff;border-radius:999px;padding:8px 14px;font-weight:700;color:#3a3a5c;box-shadow:0 2px 0 #eadfcb}
+.tswatch{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.tswatch label{border-radius:14px;padding:6px;text-align:center;font-size:12px;cursor:pointer;background:var(--glass);color:var(--muted);box-shadow:inset 0 0 0 1px var(--glass-b)}.tswatch input{display:none}.tswatch .sw{height:40px;border-radius:9px;margin-bottom:4px}.tswatch label:has(input:checked){box-shadow:inset 0 0 0 2px var(--gold),0 0 20px rgba(255,211,110,.35);color:#fff}
+.how3{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.how3 span{background:var(--glass);border:1px solid var(--glass-b);border-radius:999px;padding:8px 14px;font-weight:700;color:#fff}
 @media(max-width:920px){.tgrid{grid-template-columns:1fr}.tswatch{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.stagecard{padding:20px}.mic{width:88px;height:88px;font-size:36px}}
 </style>
 <main class="tell"><div class="sunb" aria-hidden="true"></div><div class="wrap">
   <div class="eyebrow">Tell us a story</div>
@@ -51,7 +58,7 @@ export function tellPage({ mode }) {
       <div class="row2"><div class="field"><label for="teller">Told by</label><input id="teller" name="teller" maxlength="60" placeholder="Your name"></div>
         <div class="field"><label for="language">Language</label><select id="language" name="language">${Object.entries(LANG).map(([k, v]) => `<option value="${k}">${v}</option>`).join("")}</select></div></div>
       <div class="field"><label>Pictures</label><div class="tswatch">${Object.keys(STYLES).map((k) => `<label><input type="radio" name="style" value="${k}" ${k === "storybook" ? "checked" : ""}><div class="sw" style="background:${SW[k]}"></div>${SN[k]}</label>`).join("")}</div></div>
-      <label class="robot"><input type="checkbox" name="robot"><svg viewBox="0 0 64 64" aria-hidden="true"><line x1="32" y1="6" x2="32" y2="16" stroke="#22223b" stroke-width="3"/><circle cx="32" cy="6" r="5" fill="#ffc233"/><circle cx="32" cy="26" r="13" fill="#fff" stroke="#22223b" stroke-width="2.5"/><ellipse cx="27" cy="26" rx="2.6" ry="3.4" fill="#22223b"/><ellipse cx="37" cy="26" rx="2.6" ry="3.4" fill="#22223b"/><rect x="18" y="38" width="28" height="16" rx="7" fill="#4da8da" stroke="#22223b" stroke-width="2.5"/><circle cx="23" cy="57" r="4" fill="#22223b"/><circle cx="41" cy="57" r="4" fill="#22223b"/></svg><span><b>Add Pip the PlayRobot as a friend</b><small>A kind robot sidekick joins the story. It's credited in the book and never sells anything.</small></span></label>
+      <label class="robot"><input type="checkbox" name="robot"><svg viewBox="0 0 64 64" aria-hidden="true"><line x1="32" y1="6" x2="32" y2="16" stroke="#A9B6E0" stroke-width="3"/><circle cx="32" cy="6" r="5" fill="#FFD36E"/><circle cx="32" cy="26" r="13" fill="#FFF7E8" stroke="#0B1A4A" stroke-width="2.5"/><ellipse cx="27" cy="26" rx="2.6" ry="3.4" fill="#22223b"/><ellipse cx="37" cy="26" rx="2.6" ry="3.4" fill="#22223b"/><rect x="18" y="38" width="28" height="16" rx="7" fill="#6FC3FF" stroke="#0B1A4A" stroke-width="2.5"/><circle cx="23" cy="57" r="4" fill="#A9B6E0"/><circle cx="41" cy="57" r="4" fill="#A9B6E0"/></svg><span><b>Add Pip the PlayRobot as a friend</b><small>A kind robot sidekick joins the story. It's credited in the book and never sells anything.</small></span></label>
       <div class="field"><label for="email">Email the book to <span class="muted small">(optional)</span></label><input id="email" name="email" type="email" placeholder="you@example.com"></div>
       <div class="err" id="tellErr" role="alert"></div>
       <button class="btn coral go" id="go" type="submit">Make it a book</button>

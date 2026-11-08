@@ -16,14 +16,33 @@ export function landingPage({ mode, price: p = 1900, shelf = [], from }) {
   const demo = [{ title: "Maya and the Moon Library", style: "night" }, { title: "Leo's Very Big First Day", style: "watercolor" }, { title: "Abuela's Kite", style: "papercut" }];
   while (fan.length < 3) fan.push(demo[fan.length]);
   const body = `
-<header class="hero"><div class="scene" aria-hidden="true"><div class="sun"></div>${cloud(120, "left:3%;top:22px", 70, 70)}${cloud(90, "left:43%;top:58px", 55, -50)}${cloud(150, "right:2%;top:250px", 80, -60)}${cloud(70, "left:56%;top:520px", 50, 40)}${HILLS()}</div><div class="wrap"><div class="grid">
-  <div><div class="eyebrow white">A children's publisher with no employees</div>
-    <h1 style="margin-top:18px">Tonight's bedtime book stars <em class="hl">your child.</em></h1>
-    <p class="lede" style="margin-top:22px">Tell us their name, what they look like and what they love. Our AI staff writes a new story, paints every page, records a read-aloud and binds a print-ready book in about five minutes. ${price(p)}, with changes free.</p>
-    <div class="ctas"><a class="btn" href="#make">Make their book · ${price(p)}</a><a class="btn ghost" href="/office">Watch the office work</a></div>
-    <div class="pills"><span class="pill">✒️ A new story every time</span><span class="pill">🎨 Painted for them</span><span class="pill">🎙️ Read aloud, 16 languages</span><span class="pill">☎️ We'll phone Grandma and read it to her</span></div></div>
-  <div class="fan" aria-hidden="true">${fan.map((b) => `<div class="bk" style="${cov(b)}"><span>${esc(b.title)}</span></div>`).join("")}</div>
-</div></div></header>
+<header class="hc" id="hc" aria-roledescription="carousel" aria-label="Nightlight Press highlights">
+  <div class="hc-slide on" role="group" aria-roledescription="slide" aria-label="1 of 3"><video muted loop playsinline autoplay preload="auto" poster="/media/office_flythrough_poster.jpg" src="/media/office_flythrough.mp4"></video>
+    <div class="hc-copy"><div class="wrap"><div class="in"><div class="eyebrow white">A children's publisher with no employees</div>
+      <h1>Tonight's bedtime book stars <em class="hl">your child.</em></h1>
+      <p>Tell us their name, what they look like and what they love. Our AI staff writes a new story, paints every page, records a read-aloud and binds a print-ready book in about five minutes. ${price(p)}, with changes free.</p>
+      <div class="ctas"><a class="btn" href="#make">Make their book · ${price(p)}</a><a class="btn ghost" href="/office">Watch the office work</a></div>
+      <div class="hc-badges"><span>✒️ A new story every time</span><span>🎨 Painted for them</span><span>🎙️ Read aloud, 16 languages</span><span>☎️ We'll phone Grandma</span></div></div></div></div></div>
+  <div class="hc-slide" role="group" aria-roledescription="slide" aria-label="2 of 3"><video muted loop playsinline preload="none" poster="/media/book_open_poster.jpg" src="/media/book_open.mp4"></video>
+    <div class="hc-copy"><div class="wrap"><div class="in"><div class="eyebrow white">New · Tell a story</div>
+      <h2>Tell us a story. <em class="hl">We'll make it a book.</em></h2>
+      <p>Say it out loud: a bedtime tale, something from today, a story from when you were small. The Author keeps your words, the Illustrator paints every page.</p>
+      <div class="ctas"><a class="btn" href="/tell">Tell a story</a><a class="btn ghost" href="/shelf">Read the free shelf</a></div></div></div></div></div>
+  <div class="hc-slide" role="group" aria-roledescription="slide" aria-label="3 of 3"><img src="/media/hero.jpg" alt="" loading="lazy">
+    <div class="hc-copy"><div class="wrap"><div class="in"><div class="eyebrow white">Run entirely by AI agents</div>
+      <h2>A publisher with <em class="hl">no employees.</em></h2>
+      <p>Twelve desks, every one an agent or a piece of code. Watch the Author, the Illustrator and the Narrator work, live, in a 3D office.</p>
+      <div class="ctas"><a class="btn" href="/office">Watch the office work</a><a class="btn ghost" href="/board">Company board</a></div></div></div></div></div>
+  <div class="hc-ctrl"><div class="wrap"><div class="hc-dots" role="tablist" aria-label="Choose a slide"><button type="button" class="on" aria-label="Slide 1" aria-selected="true"></button><button type="button" aria-label="Slide 2" aria-selected="false"></button><button type="button" aria-label="Slide 3" aria-selected="false"></button></div>
+    <button type="button" class="hc-arrow" data-dir="-1" aria-label="Previous slide">${CHEV("M15 5l-7 7 7 7")}</button><button type="button" class="hc-arrow" data-dir="1" aria-label="Next slide">${CHEV("M9 5l7 7-7 7")}</button></div></div>
+</header>
+
+<section class="rails"><div class="wrap">
+  <div class="rail"><div class="rail-h"><div><div class="eyebrow">The free shelf</div><h2 style="margin-top:12px">New on the free shelf</h2></div><div style="display:flex;gap:14px;align-items:center"><a href="/shelf">See all</a><div class="rail-nav"><button type="button" class="rail-arrow" data-dir="-1" aria-label="Scroll left">${CHEV("M15 5l-7 7 7 7")}</button><button type="button" class="rail-arrow" data-dir="1" aria-label="Scroll right">${CHEV("M9 5l7 7-7 7")}</button></div></div></div>
+    <div class="rail-track">${(shelf.length ? shelf.slice(0, 12) : demo).map((b) => `<a class="tile" href="${b.id ? `/book/${b.id}` : "/shelf"}" style="${cov(b)}"><small>${SN[b.style] || "Free"}</small><b>${esc(b.title)}</b></a>`).join("")}</div></div>
+  <div class="rail"><div class="rail-h"><div><div class="eyebrow">Pick a look</div><h2 style="margin-top:12px">Make one like these</h2></div><div class="rail-nav"><button type="button" class="rail-arrow" data-dir="-1" aria-label="Scroll left">${CHEV("M15 5l-7 7 7 7")}</button><button type="button" class="rail-arrow" data-dir="1" aria-label="Scroll right">${CHEV("M9 5l7 7-7 7")}</button></div></div>
+    <div class="rail-track">${Object.keys(STYLES).map((k, i) => { const ex = shelf.find((b) => b.style === k && b.cover_media_id); return `<a class="tile" href="/#make" style="${ex ? cov(ex) : `background:${SW[k]}`}"><small>${SN[k] || k}</small><b>${esc(["A bedtime adventure", "First day of school", "A new baby in the family", "Being brave at the doctor", "Their birthday"][i % 5])}</b></a>`; }).join("")}</div></div>
+</div></section>
 
 <section id="how"><div class="wrap"><div class="eyebrow">How it works</div><h2 style="margin-top:16px;max-width:760px">Three minutes of you. Five minutes of them.</h2>
 <div class="steps">
@@ -32,7 +51,7 @@ export function landingPage({ mode, price: p = 1900, shelf = [], from }) {
   <div class="card step"><div class="n">3</div><h3>Read it tonight</h3><p class="muted">A web book with "Read to me", a print-ready PDF in your inbox, and if you like, a phone call that reads it to Grandma. Reply to the email to change anything.</p></div>
 </div></div></section>
 
-<section id="make" class="make-sec wavy"><div class="wrap make">
+<section id="make" class="make-sec"><div class="wrap make">
   <div><div class="eyebrow">Make their book</div><h2 style="margin-top:16px">Who's the hero?</h2>
     <p class="lede muted" style="margin-top:16px">Every book is written from scratch for one child. Nothing is a template with a name pasted in.</p>
     <div class="card getcard"><b style="font:600 20px var(--display)">What you get for ${price(p)}</b>
@@ -67,12 +86,11 @@ export function landingPage({ mode, price: p = 1900, shelf = [], from }) {
   </form>
 </div></section>
 
-<section id="staff" class="wavy" style="background:var(--paper)"><div class="wrap"><div class="eyebrow lilac">The staff</div><h2 style="margin-top:16px;max-width:820px">Twelve jobs. Nobody on payroll.</h2>
+<section id="staff"><div class="wrap"><div class="eyebrow lilac">The staff</div><h2 style="margin-top:16px;max-width:820px">Twelve jobs. Nobody on payroll.</h2>
 <p class="lede muted" style="margin-top:14px">Each desk is a real agent or a piece of code with one job. Agents write, paint and talk. Code decides when, whether, and how much. <a href="/office">Watch them work in the office</a>.</p>
 <div class="staff">${STAFF.map((s) => `<div class="card" style="--c:${s.color}"><div class="av">${s.icon}</div><div><b>${esc(s.name)}</b><div class="small muted">${esc(s.role)}</div><span class="tag">${esc(s.kind)}</span></div></div>`).join("")}</div></div></section>
 
-<section class="skyband wavy"><div class="scene" aria-hidden="true">${cloud(130, "left:4%;top:40px", 70, 80)}${cloud(90, "right:8%;top:70px", 60, -60)}${cloud(110, "left:52%;top:24px", 75, 50)}</div><div class="wrap"><div style="display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap"><div><div class="eyebrow white">The shelf</div><h2 style="margin-top:16px">Free books, written last night.</h2><p class="lede" style="margin-top:12px">Marketing commissions a new book for the shelf every night. Read them free.</p></div><a class="btn ghost" href="/shelf">See the whole shelf</a></div>
-<div class="shelf">${shelf.length ? shelf.slice(0, 8).map((b) => `<a class="cover" href="/book/${b.id}" style="${cov(b)}"><span class="t">${esc(b.title)}</span><span class="s">${SN[b.style] || ""}</span></a>`).join("") : `<p class="muted">The first shelf book is being written tonight.</p>`}</div></div></section>
+
 
 <section><div class="wrap"><div class="eyebrow leaf">Made carefully</div><h2 style="margin-top:16px">What we promise parents</h2>
 <div class="trust"><div class="card"><div class="ico" aria-hidden="true">📷</div><h3>No photos, ever</h3><p class="muted">We never ask for a picture of your child. The Illustrator works from your words.</p></div><div class="card"><div class="ico" aria-hidden="true">✅</div><h3>Checked by code, not vibes</h3><p class="muted">The Editor rejects drafts with too many words for the age, missing names, brands or anything scary, and sends them back to be rewritten.</p></div><div class="card"><div class="ico" aria-hidden="true">🤖</div><h3>AI says it's AI</h3><p class="muted">Every phone call starts by saying it's an AI storyteller. We only call people you've told us expect it, at most three times per book.</p></div></div>
@@ -84,7 +102,7 @@ export function landingPage({ mode, price: p = 1900, shelf = [], from }) {
 </div>
 <form id="subForm" class="card subscribe"><div style="flex:1;min-width:240px"><b>☀️ A free bedtime book, every night</b><div class="muted small">Marketing writes one each night. We'll email it to you.</div></div><input type="email" name="email" required placeholder="you@example.com" aria-label="Your email"><button class="btn dark">Subscribe</button></form>
 </div></section>`;
-  return layout({ title: "Nightlight Press · a bedtime book starring your child", body, mode, scripts: `<script src="/js/site.js" defer></script>` });
+  return layout({ title: "Nightlight Press · a bedtime book starring your child", body, mode, scripts: `<script src="/js/site.js" defer></script><script src="/js/carousel.js" defer></script>` });
 }
 
 export function orderPage({ o, mode }) {

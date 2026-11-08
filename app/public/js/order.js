@@ -1,6 +1,6 @@
 (() => {
   const ID = window.ORDER_ID, $ = (s) => document.querySelector(s); let seen = 0, done = false, lastPulse = 0;
-  const KIND = { order: "📝 Order received", payment: "💳 Cashier: payment recorded", commission: "📋 Production started", agent_start: "▶", story: "✒️ Author finished the manuscript", edit_check: "🔎 Editor", paint: "🎨 Illustrator painted", narrate: "🎙️ Narrator recorded page", bind: "📚 Binder bound the book", deliver: "✉️ Mailroom emailed the book", sms: "💬 Mailroom texted the link", read_call: "☎️ Storyteller Line is calling", read_call_done: "☎️ Call finished", frontdesk: "💬 Front Desk read your message", revise: "🔁 Sent back for changes", proof: "📱 Proofreader checked it on a phone", proof_skipped: "📱 Proofreader skipped", deliver_failed: "⚠️ Email failed", job_failed: "⚠️ A step failed and will be retried" };
+  const KIND = { order: "📝 Order received", payment: "💳 Cashier: payment recorded", commission: "📋 Production started", agent_start: "▶", story: "✒️ Author finished the manuscript", edit_check: "🔎 Editor", paint: "🎨 Illustrator painted", narrate: "🎙️ Narrator recorded page", bind: "📚 Binder bound the book", deliver: "✉️ Mailroom emailed the book", sms: "💬 Mailroom texted the link", read_call: "☎️ Storyteller Line is calling", read_call_done: "☎️ Call finished", frontdesk: "💬 Front Desk read your message", revise: "🔁 Sent back for changes", proof: "📱 Proofreader checked it on a phone", proof_skipped: "📱 Proofreader skipped", deliver_failed: "⚠️ Email failed", job_failed: "⚠️ A step failed and will be retried", film: "🎬 The Film desk animated a page", told: "🎙️ Your story reached the Author" };
   function line(e) {
     const d = e.detail || {}; let t = KIND[e.kind] || e.kind;
     if (e.kind === "agent_start") t = `▶ ${(e.actor || "").replace("agent:", "")} started: ${d.purpose || ""}`;
@@ -8,6 +8,8 @@
     if (e.kind === "paint") t = `🎨 Illustrator painted ${d.page === "cover" ? "the cover" : `page ${d.page}`}`;
     if (e.kind === "narrate") t = `🎙️ Narrator recorded page ${d.page}`;
     if (e.kind === "story") t = d.revised ? "✒️ Author revised the text" : `✒️ Author finished "${d.title}" (${d.pages} pages, ${d.words} words)`;
+    if (e.kind === "film") t = `🎬 The Film desk animated ${d.page === "cover" ? "the cover" : `page ${d.page}`} into a short film`;
+    if (e.kind === "told") t = `🎙️ ${d.teller}'s story (${d.words} words) reached the Author`;
     if (e.kind === "bind") t = `📚 Binder bound ${d.pages} pages, ${d.minutes_since_order} min after you ordered`;
     if (e.kind === "payment") t = d.mode === "pledge" ? "💳 Cashier: pledge mode, nothing charged" : `💳 Cashier: $${(d.amount_cents / 100).toFixed(2)} paid`;
     return `<div><span class="when">${new Date(e.created_at).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", second: "2-digit" })}</span> ${esc(t)}</div>`;

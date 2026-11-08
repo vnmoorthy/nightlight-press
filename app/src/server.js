@@ -6,7 +6,7 @@ import { tick } from "./engine.js";
 import { withDb, migrate } from "./db.js";
 const port = Number(process.env.PORT || 3100);
 const local = new Hono();
-for (const d of ["css", "js", "vendor", "img"]) local.use(`/${d}/*`, serveStatic({ root: "./public" }));
+for (const d of ["css", "js", "vendor", "img", "media"]) local.use(`/${d}/*`, serveStatic({ root: "./public" }));
 local.route("/", app);
 await withDb(() => migrate());
 if (process.env.ENABLE_INTERNAL_CRON !== "0") setInterval(() => withDb(() => tick({ source: "local-cron" })).catch((e) => console.error("[tick]", e.message)), Number(process.env.TICK_SECONDS || 3) * 1000);
