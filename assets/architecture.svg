@@ -1,226 +1,331 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1040" viewBox="0 0 1600 1040">
-<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c9c2e6"/></marker>
-<pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#ffffff" stroke-opacity=".035"/></pattern>
-<style>.t{font:600 16px Inter,Helvetica,Arial,sans-serif;fill:#fff}.s{font:400 12.5px Inter,Helvetica,Arial,sans-serif;fill:#c9c2e6}.tag{font:600 11px Inter,Helvetica,Arial,sans-serif;letter-spacing:.06em}.lbl{font:500 11.5px Inter,Helvetica,Arial,sans-serif;fill:#e9e4ff}.h{font:600 13px Inter,Helvetica,Arial,sans-serif;fill:#f3d58c;letter-spacing:.14em}</style></defs>
-<rect width="1600" height="1040" fill="#141A33"/><rect width="1600" height="1040" fill="url(#grid)"/>
-<text x="40" y="58" style="font:600 34px Georgia,serif;fill:#fff7e6">Nightlight Press · how the company runs</text>
-<text x="40" y="88" style="font:italic 17px Georgia,serif;fill:#f3d58c">Agents write, paint and talk. Deterministic code decides when, whether and how much. Every step is a short job; every consequence is a ledger line.</text>
-<text x="40" y="134" class="h">OUTSIDE</text>
-<g><rect x="40" y="148" width="230" height="74" rx="14" fill="#1d2547" stroke="#FDF8EF" stroke-width="2"/>
-<rect x="40" y="148" width="6" height="74" rx="3" fill="#FDF8EF"/>
-<text x="56" y="174" class="t">👪 Parent</text>
-<text x="56" y="194" class="s">orders on the web, $19</text>
-<text x="56" y="211" class="s">watches the making-of live</text>
-</g>
-<g><rect x="40" y="240" width="230" height="74" rx="14" fill="#1d2547" stroke="#E8B44A" stroke-width="2"/>
-<rect x="40" y="240" width="6" height="74" rx="3" fill="#E8B44A"/>
-<text x="56" y="266" class="t">✉️ Family email reply</text>
-<text x="56" y="286" class="s">&quot;her dog is Biscuit, not Cookie&quot;</text>
-<text x="56" y="303" class="s">→ AgentMail inbox</text>
-<text x="258" y="304" class="tag" text-anchor="end" fill="#E8B44A">AGENTMAIL</text>
-</g>
-<g><rect x="40" y="332" width="230" height="74" rx="14" fill="#1d2547" stroke="#F08A6C" stroke-width="2"/>
-<rect x="40" y="332" width="6" height="74" rx="3" fill="#F08A6C"/>
-<text x="56" y="358" class="t">☎️ Grandma&#x27;s phone</text>
-<text x="56" y="378" class="s">called by the Storyteller Line,</text>
-<text x="56" y="395" class="s">disclosed as AI, with consent</text>
-<text x="258" y="396" class="tag" text-anchor="end" fill="#F08A6C">MONID</text>
-</g>
-<g><rect x="40" y="424" width="230" height="74" rx="14" fill="#1d2547" stroke="#E8B44A" stroke-width="2"/>
-<rect x="40" y="424" width="6" height="74" rx="3" fill="#E8B44A"/>
-<text x="56" y="450" class="t">📬 Subscribers</text>
-<text x="56" y="470" class="s">get the free shelf book</text>
-<text x="56" y="487" class="s">each night</text>
-<text x="258" y="488" class="tag" text-anchor="end" fill="#E8B44A">AGENTMAIL</text>
-</g>
-<g><rect x="40" y="516" width="230" height="74" rx="14" fill="#1d2547" stroke="#7BD3B0" stroke-width="2"/>
-<rect x="40" y="516" width="6" height="74" rx="3" fill="#7BD3B0"/>
-<text x="56" y="542" class="t">📱 Real Android phone</text>
-<text x="56" y="562" class="s">proofreads books, posts</text>
-<text x="56" y="579" class="s">the shelf book to Instagram</text>
-<text x="258" y="580" class="tag" text-anchor="end" fill="#7BD3B0">MOBILERUN</text>
-</g>
-<g><rect x="40" y="608" width="230" height="74" rx="14" fill="#1d2547" stroke="#9FC3FF" stroke-width="2"/>
-<rect x="40" y="608" width="6" height="74" rx="3" fill="#9FC3FF"/>
-<text x="56" y="634" class="t">💳 Stripe</text>
-<text x="56" y="654" class="s">Checkout for $19 a book;</text>
-<text x="56" y="671" class="s">pledge mode without a key</text>
-<text x="258" y="672" class="tag" text-anchor="end" fill="#9FC3FF">STRIPE</text>
-</g>
-<rect x="300" y="118" width="1262" height="652" rx="22" fill="none" stroke="#B9A7FF" stroke-opacity=".55" stroke-width="2" stroke-dasharray="2 0"/>
-<text x="324" y="146" class="h">NAÏVE · HOSTED APP "nightlight-press" · HONO ON SERVERLESS · MANAGED POSTGRES · /mcp</text>
-<rect x="324" y="160" width="58.4" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="353.2" y="180" text-anchor="middle" class="lbl">Shop</text>
-<rect x="392.4" y="160" width="149.6" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="467.2" y="180" text-anchor="middle" class="lbl">Making-of (live)</text>
-<rect x="552.0" y="160" width="172.4" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="638.2" y="180" text-anchor="middle" class="lbl">Reader + Read to me</text>
-<rect x="734.4" y="160" width="104.0" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="786.4" y="180" text-anchor="middle" class="lbl">Free shelf</text>
-<rect x="848.4" y="160" width="157.2" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="927.0" y="180" text-anchor="middle" class="lbl">Office (3D, live)</text>
-<rect x="1015.5999999999999" y="160" width="126.8" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="1079.0" y="180" text-anchor="middle" class="lbl">Company board</text>
-<rect x="1152.3999999999999" y="160" width="126.8" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="1215.8" y="180" text-anchor="middle" class="lbl">Public ledger</text>
-<rect x="1289.1999999999998" y="160" width="104.0" height="30" rx="15" fill="#262f59" stroke="#ffffff" stroke-opacity=".12"/><text x="1341.1999999999998" y="180" text-anchor="middle" class="lbl">/mcp tools</text>
-<g><rect x="324" y="210" width="270" height="92" rx="14" fill="#1d2547" stroke="#9FC3FF" stroke-width="2"/>
-<rect x="324" y="210" width="6" height="92" rx="3" fill="#9FC3FF"/>
-<text x="340" y="236" class="t">💳 Cashier</text>
-<text x="340" y="256" class="s">code · Stripe Checkout or pledge</text>
-<text x="340" y="273" class="s">money never touches a model</text>
-<text x="582" y="292" class="tag" text-anchor="end" fill="#9FC3FF">CODE</text>
-</g>
-<g><rect x="616" y="210" width="440" height="92" rx="14" fill="#1d2547" stroke="#FDF8EF" stroke-width="2"/>
-<rect x="616" y="210" width="6" height="92" rx="3" fill="#FDF8EF"/>
-<text x="632" y="236" class="t">🗂️ Job queue</text>
-<text x="632" y="256" class="s">Postgres · leases · FOR UPDATE SKIP LOCKED</text>
-<text x="632" y="273" class="s">write → paint ×11 / narrate ×10 → bind → deliver</text>
-<text x="632" y="290" class="s">every step finishes in &lt; 7 s, then parks</text>
-<text x="1044" y="292" class="tag" text-anchor="end" fill="#FDF8EF">CODE</text>
-</g>
-<g><rect x="1078" y="210" width="462" height="92" rx="14" fill="#1d2547" stroke="#FDF8EF" stroke-width="2"/>
-<rect x="1078" y="210" width="6" height="92" rx="3" fill="#FDF8EF"/>
-<text x="1094" y="236" class="t">🔗 Hash-chained ledger</text>
-<text x="1094" y="256" class="s">sha256(canonical JSON of each entry + prev hash)</text>
-<text x="1094" y="273" class="s">every agent action, payment and human intervention</text>
-<text x="1094" y="290" class="s">→ /board verifies the chain on every load</text>
-<text x="1528" y="292" class="tag" text-anchor="end" fill="#FDF8EF">CODE</text>
-</g>
-<text x="324" y="336" class="h">THE PRODUCTION LINE · ONE BOOK IN ABOUT TWO MINUTES</text>
-<g><rect x="324.0" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#B9A7FF" stroke-width="2"/>
-<rect x="324.0" y="350" width="6" height="104" rx="3" fill="#B9A7FF"/>
-<text x="340.0" y="376" class="t">✒️ Author</text>
-<text x="340.0" y="396" class="s">writes the story</text>
-<text x="340.0" y="413" class="s">in 16 languages</text>
-<text x="452.0" y="444" class="tag" text-anchor="end" fill="#B9A7FF">NAÏVE AGENT</text>
-</g>
-<path d="M465.0,402 L476.5,402" fill="none" stroke="#e9e4ff" stroke-width="1.8"  marker-end="url(#ah)"/>
-<g><rect x="478.5" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#FDF8EF" stroke-width="2"/>
-<rect x="478.5" y="350" width="6" height="104" rx="3" fill="#FDF8EF"/>
-<text x="494.5" y="376" class="t">🔎 Editor</text>
-<text x="494.5" y="396" class="s">counts words, grade,</text>
-<text x="494.5" y="413" class="s">names, brands</text>
-<text x="606.5" y="444" class="tag" text-anchor="end" fill="#FDF8EF">CODE</text>
-</g>
-<path d="M619.5,402 L631.0,402" fill="none" stroke="#e9e4ff" stroke-width="1.8"  marker-end="url(#ah)"/>
-<g><rect x="633.0" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#F08A6C" stroke-width="2"/>
-<rect x="633.0" y="350" width="6" height="104" rx="3" fill="#F08A6C"/>
-<text x="649.0" y="376" class="t">🎨 Illustrator</text>
-<text x="649.0" y="396" class="s">cover + 10 pages</text>
-<text x="649.0" y="413" class="s">~$0.011 each</text>
-<text x="761.0" y="444" class="tag" text-anchor="end" fill="#F08A6C">MONID</text>
-</g>
-<path d="M774.0,402 L785.5,402" fill="none" stroke="#e9e4ff" stroke-width="1.8"  marker-end="url(#ah)"/>
-<g><rect x="787.5" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#B9A7FF" stroke-width="2"/>
-<rect x="787.5" y="350" width="6" height="104" rx="3" fill="#B9A7FF"/>
-<text x="803.5" y="376" class="t">🎙️ Narrator</text>
-<text x="803.5" y="396" class="s">read-aloud audio</text>
-<text x="803.5" y="413" class="s">per page</text>
-<text x="915.5" y="444" class="tag" text-anchor="end" fill="#B9A7FF">NAÏVE SPEECH</text>
-</g>
-<path d="M928.5,402 L940.0,402" fill="none" stroke="#e9e4ff" stroke-width="1.8"  marker-end="url(#ah)"/>
-<g><rect x="942.0" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#FDF8EF" stroke-width="2"/>
-<rect x="942.0" y="350" width="6" height="104" rx="3" fill="#FDF8EF"/>
-<text x="958.0" y="376" class="t">📚 Binder</text>
-<text x="958.0" y="396" class="s">print-ready</text>
-<text x="958.0" y="413" class="s">11×8.5 PDF</text>
-<text x="1070.0" y="444" class="tag" text-anchor="end" fill="#FDF8EF">PDFKIT</text>
-</g>
-<path d="M1083.0,402 L1094.5,402" fill="none" stroke="#e9e4ff" stroke-width="1.8"  marker-end="url(#ah)"/>
-<g><rect x="1096.5" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#E8B44A" stroke-width="2"/>
-<rect x="1096.5" y="350" width="6" height="104" rx="3" fill="#E8B44A"/>
-<text x="1112.5" y="376" class="t">✉️ Mailroom</text>
-<text x="1112.5" y="396" class="s">email + PDF,</text>
-<text x="1112.5" y="413" class="s">text the link</text>
-<text x="1224.5" y="444" class="tag" text-anchor="end" fill="#E8B44A">AGENTMAIL</text>
-</g>
-<path d="M1237.5,402 L1249.0,402" fill="none" stroke="#e9e4ff" stroke-width="1.8"  marker-end="url(#ah)"/>
-<g><rect x="1251.0" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#F08A6C" stroke-width="2"/>
-<rect x="1251.0" y="350" width="6" height="104" rx="3" fill="#F08A6C"/>
-<text x="1267.0" y="376" class="t">☎️ Storyteller</text>
-<text x="1267.0" y="396" class="s">phones Grandma,</text>
-<text x="1267.0" y="413" class="s">reads it aloud</text>
-<text x="1379.0" y="444" class="tag" text-anchor="end" fill="#F08A6C">MONID PHONE</text>
-</g>
-<path d="M1392.0,402 L1403.5,402" fill="none" stroke="#e9e4ff" stroke-width="1.8"  marker-end="url(#ah)"/>
-<g><rect x="1405.5" y="350" width="140" height="104" rx="14" fill="#1d2547" stroke="#7BD3B0" stroke-width="2"/>
-<rect x="1405.5" y="350" width="6" height="104" rx="3" fill="#7BD3B0"/>
-<text x="1421.5" y="376" class="t">📱 Proofreader</text>
-<text x="1421.5" y="396" class="s">opens it on a</text>
-<text x="1421.5" y="413" class="s">real phone</text>
-<text x="1533.5" y="444" class="tag" text-anchor="end" fill="#7BD3B0">MOBILERUN</text>
-</g>
-<path d="M518.5,456 C508.5,490 384,490 374,458" fill="none" stroke="#F08A6C" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#ah)"/>
-<text x="364" y="502" class="lbl">too long? rewrite (1 round)</text>
-<g><rect x="324" y="520" width="300" height="108" rx="14" fill="#1d2547" stroke="#B9A7FF" stroke-width="2"/>
-<rect x="324" y="520" width="6" height="108" rx="3" fill="#B9A7FF"/>
-<text x="340" y="546" class="t">💬 Front Desk</text>
-<text x="340" y="566" class="s">Naïve agent · reads every reply</text>
-<text x="340" y="583" class="s">answers, routes changes back:</text>
-<text x="340" y="600" class="s">text → Author, art → Illustrator</text>
-<text x="612" y="618" class="tag" text-anchor="end" fill="#B9A7FF">NAÏVE AGENT</text>
-</g>
-<g><rect x="646" y="520" width="330" height="108" rx="14" fill="#1d2547" stroke="#B9A7FF" stroke-width="2"/>
-<rect x="646" y="520" width="6" height="108" rx="3" fill="#B9A7FF"/>
-<text x="662" y="546" class="t">📣 Marketing</text>
-<text x="662" y="566" class="s">Naïve agent · commissions a free</text>
-<text x="662" y="583" class="s">shelf book every night, captions it,</text>
-<text x="662" y="600" class="s">newsletter + Instagram</text>
-<text x="964" y="618" class="tag" text-anchor="end" fill="#B9A7FF">NAÏVE AGENT</text>
-</g>
-<g><rect x="998" y="520" width="542" height="108" rx="14" fill="#1d2547" stroke="#B9A7FF" stroke-width="2"/>
-<rect x="998" y="520" width="6" height="108" rx="3" fill="#B9A7FF"/>
-<text x="1014" y="546" class="t">🧠 Agents are sessions, not daemons</text>
-<text x="1014" y="566" class="s">each desk = one Naïve session with an output_schema,</text>
-<text x="1014" y="583" class="s">started in one step and collected in a later one (resumable phases).</text>
-<text x="1014" y="600" class="s">Code validates the JSON, retries, and decides what happens next.</text>
-<text x="1528" y="618" class="tag" text-anchor="end" fill="#B9A7FF">MODELS WRITE · CODE DECIDES</text>
-</g>
-<g><rect x="324" y="648" width="1216" height="100" rx="14" fill="#1d2547" stroke="#E8B44A" stroke-width="2"/>
-<rect x="324" y="648" width="6" height="100" rx="3" fill="#E8B44A"/>
-<text x="340" y="674" class="t">📈 What makes it a company, not a demo</text>
-<text x="340" y="694" class="s">$19 a book; cost per book ≈ $0.12 in paintings + ~$0.01 in agent time → &gt;90% gross margin. Free changes forever.</text>
-<text x="340" y="711" class="s">Families talk to it by email; it answers. It phones people. It markets itself nightly. It keeps books. Humans are logged as interventions.</text>
-<text x="340" y="728" class="s">The goal on the board is zero interventions.</text>
-<text x="1528" y="738" class="tag" text-anchor="end" fill="#E8B44A">UNIT ECONOMICS</text>
-</g>
-<path d="M272,185 C300,185 300,175 322,175" fill="none" stroke="#FDF8EF" stroke-width="1.8"  marker-end="url(#ah)"/>
-<path d="M272,277 C296,277 300,574 322,574" fill="none" stroke="#E8B44A" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#ah)"/>
-<text x="276" y="300" class="lbl">webhook</text>
-<path d="M324,420 C290,420 290,369 272,369" fill="none" stroke="#F08A6C" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#ah)"/>
-<path d="M646,600 C300,640 300,461 272,461" fill="none" stroke="#E8B44A" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#ah)"/>
-<path d="M820,628 C820,700 300,560 272,553" fill="none" stroke="#7BD3B0" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#ah)"/>
-<path d="M272,645 C300,645 300,256 322,256" fill="none" stroke="#9FC3FF" stroke-width="1.8"  marker-end="url(#ah)"/>
-<text x="40" y="808" class="h">FOUR CLOCKS WAKE THE OFFICE · ALL CALL THE SAME tick()</text>
-<g><rect x="40" y="822" width="282" height="92" rx="14" fill="#1d2547" stroke="#B9A7FF" stroke-width="2"/>
-<rect x="40" y="822" width="6" height="92" rx="3" fill="#B9A7FF"/>
-<text x="56" y="848" class="t">🌙 Night Manager</text>
-<text x="56" y="868" class="s">Naïve scheduled agent, every 5 min,</text>
-<text x="56" y="885" class="s">calls the app&#x27;s MCP tool tick</text>
-<text x="310" y="904" class="tag" text-anchor="end" fill="#B9A7FF">NAÏVE SCHEDULE</text>
-</g>
-<g><rect x="340" y="822" width="282" height="92" rx="14" fill="#1d2547" stroke="#B9A7FF" stroke-width="2"/>
-<rect x="340" y="822" width="6" height="92" rx="3" fill="#B9A7FF"/>
-<text x="356" y="848" class="t">⚡ session.idle webhook</text>
-<text x="356" y="868" class="s">Naïve tells the app the moment</text>
-<text x="356" y="885" class="s">an agent session finishes</text>
-<text x="610" y="904" class="tag" text-anchor="end" fill="#B9A7FF">NAÏVE WEBHOOK</text>
-</g>
-<g><rect x="640" y="822" width="282" height="92" rx="14" fill="#1d2547" stroke="#E8B44A" stroke-width="2"/>
-<rect x="640" y="822" width="6" height="92" rx="3" fill="#E8B44A"/>
-<text x="656" y="848" class="t">✉️ message.received</text>
-<text x="656" y="868" class="s">a family email arrives →</text>
-<text x="656" y="885" class="s">Front Desk job + tick</text>
-<text x="910" y="904" class="tag" text-anchor="end" fill="#E8B44A">AGENTMAIL WEBHOOK</text>
-</g>
-<g><rect x="940" y="822" width="282" height="92" rx="14" fill="#1d2547" stroke="#FDF8EF" stroke-width="2"/>
-<rect x="940" y="822" width="6" height="92" rx="3" fill="#FDF8EF"/>
-<text x="956" y="848" class="t">💓 Page pulse</text>
-<text x="956" y="868" class="s">open pages nudge the queue</text>
-<text x="956" y="885" class="s">(rate-limited, idempotent)</text>
-<text x="1210" y="904" class="tag" text-anchor="end" fill="#FDF8EF">CODE</text>
-</g>
-<path d="M1240,868 C1300,868 1300,300 1062,300" fill="none" stroke="#c9c2e6" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#ah)"/>
-<text x="1250" y="856" class="lbl">claim → run one short step → park</text>
-<text x="1262" y="808" class="h">WHO DOES WHAT</text>
-<rect x="1262" y="816" width="12" height="12" rx="3" fill="#B9A7FF"/><text x="1282" y="826" class="lbl">Naïve · agents, speech, schedules, hosting</text>
-<rect x="1262" y="835" width="12" height="12" rx="3" fill="#F08A6C"/><text x="1282" y="845" class="lbl">Monid · paintings, phone calls, SMS</text>
-<rect x="1262" y="854" width="12" height="12" rx="3" fill="#E8B44A"/><text x="1282" y="864" class="lbl">AgentMail · inbox, mail out, webhooks</text>
-<rect x="1262" y="873" width="12" height="12" rx="3" fill="#7BD3B0"/><text x="1282" y="883" class="lbl">Mobilerun · a real Android phone</text>
-<rect x="1262" y="892" width="12" height="12" rx="3" fill="#FDF8EF"/><text x="1282" y="902" class="lbl">Code · money, checks, queue, ledger</text>
-<text x="40" y="1002" style="font:400 13px Inter,Helvetica,Arial,sans-serif;fill:#8f88b8">Live: nightlight-press-z5ept2z3by3j.vercel.app · Board: /board · Office: /office · Ledger: /api/ledger.json</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1150" viewBox="0 0 1600 1150" role="img" aria-labelledby="t d">
+<title id="t">Nightlight Press architecture</title>
+<desc id="d">A parent orders on the shop; the Cashier takes payment; a Postgres job queue hands short jobs to twelve desks (Naïve agents, Monid, AgentMail, Mobilerun and plain code); four clocks plus self-continuation keep it moving; every step is a line in a hash-chained public ledger shown on the board and in the 3D office.</desc>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#22223B"/></marker>
+<marker id="aht" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#FF6B4A"/></marker>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&amp;family=Nunito:wght@500;600;700;800&amp;display=swap');
+.title{font:600 40px Fredoka,'Arial Rounded MT Bold','Trebuchet MS',sans-serif;fill:#22223B}
+.sub{font:600 18px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#6B6A80}
+.sec{font:800 13px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#FF6B4A;letter-spacing:.14em}
+.h3{font:600 20px Fredoka,'Arial Rounded MT Bold','Trebuchet MS',sans-serif;fill:#22223B}
+.h3s{font:600 17px Fredoka,'Arial Rounded MT Bold','Trebuchet MS',sans-serif;fill:#22223B}
+.h4{font:600 15px Fredoka,'Arial Rounded MT Bold','Trebuchet MS',sans-serif;fill:#FF6B4A}
+.body{font:600 13.5px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#22223B}
+.bodyb{font:800 13.5px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#FF6B4A}
+.bodys{font:600 12.5px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#22223B}
+.kind{font:700 11px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#6B6A80;letter-spacing:.04em}
+.mono{font:600 12.5px 'SF Mono',Menlo,Consolas,monospace;fill:#22223B}
+.chip{font:800 10.5px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#22223B;letter-spacing:.08em}
+.arc{font:700 13px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#FF6B4A}
+.tiny{font:700 11px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#6B6A80}
+.tinyb{font:700 12.5px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#6B6A80}
+.stat{font:700 15px Nunito,'Avenir Next','Segoe UI',Helvetica,Arial,sans-serif;fill:#22223B}</style>
+</defs>
+<rect width="1600" height="1150" fill="#FFF8EC"/>
+<circle cx="1508" cy="78" r="60" fill="#FFC233" stroke="#22223B" stroke-width="2"/>
+<circle cx="1508" cy="78" r="40" fill="#FFD466"/>
+<line x1="1580.0" y1="78.0" x2="1596.0" y2="78.0" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
+<line x1="1566.2" y1="120.3" x2="1579.2" y2="129.7" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
+<line x1="1530.2" y1="146.5" x2="1535.2" y2="161.7" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
+<line x1="1485.8" y1="146.5" x2="1480.8" y2="161.7" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
+<line x1="1449.8" y1="120.3" x2="1436.8" y2="129.7" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
+<line x1="1436.0" y1="78.0" x2="1420.0" y2="78.0" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
+<line x1="1449.8" y1="35.7" x2="1436.8" y2="26.3" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
+<line x1="1485.8" y1="9.5" x2="1480.8" y2="-5.7" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
+<line x1="1530.2" y1="9.5" x2="1535.2" y2="-5.7" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
+<line x1="1566.2" y1="35.7" x2="1579.2" y2="26.3" stroke="#FFC233" stroke-width="6" stroke-linecap="round"/>
+<g transform="translate(1330 40) scale(0.9)"><path d="M0 30 a22 22 0 0 1 22 -22 a30 30 0 0 1 54 -4 a24 24 0 0 1 40 26 z" fill="#FFFFFF" stroke="#22223B" stroke-width="2"/></g>
+<g transform="translate(1420 112) scale(0.62)"><path d="M0 30 a22 22 0 0 1 22 -22 a30 30 0 0 1 54 -4 a24 24 0 0 1 40 26 z" fill="#FFFFFF" stroke="#22223B" stroke-width="2"/></g>
+<text x="40" y="68" class="title" >Nightlight Press: how the company runs itself</text>
+<text x="40" y="104" class="sub" >Models write, paint and talk. Code decides when, whether and how much. Every step is a short job; every consequence is a ledger line.</text>
+<text x="40" y="176" class="sec" >OUTSIDE</text>
+<text x="308" y="176" class="sec" >THE SHOP</text>
+<text x="594" y="176" class="sec" >THE QUEUE</text>
+<text x="884" y="176" class="sec" >THE STAFF · 12 DESKS</text>
+<path d="M1452 186 V146 H156 V186" fill="none" stroke="#FF6B4A" stroke-width="2.5" stroke-dasharray="8 7" stroke-linecap="round" marker-end="url(#aht)"/>
+<rect x="489.5" y="134" width="629" height="24" rx="12" fill="#FFF8EC" stroke="#FF6B4A" stroke-width="2"/>
+<text x="804" y="151" class="arc" text-anchor="middle">the book goes back out: email + PDF, SMS, a read-aloud phone call, the nightly newsletter</text>
+<rect x="45" y="197" width="232" height="100" rx="16" fill="#FFC233" stroke="#22223B" stroke-width="2"/>
+<rect x="40" y="192" width="232" height="100" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="56" y="222" class="h3s" >Parent</text>
+<text x="56" y="250" class="body" >orders a book on the web, $19</text>
+<text x="56" y="269" class="body" >watches it being made, live</text>
+<rect x="45" y="314" width="232" height="100" rx="16" fill="#FFF1DA" stroke="#22223B" stroke-width="2"/>
+<rect x="40" y="309" width="232" height="100" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="56" y="339" class="h3s" >Family reply</text>
+<rect x="178" y="323" width="82" height="20" rx="10" fill="#FFC233" stroke="#22223B" stroke-width="1.5"/>
+<text x="219" y="337" class="chip" text-anchor="middle">AGENTMAIL</text>
+<text x="56" y="367" class="body" >“her dog is Biscuit, not Cookie”</text>
+<text x="56" y="386" class="body" >by email or the reader page</text>
+<rect x="45" y="431" width="232" height="100" rx="16" fill="#FFF1DA" stroke="#22223B" stroke-width="2"/>
+<rect x="40" y="426" width="232" height="100" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="56" y="456" class="h3s" >Grandma’s phone</text>
+<rect x="207" y="440" width="53" height="20" rx="10" fill="#4DA8DA" stroke="#22223B" stroke-width="1.5"/>
+<text x="233.5" y="454" class="chip" text-anchor="middle">MONID</text>
+<text x="56" y="484" class="body" >the Storyteller Line reads</text>
+<text x="56" y="503" class="body" >aloud; AI-disclosed, consent</text>
+<rect x="45" y="548" width="232" height="100" rx="16" fill="#FFF1DA" stroke="#22223B" stroke-width="2"/>
+<rect x="40" y="543" width="232" height="100" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="56" y="573" class="h3s" >Subscribers</text>
+<rect x="178" y="557" width="82" height="20" rx="10" fill="#FFC233" stroke="#22223B" stroke-width="1.5"/>
+<text x="219" y="571" class="chip" text-anchor="middle">AGENTMAIL</text>
+<text x="56" y="601" class="body" >a free shelf book every 12 h</text>
+<text x="56" y="620" class="body" >by email, with a read link</text>
+<rect x="313" y="197" width="250" height="248" rx="16" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
+<rect x="308" y="192" width="250" height="248" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="324" y="222" class="h3" >Shop &amp; reader</text>
+<rect x="493" y="206" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<text x="519.5" y="220" class="chip" text-anchor="middle">NAÏVE</text>
+<text x="324" y="246" class="body" >Hono app + managed Postgres,</text>
+<text x="324" y="264" class="body" >hosted on Naïve</text>
+<text x="324" y="296" class="mono" >/</text>
+<text x="402" y="296" class="body" >order form (16 langs)</text>
+<text x="324" y="319" class="mono" >/order/:id</text>
+<text x="402" y="319" class="body" >making-of, live</text>
+<text x="324" y="342" class="mono" >/book/:id</text>
+<text x="402" y="342" class="body" >reader · “Read to me”</text>
+<text x="324" y="365" class="mono" >/shelf</text>
+<text x="402" y="365" class="body" >free picture books</text>
+<text x="324" y="388" class="mono" >.pdf</text>
+<text x="402" y="388" class="body" >print-ready 11 × 8.5 in</text>
+<text x="324" y="411" class="mono" >/mcp</text>
+<text x="402" y="411" class="body" >tools for agents</text>
+<rect x="313" y="473" width="250" height="176" rx="16" fill="#B8A1FF" stroke="#22223B" stroke-width="2"/>
+<rect x="308" y="468" width="250" height="176" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="324" y="498" class="h3" >Cashier</text>
+<rect x="501" y="482" width="45" height="20" rx="10" fill="#B8A1FF" stroke="#22223B" stroke-width="1.5"/>
+<text x="523.5" y="496" class="chip" text-anchor="middle">CODE</text>
+<text x="324" y="526" class="body" >Stripe Checkout, $19 one-time</text>
+<text x="324" y="547" class="body" >honest pledge mode until the</text>
+<text x="324" y="568" class="body" >founder adds a key</text>
+<text x="324" y="589" class="mono" >paid → startBook()</text>
+<text x="324" y="610" class="mono" >→ first job: write</text>
+<path d="M278 236 H302" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<path d="M278 359 H302" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<path d="M433 446 V462" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<path d="M564 556 H588" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<rect x="599" y="197" width="250" height="452" rx="16" fill="#4DA8DA" stroke="#22223B" stroke-width="2"/>
+<rect x="594" y="192" width="250" height="452" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="610" y="222" class="h3" >Job queue</text>
+<rect x="758" y="206" width="74" height="20" rx="10" fill="#B8A1FF" stroke="#22223B" stroke-width="1.5"/>
+<text x="795" y="220" class="chip" text-anchor="middle">POSTGRES</text>
+<text x="610" y="248" class="body" >leases: for update skip locked</text>
+<text x="610" y="268" class="body" >every step &lt; 7 s (serverless)</text>
+<text x="610" y="288" class="body" >retries with backoff</text>
+<line x1="610" y1="300" x2="828" y2="300" stroke="#22223B" stroke-width="1.5" stroke-dasharray="3 5"/>
+<text x="610" y="324" class="h4" >a book, as jobs</text>
+<text x="610" y="348" class="mono" >write → editor check</text>
+<text x="610" y="370" class="mono" >paint ×11 · narrate ×10</text>
+<text x="610" y="392" class="mono" >bind → deliver → proof</text>
+<text x="610" y="414" class="mono" >read_call (if asked)</text>
+<text x="610" y="436" class="mono" >frontdesk → revise</text>
+<text x="610" y="458" class="mono" >commission → market</text>
+<line x1="610" y1="482" x2="828" y2="482" stroke="#22223B" stroke-width="1.5" stroke-dasharray="3 5"/>
+<text x="610" y="506" class="h4" >agent calls are phases</text>
+<text x="610" y="530" class="body" >start a Naïve session, park,</text>
+<text x="610" y="550" class="body" >check back, resume. A slow</text>
+<text x="610" y="570" class="body" >model never blocks a worker.</text>
+<text x="610" y="590" class="bodyb" >Models write; code decides.</text>
+<path d="M850 330 H878" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<path d="M878 470 H850" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 7" marker-end="url(#ah)"/>
+<text x="864" y="318" class="tiny" text-anchor="middle">run</text>
+<text x="864" y="492" class="tiny" text-anchor="middle">next</text>
+<rect x="889" y="197" width="216" height="104" rx="14" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
+<rect x="884" y="192" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="898" y="218" class="h3s" >Author</text>
+<text x="1086" y="217" class="kind" text-anchor="end">agent</text>
+<text x="898" y="240" class="bodys" >writes each story in the</text>
+<text x="898" y="258" class="bodys" >child’s language (16 langs)</text>
+<rect x="898" y="268" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<text x="924.5" y="282" class="chip" text-anchor="middle">NAÏVE</text>
+<rect x="1119" y="197" width="216" height="104" rx="14" fill="#B8A1FF" stroke="#22223B" stroke-width="2"/>
+<rect x="1114" y="192" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="1128" y="218" class="h3s" >Editor</text>
+<text x="1316" y="217" class="kind" text-anchor="end">code</text>
+<text x="1128" y="240" class="bodys" >word limits by age, name on</text>
+<text x="1128" y="258" class="bodys" >pages, banned words, grade</text>
+<rect x="1128" y="268" width="45" height="20" rx="10" fill="#B8A1FF" stroke="#22223B" stroke-width="1.5"/>
+<text x="1150.5" y="282" class="chip" text-anchor="middle">CODE</text>
+<rect x="1349" y="197" width="216" height="104" rx="14" fill="#4DA8DA" stroke="#22223B" stroke-width="2"/>
+<rect x="1344" y="192" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="1358" y="218" class="h3s" >Illustrator</text>
+<text x="1546" y="217" class="kind" text-anchor="end">image model</text>
+<text x="1358" y="240" class="bodys" >paints 10 pages + a cover</text>
+<text x="1358" y="258" class="bodys" >gpt-image-2.5-sunburst</text>
+<rect x="1358" y="268" width="53" height="20" rx="10" fill="#4DA8DA" stroke="#22223B" stroke-width="1.5"/>
+<text x="1384.5" y="282" class="chip" text-anchor="middle">MONID</text>
+<rect x="889" y="313" width="216" height="104" rx="14" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
+<rect x="884" y="308" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="898" y="334" class="h3s" >Narrator</text>
+<text x="1086" y="333" class="kind" text-anchor="end">speech</text>
+<text x="898" y="356" class="bodys" >reads every page aloud;</text>
+<text x="898" y="374" class="bodys" >OpenAI TTS as a fallback</text>
+<rect x="898" y="384" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<text x="924.5" y="398" class="chip" text-anchor="middle">NAÏVE</text>
+<rect x="1119" y="313" width="216" height="104" rx="14" fill="#B8A1FF" stroke="#22223B" stroke-width="2"/>
+<rect x="1114" y="308" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="1128" y="334" class="h3s" >Binder</text>
+<text x="1316" y="333" class="kind" text-anchor="end">code</text>
+<text x="1128" y="356" class="bodys" >PDFKit binds the 11 × 8.5 in</text>
+<text x="1128" y="374" class="bodys" >print-ready landscape PDF</text>
+<rect x="1128" y="384" width="45" height="20" rx="10" fill="#B8A1FF" stroke="#22223B" stroke-width="1.5"/>
+<text x="1150.5" y="398" class="chip" text-anchor="middle">CODE</text>
+<rect x="1349" y="313" width="216" height="104" rx="14" fill="#FFC233" stroke="#22223B" stroke-width="2"/>
+<rect x="1344" y="308" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="1358" y="334" class="h3s" >Mailroom</text>
+<text x="1546" y="333" class="kind" text-anchor="end">code</text>
+<text x="1358" y="356" class="bodys" >emails the PDF + read link;</text>
+<text x="1358" y="374" class="bodys" >SMS to US numbers</text>
+<rect x="1358" y="384" width="82" height="20" rx="10" fill="#FFC233" stroke="#22223B" stroke-width="1.5"/>
+<text x="1399" y="398" class="chip" text-anchor="middle">AGENTMAIL</text>
+<rect x="1446" y="384" width="53" height="20" rx="10" fill="#4DA8DA" stroke="#22223B" stroke-width="1.5"/>
+<text x="1472.5" y="398" class="chip" text-anchor="middle">MONID</text>
+<rect x="889" y="429" width="216" height="104" rx="14" fill="#3BB273" stroke="#22223B" stroke-width="2"/>
+<rect x="884" y="424" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="898" y="450" class="h3s" >Proofreader</text>
+<text x="1086" y="449" class="kind" text-anchor="end">real phone</text>
+<text x="898" y="472" class="bodys" >opens each finished book</text>
+<text x="898" y="490" class="bodys" >on a real iPhone, in Safari</text>
+<rect x="898" y="500" width="82" height="20" rx="10" fill="#3BB273" stroke="#22223B" stroke-width="1.5"/>
+<text x="939" y="514" class="chip" text-anchor="middle">MOBILERUN</text>
+<rect x="1119" y="429" width="216" height="104" rx="14" fill="#4DA8DA" stroke="#22223B" stroke-width="2"/>
+<rect x="1114" y="424" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="1128" y="450" class="h3s" >Storyteller Line</text>
+<text x="1316" y="449" class="kind" text-anchor="end">phone</text>
+<text x="1128" y="472" class="bodys" >calls to read the book aloud;</text>
+<text x="1128" y="490" class="bodys" >says it’s an AI, max 3 calls</text>
+<rect x="1128" y="500" width="53" height="20" rx="10" fill="#4DA8DA" stroke="#22223B" stroke-width="1.5"/>
+<text x="1154.5" y="514" class="chip" text-anchor="middle">MONID</text>
+<rect x="1349" y="429" width="216" height="104" rx="14" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
+<rect x="1344" y="424" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="1358" y="450" class="h3s" >Front Desk</text>
+<text x="1546" y="449" class="kind" text-anchor="end">agent</text>
+<text x="1358" y="472" class="bodys" >answers family replies and</text>
+<text x="1358" y="490" class="bodys" >routes free revisions</text>
+<rect x="1358" y="500" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<text x="1384.5" y="514" class="chip" text-anchor="middle">NAÏVE</text>
+<rect x="1417" y="500" width="82" height="20" rx="10" fill="#FFC233" stroke="#22223B" stroke-width="1.5"/>
+<text x="1458" y="514" class="chip" text-anchor="middle">AGENTMAIL</text>
+<rect x="889" y="545" width="216" height="104" rx="14" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
+<rect x="884" y="540" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="898" y="566" class="h3s" >Marketing</text>
+<text x="1086" y="565" class="kind" text-anchor="end">agent</text>
+<text x="898" y="588" class="bodys" >free shelf book every 12 h,</text>
+<text x="898" y="606" class="bodys" >emails subscribers</text>
+<rect x="898" y="616" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<text x="924.5" y="630" class="chip" text-anchor="middle">NAÏVE</text>
+<rect x="1119" y="545" width="216" height="104" rx="14" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
+<rect x="1114" y="540" width="216" height="104" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="1128" y="566" class="h3s" >Night Manager</text>
+<text x="1316" y="565" class="kind" text-anchor="end">cron agent</text>
+<text x="1128" y="588" class="bodys" >wakes every 5 minutes and</text>
+<text x="1128" y="606" class="bodys" >calls the app’s MCP tick</text>
+<rect x="1128" y="616" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<text x="1154.5" y="630" class="chip" text-anchor="middle">NAÏVE</text>
+<rect x="1344" y="540" width="216" height="104" rx="14" fill="#FFF1DA" stroke="#22223B" stroke-width="2" stroke-dasharray="6 6"/>
+<text x="1358" y="566" class="h3s" >+ Cashier</text>
+<text x="1546" y="565" class="kind" text-anchor="end">at the shop</text>
+<text x="1358" y="590" class="bodys" >agent = Naïve agent</text>
+<text x="1358" y="608" class="bodys" >code = a plain program</text>
+<text x="1358" y="626" class="bodys" >chip = who does the work</text>
+<text x="40" y="700" class="sec" >CLOCKS</text>
+<rect x="45" y="717" width="189" height="108" rx="14" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
+<rect x="40" y="712" width="189" height="108" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<g transform="translate(203 796)"><circle r="13" fill="#FFF8EC" stroke="#22223B" stroke-width="2"/><path d="M0 0 V-8 M0 0 L6 4" stroke="#22223B" stroke-width="2" stroke-linecap="round"/></g>
+<text x="54" y="741" class="h3s" >Night Manager</text>
+<text x="54" y="764" class="bodys" >Naïve cron, every 5 min,</text>
+<text x="54" y="782" class="bodys" >calls the MCP tick tool</text>
+<rect x="54" y="792" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<text x="80.5" y="806" class="chip" text-anchor="middle">NAÏVE</text>
+<rect x="250" y="717" width="189" height="108" rx="14" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
+<rect x="245" y="712" width="189" height="108" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<g transform="translate(408 796)"><circle r="13" fill="#FFF8EC" stroke="#22223B" stroke-width="2"/><path d="M0 0 V-8 M0 0 L6 4" stroke="#22223B" stroke-width="2" stroke-linecap="round"/></g>
+<text x="259" y="741" class="h3s" >session.idle</text>
+<text x="259" y="764" class="bodys" >Naïve webhook: an agent</text>
+<text x="259" y="782" class="bodys" >finished, resume its job</text>
+<rect x="259" y="792" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<text x="285.5" y="806" class="chip" text-anchor="middle">NAÏVE</text>
+<rect x="455" y="717" width="189" height="108" rx="14" fill="#FFC233" stroke="#22223B" stroke-width="2"/>
+<rect x="450" y="712" width="189" height="108" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<g transform="translate(613 796)"><circle r="13" fill="#FFF8EC" stroke="#22223B" stroke-width="2"/><path d="M0 0 V-8 M0 0 L6 4" stroke="#22223B" stroke-width="2" stroke-linecap="round"/></g>
+<text x="464" y="741" class="h3s" >message.received</text>
+<text x="464" y="764" class="bodys" >AgentMail webhook:</text>
+<text x="464" y="782" class="bodys" >a family wrote back</text>
+<rect x="464" y="792" width="82" height="20" rx="10" fill="#FFC233" stroke="#22223B" stroke-width="1.5"/>
+<text x="505" y="806" class="chip" text-anchor="middle">AGENTMAIL</text>
+<rect x="660" y="717" width="189" height="108" rx="14" fill="#B8A1FF" stroke="#22223B" stroke-width="2"/>
+<rect x="655" y="712" width="189" height="108" rx="14" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<g transform="translate(818 796)"><circle r="13" fill="#FFF8EC" stroke="#22223B" stroke-width="2"/><path d="M0 0 V-8 M0 0 L6 4" stroke="#22223B" stroke-width="2" stroke-linecap="round"/></g>
+<text x="669" y="741" class="h3s" >Page pulses</text>
+<text x="669" y="764" class="bodys" >an open order or office</text>
+<text x="669" y="782" class="bodys" >page nudges the clock</text>
+<rect x="669" y="792" width="38" height="20" rx="10" fill="#B8A1FF" stroke="#22223B" stroke-width="1.5"/>
+<text x="688" y="806" class="chip" text-anchor="middle">WEB</text>
+<line x1="134.5" y1="708" x2="134.5" y2="678" stroke="#22223B" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="339.5" y1="708" x2="339.5" y2="678" stroke="#22223B" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="544.5" y1="708" x2="544.5" y2="678" stroke="#22223B" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="749.5" y1="708" x2="749.5" y2="678" stroke="#22223B" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="134.5" y1="678" x2="864" y2="678" stroke="#22223B" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M719 678 V654" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<rect x="148.5" y="656" width="404" height="20" rx="6" fill="#FFF8EC"/>
+<text x="154.5" y="671" class="tinyb" >every wake-up runs tick(): claim due jobs for ~6.5 s</text>
+<rect x="45" y="851" width="804" height="104" rx="16" fill="#3BB273" stroke="#22223B" stroke-width="2"/>
+<rect x="40" y="846" width="804" height="104" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<g transform="translate(80 898)"><circle r="22" fill="#FFF8EC" stroke="#22223B" stroke-width="2"/><path d="M-11 -4 A12 12 0 1 1 -4 10" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round"/><path d="M-16 -9 L-11 -2 L-4 -8" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+<text x="118" y="878" class="h3" >+ self-continuation</text>
+<text x="118" y="904" class="bodys" >On serverless nothing runs between requests, so after each tick the app POSTs /api/pulse to itself while work is due.</text>
+<text x="118" y="926" class="bodys" >One lease in Postgres = one chain at a time; a depth cap means it can never loop forever. Books finish with nobody watching.</text>
+<path d="M850 876 H864 V686" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<text x="884" y="700" class="sec" >THE RECORD</text>
+<path d="M1222 654 V704" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<text x="1234" y="684" class="tinyb" >every step writes a ledger line</text>
+<rect x="889" y="717" width="676" height="108" rx="16" fill="#B8A1FF" stroke="#22223B" stroke-width="2"/>
+<rect x="884" y="712" width="676" height="108" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="900" y="742" class="h3" >Public ledger</text>
+<rect x="1044" y="726" width="67" height="20" rx="10" fill="#B8A1FF" stroke="#22223B" stroke-width="1.5"/>
+<text x="1077.5" y="740" class="chip" text-anchor="middle">SHA-256</text>
+<text x="900" y="770" class="mono" >hash = sha256(canonical sorted-key JSON + prev hash)</text>
+<text x="900" y="796" class="bodys" >Every human action is logged as an intervention. Anyone can re-verify the chain.</text>
+<rect x="1364" y="730" width="34" height="26" rx="6" fill="#FFC233" stroke="#22223B" stroke-width="2"/>
+<line x1="1398" y1="743" x2="1410" y2="743" stroke="#22223B" stroke-width="2.5"/>
+<rect x="1410" y="730" width="34" height="26" rx="6" fill="#4DA8DA" stroke="#22223B" stroke-width="2"/>
+<line x1="1444" y1="743" x2="1456" y2="743" stroke="#22223B" stroke-width="2.5"/>
+<rect x="1456" y="730" width="34" height="26" rx="6" fill="#3BB273" stroke="#22223B" stroke-width="2"/>
+<line x1="1490" y1="743" x2="1502" y2="743" stroke="#22223B" stroke-width="2.5"/>
+<rect x="1502" y="730" width="34" height="26" rx="6" fill="#FF6B4A" stroke="#22223B" stroke-width="2"/>
+<rect x="889" y="851" width="328" height="104" rx="16" fill="#4DA8DA" stroke="#22223B" stroke-width="2"/>
+<rect x="884" y="846" width="328" height="104" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="900" y="876" class="h3" >Public board</text>
+<text x="1196" y="875" class="mono" text-anchor="end">/board</text>
+<text x="900" y="902" class="bodys" >books, revenue, agent runs and every</text>
+<text x="900" y="922" class="bodys" >intervention, live; chain verified</text>
+<rect x="1237" y="851" width="328" height="104" rx="16" fill="#FFC233" stroke="#22223B" stroke-width="2"/>
+<rect x="1232" y="846" width="328" height="104" rx="16" fill="#FFFDF8" stroke="#22223B" stroke-width="2"/>
+<text x="1248" y="876" class="h3" >3D office</text>
+<text x="1544" y="875" class="mono" text-anchor="end">/office</text>
+<text x="1248" y="902" class="bodys" >Three.js: the 12 desks act out the</text>
+<text x="1248" y="922" class="bodys" >ledger as the company works</text>
+<path d="M1048 826 V840" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<path d="M1396 826 V840" fill="none" stroke="#22223B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#ah)"/>
+<text x="800" y="994" class="stat" text-anchor="middle">Measured locally: order → bound book in 1.6 min · in the inbox at 102 s · revision re-emailed in 46 s · paintings $0.122 per book · ≈94% gross margin on $19</text>
+<path d="M0 1040 C 220 1000, 420 1002, 640 1030 S 1060 1076, 1280 1022 S 1520 996, 1600 1012 V1150 H0 Z" fill="#3BB273" fill-opacity=".45" stroke="#22223B" stroke-width="2"/>
+<path d="M0 1076 C 260 1050, 520 1042, 800 1064 S 1300 1086, 1600 1058 V1150 H0 Z" fill="#3BB273" stroke="#22223B" stroke-width="2"/>
+<rect x="107.5" y="1088" width="1385" height="40" rx="20" fill="#FFF8EC" stroke="#22223B" stroke-width="2"/>
+<rect x="125.5" y="1098" width="53" height="20" rx="10" fill="#FF6B4A" stroke="#22223B" stroke-width="1.5"/>
+<text x="152" y="1112" class="chip" text-anchor="middle">NAÏVE</text>
+<text x="186.5" y="1113" class="bodys" >agents, schedules, speech, hosting, Postgres, MCP, webhooks</text>
+<rect x="601.5" y="1098" width="53" height="20" rx="10" fill="#4DA8DA" stroke="#22223B" stroke-width="1.5"/>
+<text x="628" y="1112" class="chip" text-anchor="middle">MONID</text>
+<text x="662.5" y="1113" class="bodys" >paintings, SMS, phone</text>
+<rect x="827.5" y="1098" width="82" height="20" rx="10" fill="#FFC233" stroke="#22223B" stroke-width="1.5"/>
+<text x="868.5" y="1112" class="chip" text-anchor="middle">AGENTMAIL</text>
+<text x="917.5" y="1113" class="bodys" >email in + out</text>
+<rect x="1035.5" y="1098" width="82" height="20" rx="10" fill="#3BB273" stroke="#22223B" stroke-width="1.5"/>
+<text x="1076.5" y="1112" class="chip" text-anchor="middle">MOBILERUN</text>
+<text x="1125.5" y="1113" class="bodys" >real-phone proofreading</text>
+<rect x="1303.5" y="1098" width="45" height="20" rx="10" fill="#B8A1FF" stroke="#22223B" stroke-width="1.5"/>
+<text x="1326" y="1112" class="chip" text-anchor="middle">CODE</text>
+<text x="1356.5" y="1113" class="bodys" >plain programs</text>
 </svg>
