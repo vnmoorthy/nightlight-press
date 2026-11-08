@@ -306,9 +306,11 @@ H.film = async (job) => {
   const run = await monid.getRun(p.run);
   if (!monid.TERMINAL.has(run.status)) { if (Date.now() - p.at > 9 * 60_000) return done(job, { timeout: true }); return park(job, { ms: 15000 }); }
   const url = monid.findUrl(monid.out(run)); if (!url) return done(job, { failed: run.status });
-  const res = await fetch(url); if (!res.ok) throw new Retry(`video download ${res.status}`, 6000);
-  const bytes = Buffer.from(await res.arrayBuffer());
-  const mid = await putMedia({ order_id: job.order_id, kind: "video", mime: "video/mp4", bytes, meta: { book: b.id, page: pg?.idx || 0, cost_usd: run?.cost?.value ?? null } });
+  // Clips are too big to stream through a serverless response, so the app redirects to them: Kling's link
+  // (valid 30 days) and a durable copy in Naïve Files.
+  let fid = null, size = 0; try { const res = await fetch(url); if (res.ok) { const buf = Buffer.from(await res.arrayBuffer()); size = buf.length; fid = await nv.uploadFile(buf, `${b.id}-${pg ? `page-${pg.idx}` : "cover"}.mp4`, "video/mp4"); } } catch { /* the Kling link still works */ }
+  const bytes = { length: size };
+  const mid = await putMedia({ order_id: job.order_id, kind: "video", mime: "video/mp4", url, naive_file_id: fid, meta: { book: b.id, page: pg?.idx || 0, cost_usd: run?.cost?.value ?? null, url_expires: Date.now() + 29 * 86400_000 } });
   if (pg) await q(`update pages set video_media_id=$2 where id=$1`, [pg.id, mid]); else await q(`update books set cover_video_media_id=$2 where id=$1`, [b.id, mid]);
   await ledger("film", "agent:film", { book: b.id, page: pg ? pg.idx : "cover", bytes: bytes.length, cost_usd: run?.cost?.value ?? null }, job.order_id);
   return done(job, { media: mid });
