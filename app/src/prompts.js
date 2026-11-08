@@ -1,5 +1,5 @@
-import { AUTHOR, FRONTDESK, MARKETER, TELLER } from "./prompts.generated.js";
-export { AUTHOR, FRONTDESK, MARKETER, TELLER };
+import { AUTHOR, FRONTDESK, MARKETER, TELLER, WORLD, WORLD_ART, WORLD_SEEDS } from "./prompts.generated.js";
+export { AUTHOR, FRONTDESK, MARKETER, TELLER, WORLD, WORLD_ART, WORLD_SEEDS };
 // Pip: an opt-in, disclosed robot sidekick. Families choose it; the book credits it; stories never sell.
 export const ROBOT_LOOK = "a small round toy robot with a glossy sky-blue body, a round white head with two friendly oval eyes, a short antenna topped with a glowing yellow star, and two little wheels";
 export const ROBOT_STORY = "Include Pip, a small, friendly PlayRobot toy robot, as the hero's sidekick on most pages. Pip looks the same on every page: " + ROBOT_LOOK + ". Pip is kind and helpful and joins the adventure. Never mention buying, shops, prices or toys for sale.";

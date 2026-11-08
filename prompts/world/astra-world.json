@@ -1,0 +1,90 @@
+{
+  "model": "gpt-6-astra",
+  "created": "2026-11-08T16:23:09.109Z",
+  "brief": "You are the story-world designer for Nightlight Press, a US children's picture-book publisher (ages 2-8) whose books are written, painted and narrated by AI agents. The founder's mission: help children grow up comfortable with a future where robots, cyborgs and humans live side by side. Design ONE shared storyworld that every book takes place in. Requirements: hopeful, cosy, bedtime-safe; robots are kind helpers and friends with their own small personalities, never scary, never weapons, never replacing family; \"cyborgs\" are ordinary people with helpful robotic or bionic parts (a robotic arm, a bionic leg, a glowing hearing implant, smart glasses) shown as capable and normal, with respect, never as horror or pity; humans of every background; nature is lush and present (gardens, parks, the sea); technology serves kindness. No brand names, no products for sale, no logos. Return ONLY JSON with keys: world_name (short, warm, original, not trademarked), tagline (under 10 words, for a website hero), one_line (one sentence pitch of the world), setting (4-6 sentences describing the town and daily life), living_together (5 short rules for how robots, cyborg people and humans live together that stories should show), writer_rules (8 do/don't rules for the Author: tone, safety, how to include robots and bionic people naturally in any story the family asks for), recurring_places (5 objects: name, one-sentence description), background_robots (5 generic unbranded robot types that can appear in pictures: name, fixed visual description, kind job), illustrator_style (3-4 sentences: the consistent look of the world: architecture, colours, light, how robots and bionic parts are drawn), story_seeds (10 one-sentence shelf-book ideas for ages 3-7 set in this world, each with a gentle everyday occasion like a first day of school or a new sibling).",
+  "world": {
+    "world_name": "Fernhush Bay",
+    "tagline": "Little kindnesses, growing together.",
+    "one_line": "In a leafy seaside town, children, families, robot friends and neighbors with bionic parts make room for one another through small, everyday adventures.",
+    "setting": "Fernhush Bay curves around a sheltered beach, where flowering gardens spill between low houses and grassy paths lead toward the sea. Wide, smooth walkways connect homes, classrooms and shops with the same easy entrances for everyone. Humans of many backgrounds live alongside friendly robots, and some people have helpful bionic parts as ordinary as their favorite hats. Days unfold through familiar pleasures: sharing breakfast, learning something new, tending seedlings and finding someone to play with. At dusk, warm windows glow beneath leafy branches, robot neighbors finish their little tasks, and children settle into the care of their families.",
+    "living_together": [
+      "Ask before helping, touching someone's body or equipment, or joining their game.",
+      "Let everyone choose how to take part; make space rather than deciding what they can do.",
+      "Treat robots as neighbors with preferences, not servants who must always say yes.",
+      "Use technology to support kindness, while families remain children's trusted caregivers.",
+      "Care for gardens, wildlife and shared places together, leaving room for quiet and rest."
+    ],
+    "writer_rules": [
+      "DO keep the voice warm, concrete and gently playful, with clear language for ages 2–8 and small sensory details.",
+      "DO build plots around manageable feelings and everyday occasions; end with reassurance, connection and a settled bedtime-safe mood.",
+      "DON'T use villains, weapons, frightening malfunctions, body horror, abandonment or threats of replacement; robots are never dangerous surprises.",
+      "DO weave robot neighbors and people with bionic parts into any requested premise through fitting roles, background moments or companionship, without making every story a technology lesson.",
+      "DO portray bionic people as whole, capable individuals with interests and ordinary imperfections; describe helpful parts matter-of-factly, never as tragedy, spectacle, a cure narrative or a source of superhuman worth.",
+      "DO give robots small, consistent personalities and limits; they may ask for help, make harmless mistakes and rest, but never take a family's place.",
+      "DO vary skin tones, cultures, languages, family structures, ages and ways of moving or communicating; show access and consent through action rather than speeches.",
+      "DON'T include brands, logos, sales pitches or technical instructions for modifying bodies or machines; keep technology understandable through the gentle help it provides."
+    ],
+    "recurring_places": [
+      {
+        "name": "The Pocket Orchard",
+        "description": "A shared garden of low fruit trees, raised planting beds and shady benches where neighbors grow snacks and leave fallen leaves for insects."
+      },
+      {
+        "name": "Shellstep Shore",
+        "description": "A sheltered sandy beach with a smooth boardwalk, tide pools and a broad sitting wall where children explore beside their caregivers."
+      },
+      {
+        "name": "The Windowseat Library",
+        "description": "A low, airy library offers picture books, quiet cushions and a long window seat wide enough for many kinds of bodies."
+      },
+      {
+        "name": "Clover Schoolhouse",
+        "description": "A small school opens onto a leafy play garden, with roomy doorways, adjustable tables and a quiet nook anyone may use."
+      },
+      {
+        "name": "The Mending Porch",
+        "description": "A covered community porch holds sewing baskets, repair tables and comfortable chairs where neighbors ask permission before helping mend a treasured thing."
+      }
+    ],
+    "background_robots": [
+      {
+        "name": "Garden Helper",
+        "fixed_visual_description": "A knee-high, sage-green oval body on four broad cream wheels, with two rounded arms, two small dark eyes and a shallow carrying tray.",
+        "kind_job": "Carries watering cans and seedlings, pausing carefully for beetles and enjoying the smell of mint."
+      },
+      {
+        "name": "Book Helper",
+        "fixed_visual_description": "A waist-high, honey-yellow rounded body on three plum-colored wheels, with two padded arms, two small dark eyes and a low open book shelf.",
+        "kind_job": "Brings books within easy reach and quietly favors stories with ducks."
+      },
+      {
+        "name": "Path Helper",
+        "fixed_visual_description": "A low, sky-blue capsule body on four sand-colored wheels, with two small dark eyes, a soft front brush and a covered leaf basket.",
+        "kind_job": "Keeps shared paths clear while leaving garden leaf piles undisturbed, sometimes arranging fallen petals beside a bench."
+      },
+      {
+        "name": "Carry Helper",
+        "fixed_visual_description": "A waist-high, terracotta-colored pear-shaped body with two short rounded feet, two broad padded arms, two small dark eyes and a cream chest basket.",
+        "kind_job": "Offers to carry picnic blankets or heavy bags and always checks where their owner would like them placed."
+      },
+      {
+        "name": "Shade Helper",
+        "fixed_visual_description": "A waist-high, lavender cylindrical body on four moss-green wheels, with two small dark eyes, two short rounded arms and a broad cream parasol overhead.",
+        "kind_job": "Offers a patch of shade at outdoor gatherings and likes listening to rain from under the porch."
+      }
+    ],
+    "illustrator_style": "Use softly painted textures, rounded silhouettes and child-height compositions, with low cottages, broad porches, step-free entrances and lush greenery visible in every outdoor scene. Keep the palette to moss green, sea blue, warm cream, muted coral and lavender, lit by gentle daylight or amber evening windows without looming shadows. Draw robots as clearly mechanical but approachable, with consistent simple faces, soft-edged bodies and no aggressive features, branding or logos. Show human diversity throughout, and draw robotic arms, bionic legs, softly glowing hearing implants and smart glasses as comfortable, individualized parts of ordinary life, never highlighted with dramatic reveals or exposed surgical detail.",
+    "story_seeds": [
+      "On her first day at Clover Schoolhouse, a child chooses a seat beside a classmate with a bionic leg, and their shared search for the crayon basket gives them something easy to talk about.",
+      "When a new baby comes home, an older sibling and Carry Helper prepare a garden picnic while a parent saves a special cuddle just for the older child.",
+      "During a rainy afternoon at the Windowseat Library, a child, their grandfather with smart glasses and Book Helper find three different ways to enjoy the same duck story.",
+      "At a birthday picnic in the Pocket Orchard, a child worries that everyone likes different games until a friend with a robotic arm suggests taking turns choosing.",
+      "On a first visit to Shellstep Shore, a child who dislikes sandy toes explores from the boardwalk with their aunt and watches tiny crabs find places to rest.",
+      "When a favorite blanket needs mending, a child visits the Mending Porch with their father, who has a robotic hand, and chooses the patch while he sews.",
+      "On the morning a new family moves next door, a shy child and Garden Helper leave a welcome seedling and discover that a wave can be enough for today.",
+      "While learning to fasten a coat, a child practices beside a friend with a bionic arm, and both discover that asking for a little help still leaves plenty to do themselves.",
+      "At a family sing-along, a child with a glowing hearing implant chooses a quieter seat with their caregiver, while Shade Helper holds space for friends to join them.",
+      "On an evening when sleep feels slow to arrive, a child and their mother watch Path Helper finish sweeping outside before closing the curtains and choosing one last lullaby."
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+- On her first day at Clover Schoolhouse, a child chooses a seat beside a classmate with a bionic leg, and their shared search for the crayon basket gives them something easy to talk about.
+- When a new baby comes home, an older sibling and Carry Helper prepare a garden picnic while a parent saves a special cuddle just for the older child.
+- During a rainy afternoon at the Windowseat Library, a child, their grandfather with smart glasses and Book Helper find three different ways to enjoy the same duck story.
+- At a birthday picnic in the Pocket Orchard, a child worries that everyone likes different games until a friend with a robotic arm suggests taking turns choosing.
+- On a first visit to Shellstep Shore, a child who dislikes sandy toes explores from the boardwalk with their aunt and watches tiny crabs find places to rest.
+- When a favorite blanket needs mending, a child visits the Mending Porch with their father, who has a robotic hand, and chooses the patch while he sews.
+- On the morning a new family moves next door, a shy child and Garden Helper leave a welcome seedling and discover that a wave can be enough for today.
+- While learning to fasten a coat, a child practices beside a friend with a bionic arm, and both discover that asking for a little help still leaves plenty to do themselves.
+- At a family sing-along, a child with a glowing hearing implant chooses a quieter seat with their caregiver, while Shade Helper holds space for friends to join them.
+- On an evening when sleep feels slow to arrive, a child and their mother watch Path Helper finish sweeping outside before closing the curtains and choosing one last lullaby.

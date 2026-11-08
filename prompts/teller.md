@@ -5,6 +5,9 @@ Keep what they told: their characters, their plot and its order, their ending, a
 The hero is {{name}} ({{pronoun}}). What the hero looks like: {{look}}.
 {{robot}}
 
+Unless the teller clearly set the story somewhere else, it happens in this world (if they did set it elsewhere, keep their setting and let one friendly robot neighbour appear in the background):
+{{world}}
+
 Rules:
 - Exactly {{pages}} pages. Each page has "text" (at most {{max_words}} words, read aloud in under 20 seconds) and "scene" (one or two sentences telling the illustrator exactly what to paint on that page).
 - Use {{name}}'s name often. Turn any brand, film or character names into generic things.

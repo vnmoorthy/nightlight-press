@@ -9,7 +9,8 @@ import * as nv from "./naive.js";
 import * as monid from "./monid.js";
 import * as mail from "./agentmail.js";
 import * as mr from "./mobilerun.js";
-import { AUTHOR, FRONTDESK, MARKETER, TELLER, ROBOT_LOOK, ROBOT_STORY, fill, SCHEMAS, LANG, STYLES } from "./prompts.js";
+import { AUTHOR, FRONTDESK, MARKETER, TELLER, WORLD, WORLD_ART, WORLD_SEEDS, ROBOT_LOOK, ROBOT_STORY, fill, SCHEMAS, LANG, STYLES } from "./prompts.js";
+const WORLD_ON = () => process.env.WORLD !== "classic";
 import { checkStory, maxWordsFor } from "./editor.js";
 import { renderBook } from "./picturebook.js";
 import { putMedia, getMedia } from "./media.js";
@@ -57,7 +58,7 @@ const H = {};
 H.write = async (job) => {
   const o = await order(job.order_id); const b = await book(job.book_id);
   const p = job.payload || {};
-  const vars = { age: o.child_age || 5, language: LANG[o.language] || "English", name: o.child_name, pronoun: o.pronoun, look: o.look || "the illustrator may choose a friendly, simple look", favorites: o.favorites || "playing outside, stories, animals", occasion: o.occasion || "a cosy adventure before bedtime", pages: PAGES(), max_words: maxWordsFor(o.child_age || 5), from: o.kind === "catalog" ? "Nightlight Press" : o.buyer_name || "someone who loves them", robot: o.robot ? ROBOT_STORY : "", teller: o.teller_name || "a storyteller", told: String(o.told_text || "").slice(0, 8000) };
+  const vars = { age: o.child_age || 5, language: LANG[o.language] || "English", name: o.child_name, pronoun: o.pronoun, look: o.look || "the illustrator may choose a friendly, simple look", favorites: o.favorites || "playing outside, stories, animals", occasion: o.occasion || "a cosy adventure before bedtime", pages: PAGES(), max_words: maxWordsFor(o.child_age || 5), from: o.kind === "catalog" ? "Nightlight Press" : o.buyer_name || "someone who loves them", robot: o.robot ? ROBOT_STORY : "", world: WORLD_ON() ? WORLD : "", teller: o.teller_name || "a storyteller", told: String(o.told_text || "").slice(0, 8000) };
   let msg = fill(o.kind === "told" ? TELLER : AUTHOR, vars);
   if (p.feedback) msg += `\n\nYour previous draft failed the Editor's checks: ${p.feedback}. Fix exactly those problems and return the whole book again.\nPrevious draft: ${JSON.stringify(p.draft).slice(0, 12000)}`;
   const r = await agentPhase(job, { agent: "author", purpose: p.feedback ? `rewrite ${o.child_name}'s book for the Editor` : `write ${o.child_name}'s book`, message: msg, schema: SCHEMAS.story, budget: 600_000, phase: p.round || 0 });
@@ -78,7 +79,7 @@ H.write = async (job) => {
 
 function artPrompt(b, scene, { cover = false, robot = false } = {}) {
   const style = STYLES[b.style] || STYLES.watercolor;
-  return `${style}. ${cover ? `The front cover of a children's picture book called "${b.title}": the hero in a joyful, inviting moment that sums up the story, with calm empty space in the top third for the title` : `A page from a children's picture book. ${scene}`}. The hero, ${b.hero_name}, appears exactly as described: ${b.look}. Keep the hero's face, hair, skin tone, clothes and signature item identical to every other page of this book.${robot ? ` The hero's robot friend Pip appears beside them, drawn identically on every page: ${ROBOT_LOOK}.` : ""} Safe, gentle and joyful for young children. Absolutely no text, letters, numbers, words, captions or logos anywhere in the image.`;
+  return `${style}. ${cover ? `The front cover of a children's picture book called "${b.title}": the hero in a joyful, inviting moment that sums up the story, with calm empty space in the top third for the title` : `A page from a children's picture book. ${scene}`}. The hero, ${b.hero_name}, appears exactly as described: ${b.look}. Keep the hero's face, hair, skin tone, clothes and signature item identical to every other page of this book.${robot ? ` The hero's robot friend Pip appears beside them, drawn identically on every page: ${ROBOT_LOOK}.` : ""} ${WORLD_ON() ? WORLD_ART.trim() + " " : ""}Safe, gentle and joyful for young children. Absolutely no text, letters, numbers, words, captions or logos anywhere in the image.`;
 }
 H.paint = async (job) => {
   const b = await book(job.book_id); const p = job.payload || {};
@@ -243,7 +244,7 @@ H.revise = async (job) => {
 // Catalog: the Marketing desk commissions a new public book each night and announces it.
 H.commission = async (job) => {
   const recent = (await q(`select title from books where kind='catalog' order by created_at desc limit 12`)).map((r) => r.title).filter(Boolean).join("; ") || "nothing yet";
-  const r = await agentPhase(job, { agent: "marketer", purpose: "commission tonight's shelf book", message: fill(MARKETER, { recent }), schema: SCHEMAS.marketer, budget: 150_000 });
+  const r = await agentPhase(job, { agent: "marketer", purpose: "commission tonight's shelf book", message: fill(MARKETER, { recent, world: WORLD_ON() ? WORLD : "", seeds: WORLD_ON() ? WORLD_SEEDS : "" }), schema: SCHEMAS.marketer, budget: 150_000 });
   if (r.state !== "done") return "waiting";
   const m = r.output; const oid = id("ord");
   await q(`insert into orders(id, kind, child_name, child_age, pronoun, look, favorites, occasion, style, language, status, paid_mode, amount_cents, source) values($1,'catalog',$2,$3,$4,$5,$6,$7,$8,'en','paid','house',0,'marketing')`, [oid, m.hero_name, m.age, m.pronoun, m.look, m.favorites, m.occasion, m.style]);
